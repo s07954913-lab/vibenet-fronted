@@ -1,0 +1,135 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; font-weight: bold;">{{ ui?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="markAllRead()" style="--color: #999; font-size: 12px; text-transform: none;">
+        {{ ui?.mark_read }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Category Filter Chips -->
+  <div class="filter-wrapper">
+    <ion-chip
+      *ngFor="let cat of ['All', 'Likes', 'Comments', 'Follow']"
+      (click)="setFilter(cat)"
+      [class.active-chip]="selectedFilter === cat">
+      <ion-label>{{ getFilterLabel(cat) }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <ion-list *ngIf="isLoading">
+    <ion-item *ngFor="let i of [1,2,3,4,5]">
+      <ion-avatar slot="start">
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3><ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text [animated]="true" style="width: 40%;"></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading">
+
+    <!-- AI Viral Alert -->
+    <div class="alert-card" *ngIf="showAlert">
+      <div class="alert-header">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        <span>{{ ui?.ai_alert_title }}</span>
+      </div>
+      <h2 class="alert-title">{{ ui?.ai_alert_msg }}</h2>
+      <p class="alert-desc">{{ ui?.ai_alert_desc }}</p>
+      <div class="alert-btns">
+        <ion-button (click)="goToReports()" class="analytics-btn">
+          {{ ui?.view_analytics }}
+        </ion-button>
+        <ion-button fill="clear" (click)="dismissAlert()" class="dismiss-btn">
+          {{ ui?.dismiss }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredNotifications.length === 0">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <p>{{ ui?.no_notifications }}</p>
+    </div>
+
+    <!-- Notifications List -->
+    <ion-list lines="none" *ngIf="filteredNotifications.length > 0">
+      <ion-item-sliding *ngFor="let note of filteredNotifications">
+
+        <ion-item [class.unread-item]="!note.is_read">
+          <ion-avatar slot="start" class="notif-avatar">
+            <img [src]="note.img" alt="user"
+                 onerror="this.src='assets/download (1).jpg'">
+          </ion-avatar>
+
+          <!-- Type Icon Badge -->
+          <div class="type-badge-wrap" slot="start">
+            <div class="type-badge"
+                 [class.badge-like]="note.type === 'Likes'"
+                 [class.badge-comment]="note.type === 'Comments'"
+                 [class.badge-follow]="note.type === 'Follow'">
+              <ion-icon
+                [name]="note.type === 'Likes' ? 'heart' :
+                        note.type === 'Comments' ? 'chatbubble-outline' :
+                        'person-add-outline'">
+              </ion-icon>
+            </div>
+          </div>
+
+          <ion-label class="notif-label">
+            <h3 class="notif-name">{{ note.name }}</h3>
+            <p class="notif-action">{{ getActionText(note) }}</p>
+            <ion-note class="notif-time">{{ getNotificationTime(note) }}</ion-note>
+          </ion-label>
+
+          <!-- Unread Dot -->
+          <div slot="end" class="unread-dot" *ngIf="!note.is_read"></div>
+        </ion-item>
+
+        <!-- Swipe Actions -->
+        <ion-item-options slot="end">
+          <ion-item-option color="primary" (click)="doReply(note)">
+            <ion-icon name="chatbubble-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="deleteNote(note)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+
+  </div>
+  <div class="profile-buttons">
+  <ion-button
+    expand="block"
+    class="search-btn"
+    (click)="goToSearchUser()">
+    Search User
+  </ion-button>
+
+  <ion-button
+    expand="block"
+    class="public-btn"
+    (click)="goToPublicProfile()">
+    Public Profile
+  </ion-button>
+</div>
+</ion-content>

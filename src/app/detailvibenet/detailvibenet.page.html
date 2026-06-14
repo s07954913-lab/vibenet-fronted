@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true" class="vibenet-bg">
+  <button class="back-btn" (click)="goBack()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </button>
+
+  <!-- Added #swiperRef here -->
+  <swiper-container #swiperRef [pagination]="true" class="my-swiper">
+    <swiper-slide *ngFor="let slide of slides">
+      <div class="card-container">
+        <div class="image-section">
+          <div class="center-image-container">
+            <img [src]="slide.img" class="center-img">
+          </div>
+        </div>
+
+        <div class="text-section">
+          <h1 class="main-heading">{{ slide.title }}</h1>
+          <p class="sub-heading">{{ slide.desc }}</p>
+          
+          <!-- Unified click handler -->
+          <button class="action-btn" (click)="handleButtonClick(slide.btnText)">
+            {{ slide.btnText }}
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>

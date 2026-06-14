@@ -1,0 +1,160 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="teal-primary" style="--background: #00828a; --color: #ffffff; padding-top: 30px;">
+    <ion-buttons slot="start"><ion-back-button defaultHref="/" class="back-btn-white"></ion-back-button></ion-buttons>
+    <ion-title class="ion-text-center" style="color: #fff; font-weight: 700;">{{ ui.title }}</ion-title>
+    <ion-buttons slot="end"><ion-icon name="notifications-outline" style="font-size: 24px; margin-right: 15px; color: white;"></ion-icon></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+
+  <!-- Profile Hero -->
+  <div class="profile-hero">
+    <div class="avatar-ring">
+      <img [src]="profileImage" class="avatar-img" />
+    </div>
+    <h2 class="user-name">{{ userName }}</h2>
+    <p class="user-email">{{ userEmail }}</p>
+  </div>
+
+  <!-- White Body -->
+  <div class="white-body">
+
+    <p class="section-label">{{ ui.general }}</p>
+    <div class="settings-card">
+      <ion-item lines="full" button (click)="setAccountOpen(true)">
+        <div class="icon-pill" slot="start"><ion-icon name="person-outline"></ion-icon></div>
+        <ion-label>{{ ui.account }}</ion-label>
+      </ion-item>
+      <ion-item lines="full" button (click)="setPrivacyOpen(true)">
+        <div class="icon-pill" slot="start"><ion-icon name="lock-closed-outline"></ion-icon></div>
+        <ion-label>{{ ui.privacy }}</ion-label>
+      </ion-item>
+      <ion-item lines="full" button (click)="setOpen(true)">
+        <div class="icon-pill" slot="start"><ion-icon name="language-outline"></ion-icon></div>
+        <ion-label>{{ ui.lang }}</ion-label>
+        <ion-note slot="end">{{ selectedLanguage }}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <div class="icon-pill" slot="start"><ion-icon name="moon-outline"></ion-icon></div>
+        <ion-label>{{ ui.dark }}</ion-label>
+        <ion-toggle slot="end" mode="ios" [checked]="isDarkMode" (ionChange)="toggleTheme($event)"></ion-toggle>
+      </ion-item>
+    </div>
+
+    <p class="section-label" style="margin-top: 24px;">{{ ui.assistant }}</p>
+    <div class="ai-card">
+      <div class="ai-header">
+        <div class="ai-icon-wrap"><ion-icon name="aperture-outline"></ion-icon></div>
+        <div>
+          <h3>Hyper-Tech Engine</h3>
+          <p>Customize your VibeNet AI persona</p>
+        </div>
+      </div>
+      <div class="ai-grid">
+        <div class="ai-box">
+          <span>{{ ui.resp_style }}</span>
+          <strong>{{ ui.creative }}</strong>
+        </div>
+        <div class="ai-box">
+          <span>{{ ui.voice_model }}</span>
+          <strong>{{ ui.energetic }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <ion-button expand="block" fill="clear" class="logout-btn">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      {{ ui.logout }}
+    </ion-button>
+
+  </div>
+
+  <!-- Account Modal -->
+  <ion-modal [isOpen]="isAccountModalOpen" (didDismiss)="setAccountOpen(false)">
+    <ng-template>
+      <div class="modal-header">
+        <ion-button (click)="setAccountOpen(false)" fill="clear" class="modal-close-btn">{{ ui.cancel }}</ion-button>
+        <span class="modal-title">{{ ui.edit_p }}</span>
+        <ion-button (click)="saveProfile()" fill="clear" class="modal-close-btn">{{ ui.save }}</ion-button>
+      </div>
+      <ion-content class="ion-padding ion-text-center">
+        <div class="edit-avatar-wrap">
+          <img [src]="profileImage" class="edit-avatar" />
+          <div (click)="changeProfilePic()" class="camera-btn">
+            <ion-icon name="camera-outline"></ion-icon>
+          </div>
+        </div>
+        <ion-list mode="md">
+          <ion-item lines="full">
+            <ion-label position="stacked">Full Name</ion-label>
+            <ion-input [(ngModel)]="tempName"></ion-input>
+          </ion-item>
+          <ion-item lines="full">
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input [(ngModel)]="tempEmail"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Privacy Modal -->
+  <ion-modal [isOpen]="isPrivacyModalOpen" (didDismiss)="setPrivacyOpen(false)">
+    <ng-template>
+      <div class="modal-header">
+        <ion-button (click)="setPrivacyOpen(false)" fill="clear" class="modal-close-btn">{{ ui.cancel }}</ion-button>
+        <ion-title class="modal-title">{{ ui.privacy }}</ion-title>
+      </div>
+      <ion-content class="ion-padding">
+        <p class="section-label">{{ ui.visibility }}</p>
+        <ion-item lines="full"><ion-label>{{ ui.p_vis }}</ion-label><ion-toggle slot="end" mode="ios"></ion-toggle></ion-item>
+        <ion-item lines="full"><ion-label>{{ ui.act_stat }}</ion-label><ion-toggle slot="end" mode="ios"></ion-toggle></ion-item>
+        <ion-button expand="block" fill="clear" color="danger" style="margin-top: 20px;">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>{{ ui.clear }}
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Language Modal -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="setOpen(false)">
+    <ng-template>
+      <div class="modal-header" style="justify-content: space-between;">
+        <span class="modal-title">Select Language</span>
+        <ion-icon name="checkmark-circle" (click)="confirmLanguage()" style="font-size: 30px; cursor: pointer; color: white;"></ion-icon>
+      </div>
+      <ion-content>
+        <ion-radio-group [value]="tempLanguage" (ionChange)="languageChanged($event)">
+          <ion-item *ngFor="let lang of ['English (US)', 'Urdu', 'Arabic', 'Spanish', 'French', 'Chinese']" lines="full">
+            <ion-label>{{ lang }}</ion-label>
+            <ion-radio slot="end" [value]="lang"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-toast [isOpen]="showToast" message="Updated Successfully!" [duration]="2000" (didDismiss)="showToast = false" color="success" position="bottom"></ion-toast>
+</ion-content>
+
+<!-- Footer -->
+<ion-footer class="ion-no-border">
+  <div class="bottom-footer">
+    <div class="footer-item" [class.active]="activeTab === 'Home'" (click)="setTab('Home')">
+      <ion-icon name="home-outline"></ion-icon><span>Home</span>
+    </div>
+    <div class="footer-item" [class.active]="activeTab === 'Search'" (click)="setTab('Search')">
+      <ion-icon name="search-outline"></ion-icon><span>Search</span>
+    </div>
+    <div class="footer-item" [class.active]="activeTab === 'Notify'" (click)="setTab('Notify')">
+      <ion-icon name="chatbubbles-outline"></ion-icon><span>Chat</span>
+    </div>
+    <div class="footer-item" [class.active]="activeTab === 'Chat'" (click)="setTab('Chat')">
+      <ion-icon name="settings"></ion-icon><span>Settings</span>
+    </div>
+    <div class="footer-item" [class.active]="activeTab === 'Settings'" (click)="setTab('Settings')">
+      <ion-icon name="person-outline"></ion-icon><span>Profile</span>
+    </div>
+  </div>
+</ion-footer>

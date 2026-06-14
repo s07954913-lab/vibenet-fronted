@@ -1,0 +1,94 @@
+ion-toolbar {
+  --background: transparent;
+  --color: white;
+}
+
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #001f3f, #0074d9, #7fdbff); // Blue gradient background
+  z-index: -1;
+}
+
+.qr-main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.qr-card {
+  background: white;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 30px;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  margin-top: 40px;
+
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+    margin: -70px auto 10px;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .user-name { font-weight: bold; font-size: 20px; margin: 0; }
+  .user-handle { color: #888; font-size: 14px; margin: 5px 0 20px; }
+
+  .qr-image-wrapper {
+    padding: 10px;
+    background: #fff;
+    img { width: 100%; height: auto; }
+  }
+
+  .tiktok-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+.action-buttons {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 20px;
+
+  .action-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    ion-icon { font-size: 24px; color: #000; }
+    p { margin: 5px 0 0; font-size: 14px; font-weight: 500; }
+  }
+}
+
+.footer-text {
+  color: white;
+  margin-top: 40px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+.qr-image-wrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 20px auto;
+  display: inline-block;
+  
+  img {
+    mix-blend-mode: multiply; // اگر بیک گراؤنڈ سفید نہ ہو تو اسے ہٹا دیں
+  }
+}

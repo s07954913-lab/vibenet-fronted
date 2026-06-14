@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "758643874403",
+    "project_id": "vibenetai-app-18396",
+    "storage_bucket": "vibenetai-app-18396.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758643874403:android:de914f461b6b16810af656",
+        "android_client_info": {
+          "package_name": "com.vibenetai.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758643874403-o9821qsef1768168usoogaciqn28iim0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vibenetai.app",
+            "certificate_hash": "df63c2fa6954713a3b2b6a755b6537cd5f9b8c57"
+          }
+        },
+        {
+          "client_id": "758643874403-qb90m1s51od6cggsif1pnlrg69nv7ip2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCouUEuUzH089GFbe_JKjDG8kz7D2LMLzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758643874403-qb90m1s51od6cggsif1pnlrg69nv7ip2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,985 @@
+ion-content {
+  --background: #f8f9fa;
+}
+
+.balance-container {
+  padding: 30px 0;
+  .label { color: #666; font-size: 14px; .currency-dropdown { font-weight: bold; color: #000; } }
+  .amount { font-size: 42px; font-weight: bold; margin: 10px 0; }
+  
+  .coins-info {
+    display: inline-flex;
+    background: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    gap: 15px;
+    font-size: 14px;
+    .coin-tag { display: flex; align-items: center; gap: 5px; font-weight: 500; }
+    .get-coins { color: #fe2c55; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+  }
+}
+
+.section-header { --background: transparent; font-weight: bold; margin-top: 10px; }
+
+.offer-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: none;
+  border: 1px solid #f0f0f0;
+  h3 { color: #000; font-weight: bold; margin: 0; }
+  p { color: #888; font-size: 13px; margin: 5px 0; }
+  .get-link { color: #fe2c55; font-weight: bold; }
+  .gift-badge {
+    background: #fe2c55;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+  }
+}
+
+.group-title { padding-left: 16px; color: #888; font-size: 13px; font-weight: 600; margin-top: 20px; }
+
+.service-card {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  box-shadow: none;
+  border: 1px solid #f0f0f0;
+  ion-icon { font-size: 24px; color: #000; margin-bottom: 8px; }
+  p { margin: 0; font-size: 13px; font-weight: 500; color: #000; }
+}
+
+
+.settings-item {
+  --background: #fff;
+  --border-radius: 12px;
+  margin: 10px 16px;
+  border: 1px solid #f0f0f0;
+}
+// ─── Balance Container ──────────────────────────────────────────────────────
+
+.balance-container {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 24px 16px 16px;
+  margin-bottom: 20px;
+  position: relative;
+
+  .label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .currency-dropdown {
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: #ececec;
+    ion-icon { vertical-align: middle; font-size: 11px; }
+  }
+
+  .amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 8px 0;
+    cursor: pointer;
+    ion-icon { font-size: 20px; vertical-align: middle; color: #999; }
+  }
+
+  .coins-info {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .coin-tag {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .get-coins {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: #fff;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+  }
+
+  .action-buttons {
+    ion-button {
+      --border-radius: 12px;
+      font-weight: 600;
+    }
+  }
+}
+
+// ─── Currency Dropdown Menu ─────────────────────────────────────────────────
+
+.currency-menu {
+  position: absolute;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  z-index: 100;
+  min-width: 150px;
+  overflow: hidden;
+
+  .currency-option {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    transition: background 0.15s;
+
+    &:hover, &.active {
+      background: #f0f8ff;
+      color: #3498db;
+    }
+  }
+}
+
+// ─── Section Header ─────────────────────────────────────────────────────────
+
+.section-header {
+  --padding-start: 0;
+  ion-label {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  ion-note {
+    font-size: 13px;
+    cursor: pointer;
+  }
+}
+
+// ─── Filter Chips ───────────────────────────────────────────────────────────
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0 12px;
+  overflow-x: auto;
+
+  ion-chip {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Transaction List ───────────────────────────────────────────────────────
+
+.transaction-list {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+
+  ion-item {
+    --padding-start: 12px;
+    ion-label h3 { font-weight: 600; font-size: 14px; }
+    ion-label p  { font-size: 12px; color: #999; }
+    ion-note     { font-size: 14px; font-weight: 700; }
+  }
+}
+
+// ─── Empty State ────────────────────────────────────────────────────────────
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: #bbb;
+
+  ion-icon { font-size: 48px; display: block; margin: 0 auto 12px; }
+  p { font-size: 14px; }
+}
+
+// ─── Offer Card ─────────────────────────────────────────────────────────────
+
+.offer-card {
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  margin: 0 0 16px;
+
+  h3 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  p  { font-size: 13px; color: #666; margin: 2px 0; }
+
+  .get-link {
+    color: #e74c3c;
+    font-weight: 600;
+    cursor: pointer;
+    ion-icon { vertical-align: middle; }
+  }
+
+  .gift-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+    ion-icon { font-size: 28px; color: #fff; }
+  }
+}
+
+// ─── Group Title ─────────────────────────────────────────────────────────────
+
+.group-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin: 16px 0 8px;
+}
+
+// ─── Service Cards ───────────────────────────────────────────────────────────
+
+.service-card {
+  border-radius: 14px;
+  text-align: center;
+  padding: 20px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 0.15s;
+
+  &:active { transform: scale(0.97); }
+
+  ion-icon { font-size: 32px; color: #3498db; display: block; margin: 0 auto 8px; }
+  p { font-size: 13px; font-weight: 500; color: #444; margin: 0; }
+}
+
+// ─── Settings Item ───────────────────────────────────────────────────────────
+
+.settings-item {
+  --padding-start: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+// ─── Modals ──────────────────────────────────────────────────────────────────
+
+.modal-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.package-card {
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &.selected {
+    border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(52,152,219,0.25);
+  }
+
+  ion-card-content {
+    padding: 12px 8px;
+    h2 { font-size: 22px; font-weight: 700; margin: 0 0 4px; }
+    .bonus-text { font-size: 11px; color: #e74c3c; font-weight: 600; margin: 0; }
+    .price-text { font-size: 13px; color: #888; margin: 4px 0 0; }
+  }
+}
+
+.withdraw-balance {
+  background: #f0f8ff;
+  border-radius: 12px;
+  padding: 16px;
+
+  p { font-size: 13px; color: #888; margin: 0 0 4px; }
+  h2 { font-size: 28px; font-weight: 700; color: #2ecc71; margin: 0; }
+}
+// ══════════════════════════════════════
+//  HEADER
+// ══════════════════════════════════════
+
+.notif-btn {
+  position: relative;
+  .notif-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ══════════════════════════════════════
+//  BALANCE CARD
+// ══════════════════════════════════════
+
+.balance-container {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 24px 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  position: relative;
+
+  .label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .currency-dropdown {
+    font-weight: 700;
+    color: #333;
+    cursor: pointer;
+    background: #ececec;
+    padding: 3px 8px;
+    border-radius: 8px;
+    ion-icon { vertical-align: middle; font-size: 11px; }
+    &:hover { background: #dde; }
+  }
+
+  .amount {
+    font-size: 38px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 10px 0 6px;
+    letter-spacing: -1px;
+    ion-icon { font-size: 20px; vertical-align: middle; color: #aaa; cursor: pointer; }
+  }
+
+  // Mini chart
+  .mini-chart-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0;
+
+    .chart-label { font-size: 10px; color: #bbb; margin-right: 4px; }
+
+    .mini-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      .mini-bar {
+        width: 4px;
+        border-radius: 2px;
+        background: #ddd;
+        &.positive { background: #2ecc71; }
+      }
+    }
+  }
+
+  .coins-info {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+
+    .coin-tag {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .get-coins {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: #fff;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      &:active { opacity: 0.85; }
+    }
+  }
+
+  // Low balance warning
+  .low-balance-alert {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0;
+    ion-icon { font-size: 16px; }
+  }
+
+  // Action buttons row
+  .action-buttons-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    ion-button {
+      --border-radius: 12px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+  }
+}
+
+// ══════════════════════════════════════
+//  CURRENCY MENU
+// ══════════════════════════════════════
+
+.currency-menu {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 200;
+  min-width: 180px;
+  overflow: hidden;
+
+  .currency-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 18px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    .cur-symbol { font-weight: 800; font-size: 15px; color: #333; width: 20px; }
+    .cur-code   { font-weight: 700; font-size: 13px; color: #333; }
+    .cur-label  { font-size: 11px; color: #aaa; }
+
+    &:hover, &.active {
+      background: #f0f7ff;
+      .cur-code { color: #3498db; }
+    }
+  }
+}
+
+// ══════════════════════════════════════
+//  ANALYTICS
+// ══════════════════════════════════════
+
+.analytics-section {
+  margin-bottom: 20px;
+
+  .section-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .view-link {
+      font-size: 13px;
+      color: #3498db;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      ion-icon { font-size: 14px; }
+    }
+  }
+
+  .analytics-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+
+    // Bar Chart
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 80px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+
+      .bar-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+
+        .bar-wrap {
+          width: 20px;
+          height: 60px;
+          background: #f0f0f0;
+          border-radius: 6px;
+          display: flex;
+          align-items: flex-end;
+          overflow: hidden;
+
+          .bar-fill {
+            width: 100%;
+            background: #b0c4de;
+            border-radius: 6px;
+            transition: height 0.4s ease;
+            &.highlight { background: #3498db; }
+          }
+        }
+        .bar-label { font-size: 9px; color: #aaa; }
+        .bar-value { font-size: 9px; color: #666; font-weight: 600; }
+      }
+    }
+
+    // Top Sources
+    .top-sources {
+      .sources-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .source-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+
+        .source-info {
+          width: 110px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12px;
+          color: #555;
+          ion-icon { font-size: 16px; }
+        }
+        .source-bar-outer {
+          flex: 1;
+          height: 8px;
+          background: #f0f0f0;
+          border-radius: 4px;
+          overflow: hidden;
+          .source-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+          }
+        }
+        .source-percent {
+          font-size: 12px;
+          font-weight: 700;
+          color: #666;
+          width: 35px;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+// ══════════════════════════════════════
+//  SECTION HEADER
+// ══════════════════════════════════════
+
+.section-header {
+  --padding-start: 0;
+  ion-label { font-weight: 700; font-size: 16px; }
+  ion-note   { font-size: 13px; cursor: pointer; }
+}
+
+// ══════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════
+
+.custom-search {
+  --border-radius: 12px;
+  --box-shadow: none;
+  --background: #f4f4f4;
+  padding: 4px 0;
+}
+
+// ══════════════════════════════════════
+//  FILTER CHIPS
+// ══════════════════════════════════════
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0 8px;
+  overflow-x: auto;
+
+  ion-chip {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+}
+
+.date-filter-row {
+  display: flex;
+  gap: 6px;
+  padding: 0 0 12px;
+  overflow-x: auto;
+
+  .date-chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #f0f0f0;
+    color: #666;
+    cursor: pointer;
+    flex-shrink: 0;
+    &.active {
+      background: #3498db;
+      color: #fff;
+    }
+  }
+}
+
+// ══════════════════════════════════════
+//  TRANSACTION LIST
+// ══════════════════════════════════════
+
+.transaction-list {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  margin-bottom: 12px;
+
+  ion-item {
+    --padding-start: 12px;
+    cursor: pointer;
+  }
+
+  .tx-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+
+    &.credit {
+      background: rgba(46,204,113,0.12);
+      ion-icon { color: #2ecc71; font-size: 18px; }
+    }
+    &.debit {
+      background: rgba(231,76,60,0.12);
+      ion-icon { color: #e74c3c; font-size: 18px; }
+    }
+  }
+
+  ion-label {
+    h3 { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    p  { font-size: 12px; color: #999; }
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    margin-top: 3px;
+  }
+
+  .tx-amount {
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+// ══════════════════════════════════════
+//  PAGINATION
+// ══════════════════════════════════════
+
+.pagination-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  .page-info {
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+  }
+}
+
+// ══════════════════════════════════════
+//  EMPTY STATE
+// ══════════════════════════════════════
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: #ccc;
+
+  ion-icon { font-size: 52px; display: block; margin: 0 auto 12px; }
+  p        { font-size: 15px; font-weight: 500; margin: 0; }
+  small    { font-size: 12px; color: #ddd; }
+}
+
+// ══════════════════════════════════════
+//  OFFER CARD
+// ══════════════════════════════════════
+
+.offer-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin: 0 0 16px;
+
+  h3 { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  p  { font-size: 13px; color: #666; margin: 2px 0; }
+
+  .get-link {
+    color: #e74c3c;
+    font-weight: 600;
+    cursor: pointer;
+    ion-icon { vertical-align: middle; }
+  }
+
+  .gift-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+    ion-icon { font-size: 28px; color: #fff; }
+  }
+}
+
+// ══════════════════════════════════════
+//  GROUP TITLE
+// ══════════════════════════════════════
+
+.group-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin: 18px 0 8px;
+}
+
+// ══════════════════════════════════════
+//  SERVICE CARDS
+// ══════════════════════════════════════
+
+.service-card {
+  border-radius: 16px;
+  text-align: center;
+  padding: 20px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  &:active { transform: scale(0.96); box-shadow: none; }
+
+  ion-icon { font-size: 32px; color: #3498db; display: block; margin: 0 auto 8px; }
+  p { font-size: 13px; font-weight: 600; color: #444; margin: 0; }
+}
+
+// ══════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════
+
+.settings-item {
+  --padding-start: 0;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+// ══════════════════════════════════════
+//  MODALS — shared
+// ══════════════════════════════════════
+
+.modal-subtitle {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+// ── Recharge packages
+.package-card {
+  border-radius: 14px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  &.selected {
+    border-color: #3498db;
+    box-shadow: 0 4px 14px rgba(52,152,219,0.25);
+  }
+  ion-card-content {
+    padding: 12px 8px;
+    .pkg-emoji { font-size: 28px; margin-bottom: 4px; }
+    h2 { font-size: 22px; font-weight: 800; margin: 0 0 4px; }
+    .bonus-text { font-size: 11px; color: #e74c3c; font-weight: 600; margin: 0; }
+    .price-text { font-size: 12px; color: #aaa; margin: 4px 0 0; }
+  }
+}
+
+// ── Withdraw
+.withdraw-balance {
+  background: #f0fff8;
+  border: 1px solid #c3f0da;
+  border-radius: 14px;
+  padding: 18px;
+  p  { font-size: 13px; color: #888; margin: 0 0 4px; }
+  h2 { font-size: 30px; font-weight: 800; color: #2ecc71; margin: 0; }
+}
+
+.usd-equiv {
+  font-size: 12px;
+  color: #888;
+  padding: 6px 16px;
+  font-style: italic;
+}
+
+// Withdrawal Status Tracker
+.withdraw-status-tracker {
+  margin-top: 20px;
+
+  .tracker-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 12px;
+  }
+
+  .tracker-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+
+      .step-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ddd;
+        border: 2px solid #ddd;
+        transition: all 0.3s;
+      }
+      span { font-size: 11px; color: #aaa; }
+
+      &.done .step-dot {
+        background: #2ecc71;
+        border-color: #2ecc71;
+      }
+      &.done span { color: #2ecc71; font-weight: 600; }
+    }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #ddd;
+      margin-bottom: 20px;
+      transition: background 0.3s;
+      &.done { background: #2ecc71; }
+    }
+  }
+}
+
+// ── Transaction Detail
+.tx-detail-card {
+  text-align: center;
+  padding-bottom: 12px;
+
+  .tx-detail-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    ion-icon { font-size: 30px; }
+    &.credit { background: rgba(46,204,113,0.15); ion-icon { color: #2ecc71; } }
+    &.debit  { background: rgba(231,76,60,0.15);  ion-icon { color: #e74c3c; } }
+  }
+
+  h2 { font-size: 28px; font-weight: 800; margin: 0 0 4px; }
+  .tx-desc-text { font-size: 14px; color: #888; }
+}
+
+.tx-detail-list {
+  ion-item {
+    --padding-start: 0;
+    ion-label { font-size: 14px; }
+    ion-note   { font-size: 13px; }
+  }
+}
+
+// ── Coin History
+.coin-total {
+  background: linear-gradient(135deg, #fff9e6, #fff3cd);
+  border-radius: 14px;
+  padding: 18px;
+  p  { font-size: 13px; color: #888; margin: 0 0 4px; }
+  h2 { font-size: 28px; font-weight: 800; color: #f39c12; margin: 0; }
+}
+
+// ── Notifications
+.unread-item {
+  background: #f0f7ff;
+}
+
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3498db;
+}
+

@@ -1,0 +1,174 @@
+/* Global Styles */
+.admin-bg { --background: #f8f9fc; }
+
+.admin-toolbar {
+  --background: #fff;
+  padding: 5px;
+  .admin-title { color: #c44d1d; font-weight: 800; font-size: 1.3rem; }
+  .header-icon { font-size: 22px; color: #666; margin-right: 15px; }
+  .admin-profile { width: 32px; height: 32px; border: 1px solid #eee; }
+}
+
+.welcome-section {
+  margin: 15px 0 25px;
+  h1 { font-weight: 800; font-size: 1.6rem; color: #1a1a1a; margin-bottom: 5px; }
+  p { color: #888; font-size: 0.9rem; line-height: 1.4; }
+}
+
+/* Cards Generic */
+.white-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  h3 { margin: 0; font-size: 1.1rem; font-weight: bold; color: #333; }
+}
+.no-padding { padding: 15px 0; }
+.padding-lr { padding: 0 20px 15px; }
+
+/* Stat Cards */
+.stat-card {
+  @extend .white-card;
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+  .icon-box {
+    width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+    &.user-icon { background: #fff1f0; color: #ff4d4f; }
+    &.post-icon { background: #fff7e6; color: #ffa940; }
+    &.ai-icon { background: #e6f7ff; color: #1890ff; }
+  }
+  .percentage { font-size: 0.8rem; font-weight: bold; color: #c44d1d; }
+  .badge-optimized { background: #fff1f0; color: #c44d1d; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
+  .label { font-size: 0.75rem; color: #888; font-weight: bold; margin-bottom: 5px; }
+  h2 { font-weight: 800; font-size: 1.8rem; margin: 0; }
+}
+
+/* Chart */
+.card-section-header { display: flex; justify-content: space-between; align-items: center; }
+.chart-toggle {
+  background: #f5f5f5; padding: 4px; border-radius: 8px;
+  span { padding: 4px 12px; font-size: 0.75rem; color: #888; &.active { background: #c44d1d; color: #fff; border-radius: 6px; } }
+}
+.bar-chart {
+  display: flex; align-items: flex-end; justify-content: space-between; height: 160px; margin-top: 30px;
+  .bar {
+    width: 35px; background: #ffece6; border-radius: 8px 8px 0 0; position: relative;
+    span { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: #bbb; }
+    &.active-bar { background: #c44d1d; }
+  }
+}
+
+/* Progress & Insights */
+.progress-item {
+  margin: 15px 0;
+  .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+  .progress-bar { height: 8px; background: #f0f0f0; border-radius: 10px; .fill { height: 100%; background: #c44d1d; border-radius: 10px; } }
+}
+.insight-banner {
+  background: #fff0e6; padding: 15px; border-radius: 12px; margin-top: 20px;
+  h4 { color: #c44d1d; font-size: 0.95rem; font-weight: bold; margin: 0 0 4px; }
+  p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.4; }
+}
+
+/* Management & Reports */
+.view-all { color: #c44d1d; font-size: 0.85rem; font-weight: bold; }
+.badge-new { background: #fff1f0; color: #ff4d4f; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
+
+ion-item {
+  --inner-padding-end: 20px;
+  h2 { font-weight: bold; font-size: 1rem; }
+  p { font-size: 0.8rem; }
+  .edit-icon { color: #ccc; font-size: 20px; }
+  .avatar-gray { background: #f0f0f0; color: #666; font-size: 0.8rem; font-weight: bold; }
+  .avatar-orange { background: #fff0e6; color: #c44d1d; font-size: 0.8rem; font-weight: bold; }
+}
+
+.report-item {
+  padding: 15px 20px; border-top: 1px solid #f5f5f5;
+  .report-top { display: flex; gap: 12px; margin-bottom: 12px; }
+  .report-img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
+  .icon-placeholder { background: #fdf2f2; color: #ff4d4f; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .report-text { flex: 1; .flex-row { display: flex; justify-content: space-between; font-size: 0.85rem; } .time { color: #bbb; font-size: 0.75rem; } p { font-size: 0.8rem; color: #888; margin: 4px 0 0; } }
+}
+
+.report-actions {
+  display: flex; gap: 10px;
+  button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
+  .btn-keep { background: #c44d1d; color: #fff; }
+  .btn-remove { background: #c44d1d; color: #fff; }
+}.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.view-detail-link {
+  color: #ffa500;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.modal-header {
+  background: #ffa500;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+
+  ion-icon { font-size: 22px; color: white; }
+  h2 { margin: 0; font-size: 17px; font-weight: 700; color: white; flex: 1; }
+
+  .close-btn {
+    --color: white;
+    position: absolute; right: 8px;
+    top: 50%; transform: translateY(-50%);
+  }
+}
+
+.modal-inner { --background: #f8f8f8; }
+
+.report-detail-img img {
+  width: 100%; border-radius: 12px;
+  max-height: 180px; object-fit: cover;
+}
+
+.report-detail-icon {
+  background: #f0f0f0; border-radius: 12px;
+  height: 100px; display: flex;
+  align-items: center; justify-content: center;
+  ion-icon { font-size: 48px; color: #ffa500; }
+}
+
+.ai-flag-box {
+  background: #fff8ee; border: 1px solid #ffe0a0;
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 14px; font-size: 13px; color: #555;
+}
+
+.btn-keep-lg, .btn-remove-lg {
+  flex: 1; padding: 14px; border-radius: 12px;
+  font-weight: 700; font-size: 15px;
+  display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+  border: none; cursor: pointer;
+}
+.btn-keep-lg  { background: #22c55e; color: white; }
+.btn-remove-lg { background: #ef4444; color: white; }
+
+.report-actions {
+  display: flex; gap: 8px; padding: 0 16px 14px;
+  .btn-keep, .btn-remove {
+    flex: 1; padding: 10px; border-radius: 10px;
+    font-weight: 600; font-size: 13px; border: none;
+    cursor: pointer; display: flex;
+    align-items: center; justify-content: center; gap: 5px;
+  }
+  .btn-keep   { background: #22c55e; color: white; }
+  .btn-remove { background: #ef4444; color: white; }
+}

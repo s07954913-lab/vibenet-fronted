@@ -1,0 +1,122 @@
+ion-toolbar {
+  --background: transparent;
+  --color: #333;
+  ion-icon { color: #ffa500; font-size: 24px; }
+}
+
+.main-image-container {
+  width: 100%;
+  height: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  background: #f4f4f4; // Grey background while loading
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  .loading-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .detail-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
+
+  .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 165, 0, 0.9);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.content-wrapper {
+  margin-top: 25px;
+
+  .art-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .art-category {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 4px;
+  }
+}
+
+.stats-row {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-weight: 600;
+    cursor: pointer;
+
+    ion-icon {
+      font-size: 22px;
+      &.liked { color: #ff3b30; }
+    }
+  }
+}
+
+.divider {
+  margin: 25px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.details-section {
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .prompt-box {
+    background: #fdf8f0;
+    padding: 18px;
+    border-radius: 16px;
+    border-left: 5px solid #ffa500;
+    
+    p {
+      margin: 0;
+      color: #555;
+      font-style: italic;
+      line-height: 1.6;
+    }
+  }
+}
+
+.main-btn {
+  margin-top: 35px;
+  --border-radius: 16px;
+  height: 58px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 20px rgba(255, 165, 0, 0.3);
+}

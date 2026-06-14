@@ -1,0 +1,180 @@
+<ion-header class="cv-header">
+  <div class="cv-status-bar"></div>
+  <ion-toolbar class="cv-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="cv-back-btn">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="cv-title-wrap">
+      <ion-title class="cv-title">Comments</ion-title>
+      <span class="cv-subtitle">{{ comments.length }} comments</span>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button class="cv-back-btn">
+        <ion-icon name="ellipsis-vertical-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="cv-header-curve"></div>
+</ion-header>
+
+<ion-content class="cv-content">
+
+  <!-- Post Preview Card -->
+  <div class="cv-post-wrap" *ngIf="post">
+    <div class="cv-post-card">
+      <div class="cv-post-top">
+        <div class="cv-post-avatar">{{ post.userInitial || 'U' }}</div>
+        <div class="cv-post-info">
+          <span class="cv-post-name">{{ post.userName || 'User' }}</span>
+          <span class="cv-post-time">{{ getTimeAgo(post.createdAt) }}</span>
+        </div>
+        <div class="cv-post-stats">
+          <span class="cv-stat">
+            <ion-icon name="heart-outline"></ion-icon> {{ post.likes }}
+          </span>
+          <span class="cv-stat">
+            <ion-icon name="chatbubble-outline"></ion-icon> {{ comments.length }}
+          </span>
+        </div>
+      </div>
+
+      <div class="cv-post-media">
+        <img *ngIf="post.type === 'photo' && post.mediaUrl"
+             [src]="post.mediaUrl" class="cv-media-img" />
+        <video *ngIf="post.type === 'video' && post.mediaUrl"
+               [src]="post.mediaUrl" class="cv-media-img"
+               controls playsinline preload="metadata">
+        </video>
+        <div class="cv-play-overlay" *ngIf="post.type === 'video' && post.mediaUrl">
+          <div class="cv-play-circle">
+            <ion-icon name="play-outline"></ion-icon>
+          </div>
+        </div>
+        <div class="cv-caption-overlay" *ngIf="post.caption">
+          <span>{{ post.caption }}</span>
+          <span class="cv-hashtag" *ngFor="let tag of post.hashtags"> #{{ tag }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Divider -->
+  <div class="cv-divider-row">
+    <div class="cv-divider-line"></div>
+    <span class="cv-divider-label">ALL COMMENTS</span>
+    <div class="cv-divider-line"></div>
+  </div>
+
+  <!-- Comments List -->
+  <div class="cv-comments-list">
+
+    <div class="cv-comment-item" *ngFor="let c of comments" [id]="'comment-' + c.id">
+
+      <div class="cv-c-avatar"
+           [style.background]="c.avatarBg"
+           [style.color]="c.avatarColor">
+        {{ c.initials }}
+      </div>
+
+      <div class="cv-c-body">
+        <div class="cv-c-bubble">
+          <div class="cv-c-bubble-top">
+            <span class="cv-c-name">{{ c.name }}</span>
+            <button class="cv-options-btn" (click)="openOptions(c)">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </button>
+          </div>
+          <p class="cv-c-text">{{ c.text }}</p>
+          <div class="cv-reactions" *ngIf="c.reactions?.length">
+            <span class="cv-reaction-pill"
+                  *ngFor="let r of c.reactions"
+                  [class.cv-reaction-active]="r.active"
+                  (click)="toggleReaction(c, r)">
+              {{ r.emoji }} {{ r.count }}
+            </span>
+          </div>
+        </div>
+
+        <div class="cv-c-meta">
+          <span class="cv-c-time">{{ c.timeAgo }}</span>
+          <button (click)="likeComment(c)" [class.cv-liked]="c.liked">
+            {{ c.liked ? 'Unlike' : 'Like' }}
+            <span *ngIf="c.likeCount"> · {{ c.likeCount }}</span>
+          </button>
+          <button (click)="toggleReply(c)">Reply</button>
+        </div>
+
+        <!-- Reply input -->
+        <div class="cv-reply-input-wrap" *ngIf="c.showReply">
+          <div class="cv-reply-avatar">{{ myInitial }}</div>
+          <input [(ngModel)]="c.replyText"
+                 [placeholder]="'Reply to ' + c.name + '...'"
+                 (keydown.enter)="submitReply(c)" />
+          <button (click)="submitReply(c)">
+            <ion-icon name="send-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Nested Replies -->
+        <div class="cv-nested-replies" *ngIf="c.replies?.length">
+          <div class="cv-comment-item cv-reply-item" *ngFor="let r of c.replies">
+            <div class="cv-c-avatar cv-c-avatar--sm"
+                 [style.background]="r.avatarBg"
+                 [style.color]="r.avatarColor">
+              {{ r.initials }}
+            </div>
+            <div class="cv-c-body">
+              <div class="cv-c-bubble">
+                <span class="cv-c-name">{{ r.name }}</span>
+                <p class="cv-c-text">{{ r.text }}</p>
+              </div>
+              <div class="cv-c-meta">
+                <span class="cv-c-time">{{ r.timeAgo }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div class="cv-empty" *ngIf="comments.length === 0">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      <p>Pehle comment karo!</p>
+      <span>Is post par abhi koi comment nahi hai</span>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<!-- Footer -->
+<ion-footer class="cv-footer">
+  <!-- Emoji strip -->
+  <div class="cv-emoji-strip" *ngIf="showEmoji">
+    <button *ngFor="let e of emojiList" (click)="addEmoji(e)" class="cv-emoji-btn">{{ e }}</button>
+  </div>
+
+  <div class="cv-input-row">
+    <!-- Logged-in user ka avatar -->
+    <div class="cv-my-avatar">{{ myInitial }}</div>
+
+    <div class="cv-input-wrap">
+      <textarea [(ngModel)]="newCommentText"
+                [placeholder]="myName + ' ka comment...'"
+                rows="1"
+                (input)="autoResize($event)">
+      </textarea>
+      <button class="cv-emoji-toggle" (click)="toggleEmoji()">
+        <ion-icon name="happy-outline"></ion-icon>
+      </button>
+    </div>
+
+    <button class="cv-send-btn" (click)="submitComment()">
+      <ion-icon name="send-outline"></ion-icon>
+    </button>
+  </div>
+</ion-footer>

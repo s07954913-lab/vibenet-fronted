@@ -1,0 +1,376 @@
+// ============================================
+// notification.page.scss
+// ============================================
+
+// Filter Chips
+.filter-wrapper {
+  padding: 12px 10px 6px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+
+  ion-chip {
+    --background: #f5f5f5;
+    --color: #666;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+
+    &.active-chip {
+      --background: #ff6b00;
+      --color: white;
+    }
+  }
+}
+
+// Alert Card
+.alert-card {
+  background: #fff5ed;
+  margin: 12px 14px;
+  padding: 18px;
+  border-radius: 16px;
+  border-left: 4px solid #ff6b00;
+
+  .alert-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ff6b00;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+
+    ion-icon { font-size: 14px; }
+  }
+
+  .alert-title {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    color: #222;
+    line-height: 1.3;
+  }
+
+  .alert-desc {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 14px 0;
+  }
+
+  .alert-btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .analytics-btn {
+      --background: #ff6b00;
+      --border-radius: 10px;
+      --box-shadow: none;
+      font-weight: 700;
+      font-size: 13px;
+      height: 38px;
+    }
+
+    .dismiss-btn {
+      --color: #999;
+      text-transform: none;
+      font-weight: 600;
+      font-size: 13px;
+    }
+  }
+}
+
+// Notification Items
+ion-item {
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --min-height: 70px;
+  --background: transparent;
+
+  &.unread-item {
+    --background: #fff9f5;
+  }
+}
+
+.notif-avatar {
+  width: 44px;
+  height: 44px;
+  margin-right: 4px;
+}
+
+// Type Badge
+.type-badge-wrap {
+  margin-right: 8px;
+  margin-left: -8px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+
+  .type-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+
+    ion-icon {
+      font-size: 10px;
+      color: white;
+    }
+
+    &.badge-like    { background: #e74c3c; }
+    &.badge-comment { background: #3498db; }
+    &.badge-follow  { background: #ff6b00; }
+  }
+}
+
+.notif-label {
+  white-space: normal;
+
+  .notif-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 0 3px 0;
+    color: #222;
+  }
+
+  .notif-action {
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 4px 0;
+  }
+
+  .notif-time {
+    font-size: 11px;
+    color: #aaa;
+  }
+}
+
+// Unread dot
+.unread-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff6b00;
+  margin-left: 6px;
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #bbb;
+
+  ion-icon {
+    font-size: 52px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+
+  p {
+    font-size: 15px;
+    text-align: center;
+  }
+}
+// ─── Filter Chips ─────────────────────────────────────────
+.filter-wrapper {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  ion-chip {
+    --background: #f3f3f3;
+    --color: #666;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 20px;
+    height: 32px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+
+    &.active-chip {
+      --background: #ff6b00;
+      --color: #fff;
+      font-weight: 700;
+    }
+  }
+}
+
+// ─── Alert Card ───────────────────────────────────────────
+.alert-card {
+  margin: 12px 14px;
+  background: linear-gradient(135deg, #fff5ee 0%, #fff 100%);
+  border: 1.5px solid #ffddbb;
+  border-radius: 18px;
+  padding: 16px 16px 12px;
+
+  .alert-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ff6b00;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+
+    ion-icon { font-size: 14px; }
+  }
+
+  .alert-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #222;
+    margin: 0 0 6px;
+  }
+
+  .alert-desc {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 12px;
+    line-height: 1.4;
+  }
+
+  .alert-btns {
+    display: flex;
+    gap: 8px;
+
+    .analytics-btn {
+      --background: #ff6b00;
+      --border-radius: 10px;
+      --color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      height: 36px;
+    }
+
+    .dismiss-btn {
+      --color: #aaa;
+      font-size: 13px;
+      height: 36px;
+    }
+  }
+}
+
+// ─── Notification Item ────────────────────────────────────
+ion-item.unread-item {
+  --background: #fff8f4;
+}
+
+.notif-avatar {
+  width: 46px;
+  height: 46px;
+  border: 2px solid #ff6b00;
+}
+
+// ─── Type Badge ───────────────────────────────────────────
+.type-badge-wrap {
+  margin-left: -8px;
+  margin-top: 22px;
+  align-self: flex-start;
+  z-index: 1;
+
+  .type-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+
+    ion-icon { font-size: 11px; color: #fff; }
+
+    &.badge-like    { background: #e0245e; }
+    &.badge-comment { background: #1da1f2; }
+    &.badge-follow  { background: #17bf63; }
+  }
+}
+
+// ─── Labels ───────────────────────────────────────────────
+.notif-label {
+  padding: 10px 0;
+}
+
+.notif-name {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #222 !important;
+  margin-bottom: 2px;
+}
+
+.notif-action {
+  font-size: 13px !important;
+  color: #666 !important;
+  margin-bottom: 2px;
+}
+
+.notif-time {
+  font-size: 11px !important;
+  color: #bbb !important;
+}
+
+// ─── Unread Dot ───────────────────────────────────────────
+.unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff6b00;
+  flex-shrink: 0;
+}
+
+// ─── Empty State ──────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 30px;
+
+  ion-icon {
+    font-size: 64px;
+    color: #ff6b00;
+    opacity: 0.2;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 15px;
+    color: #aaa;
+  }
+}
+.profile-buttons {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+}
+
+.search-btn,
+.public-btn {
+  flex: 1;
+  --border-radius: 12px;
+  height: 48px;
+}
+
+.search-btn {
+  --background: #f26419;
+}
+
+.public-btn {
+  --background:#f26419 ;
+}

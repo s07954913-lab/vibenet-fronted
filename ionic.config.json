@@ -1,0 +1,7 @@
+{
+  "name": "Vibenet_Ai",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

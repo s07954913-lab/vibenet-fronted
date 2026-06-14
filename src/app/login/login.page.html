@@ -1,0 +1,194 @@
+<ion-content class="ion-padding login-background" style="--display: flex; --align-items: center; --justify-content: center;">
+
+  <!-- Login Container Centered -->
+  <div class="login-container" style="width: 100%; max-width: 450px; margin: auto; padding-bottom: 30px;">
+
+    <!-- Header Section -->
+    <div class="header-section ion-text-center" style="margin-top: 20px; margin-bottom: 20px;">
+      <h1 class="brand-name" style="font-weight: 800; color: #00383d; margin: 0; font-size: 32px;">
+        VibeNet AI
+      </h1>
+      <p class="tagline" style="color: #1e3d40; font-size: 14px;">
+        Elevate your digital energy.
+      </p>
+    </div>
+
+    <!-- Login Card (Modified Premium Style) -->
+    <ion-card class="login-card" style="border-radius: 32px; box-shadow: 0 15px 35px rgba(0, 56, 61, 0.15); margin: 0; overflow: hidden; background: #ffffff;">
+
+      <!-- Card Top Logo Wrapper (Aesthetic Colored Header Box) -->
+      <div class="card-top-accent" style="background: #f4fcfb; padding: 30px 20px; border-bottom: 1px solid rgba(0, 130, 138, 0.08); text-align: center;">
+        <div class="logo-container" style="display: inline-block;">
+          <div class="logo-wrapper">
+            <img src="/assets/logo.jpg" alt="Vibe Logo" class="brand-logo">
+          </div>
+        </div>
+        <ion-card-title style="font-weight: 800; color: #00383d; font-size: 26px; margin-top: 15px; letter-spacing: -0.5px;">
+          Welcome back
+        </ion-card-title>
+        <ion-card-subtitle style="color: #627a7c; font-size: 13px; margin-top: 5px;">
+          Enter your credentials to access your workspace.
+        </ion-card-subtitle>
+      </div>
+
+      <ion-card-content style="padding: 24px 20px;">
+
+        <!-- Email Address Input -->
+        <div class="input-group">
+          <ion-label style="font-size: 14px; color: #333333; margin-bottom: 6px; display: block; font-weight: 500;">
+            Email Address
+          </ion-label>
+          <ion-item lines="none" class="custom-input"
+            [style.--border-color]="emailTouched && !isEmailValid ? '#ff3333' : 'transparent'"
+            style="--background: #f5f5f5; border-radius: 12px; border: 1px solid var(--border-color);">
+            <ion-input type="email" placeholder="name@gmail.com"
+              [(ngModel)]="email"
+              (ionFocus)="emailTouched = true">
+            </ion-input>
+          </ion-item>
+          <p *ngIf="emailTouched && !isEmailValid"
+            style="color: #ff3333; font-size: 11px; margin: 4px 0 10px 5px; font-weight: 500;">
+            Enter correct gmail address
+          </p>
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <ion-label style="font-size: 14px; color: #333333; font-weight: 500; margin: 0;">Password</ion-label>
+            <ion-note style="font-size: 13px; color: #00828a; cursor: pointer; font-weight: 600;">Forgot?</ion-note>
+          </div>
+          <ion-item lines="none" class="custom-input"
+            [style.--border-color]="passwordTouched && !isPasswordValid ? '#ff3333' : 'transparent'"
+            style="--background: #f5f5f5; border-radius: 12px; border: 1px solid var(--border-color);">
+            <ion-input type="password" placeholder="********"
+              [(ngModel)]="password"
+              (ionFocus)="passwordTouched = true">
+            </ion-input>
+          </ion-item>
+          <p *ngIf="passwordTouched && !isPasswordValid"
+            style="color: #ff3333; font-size: 11px; margin: 4px 0 10px 5px; font-weight: 500;">
+            Please enter correct password
+          </p>
+
+          <!-- Password Conditions -->
+          <div class="password-conditions-list" *ngIf="passwordTouched"
+            style="margin-top: 12px; padding-left: 5px;">
+            <p [style.color]="hasMinLen ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasMinLen ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              1. Minimum 8 characters
+            </p>
+            <p [style.color]="hasMaxLen ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasMaxLen ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              2. Maximum 20 characters
+            </p>
+            <p [style.color]="hasUpper ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasUpper ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              3. One uppercase letter
+            </p>
+            <p [style.color]="hasLower ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasLower ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              4. One lowercase letter
+            </p>
+            <p [style.color]="hasNumber ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasNumber ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              5. One numeric character
+            </p>
+            <p [style.color]="hasSpecial ? '#00828a' : '#999999'"
+              style="font-size: 11px; display: flex; align-items: center; margin: 5px 0; font-weight: 500;">
+              <ion-icon [name]="hasSpecial ? 'checkmark-circle' : 'checkmark-circle-outline'"
+                style="margin-right: 8px; font-size: 16px;"></ion-icon>
+              6. One special character
+            </p>
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <ion-button expand="block" (click)="login()" class="login-btn"
+          style="--background: #00828a; --color: #ffffff; --border-radius: 14px; margin-top: 25px; font-weight: 700; height: 52px; font-size: 15px; letter-spacing: 0.5px;">
+          Log In
+          <ion-icon slot="end" name="arrow-forward-outline" style="color: #ffffff;"></ion-icon>
+        </ion-button>
+
+        <!-- Sign Up Link -->
+        <div class="ion-text-center" style="margin-top: 20px;">
+          <p style="font-size: 14px; color: #666666; margin: 0;">
+            Don't have an account?
+            <span (click)="goToSignUpPage()"
+              style="color: #00828a; font-weight: bold; cursor: pointer; margin-left: 3px;">Sign Up</span>
+          </p>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Divider Section -->
+    <div style="display: flex; align-items: center; margin: 25px 0;">
+      <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.25);"></div>
+      <span style="color: #ffffff; font-size: 12px; margin: 0 15px; font-weight: 600; opacity: 0.9;">OR</span>
+      <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.25);"></div>
+    </div>
+
+    <!-- Google Login Button -->
+    <ion-button expand="block" (click)="loginWithGoogle()" fill="outline" class="google-btn"
+      style="--border-radius: 14px; --border-color: rgba(255,255,255,0.4); --color: #333333; --background: #ffffff; height: 52px; font-weight: 700; margin: 0; font-size: 15px;">
+      <img src="https://gstatic.com" slot="start" style="width: 20px; height: 20px; margin-right: 10px;" />
+      Continue with Google
+    </ion-button>
+
+  </div>
+
+  <!-- ✅ Login Success/Error Modal -->
+  <ion-modal
+    [isOpen]="isModalOpen"
+    [backdropDismiss]="false"
+    (didDismiss)="handleModalClose()"
+    style="--height: auto; --width: 88%; --max-width: 360px; --border-radius: 32px; align-items: center; justify-content: center; --box-shadow: 0 15px 35px rgba(0,56,61,0.25);">
+    <ng-template>
+      <div class="ion-padding ion-text-center"
+        style="padding: 45px 30px 35px 30px; background: #ffffff;">
+
+        <!-- Icon Circle -->
+        <div [style.background]="loginSuccess ? '#00828a' : '#eb445a'"
+          style="width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+          <ion-icon
+            [name]="loginSuccess ? 'checkmark' : 'close'"
+            style="color: #ffffff; font-size: 38px; font-weight: bold; --ionicon-stroke-width: 72px;">
+          </ion-icon>
+        </div>
+
+        <!-- Title -->
+        <h2 style="font-weight: 700; font-size: 26px; margin: 0 0 12px 0; color: #00383d; font-family: system-ui, -apple-system, sans-serif;">
+          {{ loginSuccess ? 'Successful' : 'Failed' }}
+        </h2>
+
+        <!-- Message -->
+        <p style="color: #627a7c; font-size: 14px; margin: 0 0 30px 0; line-height: 1.5; font-weight: 400; padding: 0 10px;">
+          {{ modalMessage }}
+        </p>
+
+        <!-- OK Button -->
+        <div style="padding: 0 5px;">
+          <ion-button
+            expand="block"
+            (click)="handleModalClose()"
+            style="font-weight: 600; height: 48px; --border-radius: 14px; margin: 0; --background: #00828a; --color: #ffffff; font-size: 15px; letter-spacing: 0.2px;">
+            OK
+          </ion-button>
+        </div>
+
+      </div>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -1,0 +1,1051 @@
+// ============================================================
+// VIBENET — TEAL THEME (Clean Final Version)
+// ============================================================
+
+// COLOR TOKENS
+// Primary Teal:    #1D9E75
+// Dark Teal:       #0F6E56
+// Deeper Teal:     #085041
+// Deepest:         #04342C
+// Light Fill:      #E1F5EE
+// Mid Fill:        #9FE1CB
+
+// ============================================================
+// PAGE & CONTENT BACKGROUND
+// ============================================================
+
+:host {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #222222;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+.ion-page {
+  background: #ffffff;
+}
+
+// ============================================================
+// PROFILE INITIALS CIRCLES
+// ============================================================
+
+.profile-initials-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1D9E75 0%, #085041 100%);
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  user-select: none;
+}
+
+.header-initials-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1D9E75 0%, #085041 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  user-select: none;
+}
+
+.menu-avatar-initials {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1D9E75 0%, #085041 100%);
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid rgba(255,255,255,0.85);
+  box-shadow: 0 2px 10px rgba(29,158,117,0.35);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  user-select: none;
+}
+
+.modal-initials-circle {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1D9E75 0%, #085041 100%);
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 4px 16px rgba(29,158,117,0.4);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  user-select: none;
+}
+
+// ============================================================
+// PROFILE AVATAR
+// ============================================================
+
+.profile-avatar {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: visible !important;
+  border: 3px solid #ffffff;
+  outline: 2.5px solid #1D9E75;
+  box-shadow: 0 4px 18px rgba(29,158,117,0.35);
+  cursor: pointer;
+  margin-top: -8px;
+
+  img,
+  .profile-initials-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.plus-icon {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  background: #1D9E75;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  z-index: 2;
+}
+
+.online-ring {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  background: #5DCAA5;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  z-index: 2;
+}
+
+// ============================================================
+// USER INFO TEXT
+// ============================================================
+
+.user-display-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  margin: 10px 0 2px;
+}
+
+.user-handle {
+  font-size: 13px;
+  color: #999;
+  margin: 0 0 4px;
+}
+
+.user-email-text {
+  font-size: 12px;
+  color: #bbb;
+  margin: 0 0 6px;
+}
+
+.user-bio-text {
+  font-size: 13px;
+  color: #555;
+  font-style: italic;
+  margin: 4px 0 8px;
+}
+
+// ============================================================
+// STATUS CHIP
+// ============================================================
+
+.status-chip {
+  display: inline-block;
+  background: linear-gradient(135deg, #1D9E75, #085041);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+// ============================================================
+// BIO PERSONA PILL
+// ============================================================
+
+.bio-persona-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #E1F5EE;
+  border: 1px solid #9FE1CB;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  color: #085041;
+  margin-bottom: 14px;
+
+  ion-icon {
+    font-size: 13px;
+    color: #1D9E75;
+  }
+}
+
+// ============================================================
+// AVATAR WRAPPER
+// ============================================================
+
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+// ============================================================
+// HEADER AVATAR
+// ============================================================
+
+.header-avatar-wrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+
+  .header-profile-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.8);
+  }
+
+  .header-online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 9px;
+    height: 9px;
+    background: #5DCAA5;
+    border-radius: 50%;
+    border: 1.5px solid #0F6E56;
+  }
+}
+
+// ============================================================
+// MODAL AVATAR WRAPPER
+// ============================================================
+
+.modal-avatar-wrapper {
+  position: relative;
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 8px;
+  cursor: pointer;
+
+  .modal-profile-img {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #1D9E75;
+  }
+
+  .modal-camera-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, #1D9E75, #085041);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+
+    ion-icon { font-size: 13px; }
+  }
+}
+
+// ============================================================
+// MENU AVATAR RING
+// ============================================================
+
+.menu-avatar-ring {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.8);
+  flex-shrink: 0;
+
+  .menu-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.menu-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 16px 10px;
+}
+
+.menu-user-info {
+  h3 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 2px;
+  }
+  p {
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+    margin: 0;
+  }
+}
+
+// ============================================================
+// STATS BAR CARD
+// ============================================================
+
+.stats-bar-card {
+  display: flex;
+  align-items: stretch;
+  background: #e0f4f2;
+  border: 0.5px solid #a8dbd7;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 4px 0 14px;
+
+  .stat-cell {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:active { background: #9FE1CB; }
+
+    .stat-big {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+      color: #00575d;
+    }
+
+    .stat-small {
+      font-size: 10px;
+      color: #7bc2b5;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+  }
+
+  .stat-divider {
+    width: 1px;
+    background: #9FE1CB;
+    margin: 8px 0;
+  }
+}
+
+// ============================================================
+// ACTION BUTTONS
+// ============================================================
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+
+  ion-button {
+    --border-radius: 10px;
+    height: 38px;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 130px;
+  }
+}
+
+// ============================================================
+// SOCIAL LINKS ROW
+// ============================================================
+
+.social-links-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+
+  .social-link-btn {
+    --padding-start: 0;
+    --padding-end: 0;
+    width: 38px;
+    height: 38px;
+
+    ion-icon {
+      font-size: 18px;
+      background: #E1F5EE;
+      border-radius: 50%;
+      padding: 8px;
+      border: 1px solid #9FE1CB;
+      color: #0F6E56;
+    }
+  }
+}
+
+// ============================================================
+// FOLLOWING SECTION
+// ============================================================
+
+.following-section-wrapper {
+  margin: 8px 12px 12px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 0.5px solid #a8dbd7;
+  overflow: hidden;
+}
+
+.following-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 8px;
+
+  .following-head-left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    ion-icon {
+      font-size: 18px;
+      color: #1D9E75;
+    }
+
+    h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      margin: 0;
+    }
+  }
+
+  .see-all-btn {
+    font-size: 11px;
+    color: #1D9E75;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+.following-card-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 13px;
+  border-top: 1px solid #E1F5EE;
+
+  &:first-child { border-top: none; }
+
+  .following-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid #1D9E75;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .following-info {
+    flex: 1;
+    min-width: 0;
+
+    h5 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      margin: 0 0 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      font-size: 11px;
+      color: #999;
+      margin: 0;
+    }
+  }
+}
+
+.empty-following-state {
+  text-align: center;
+  padding: 16px 16px 20px;
+
+  ion-icon {
+    font-size: 38px;
+    color: #9FE1CB;
+    display: block;
+    margin: 0 auto 8px;
+  }
+
+  h5 {
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 11px;
+    color: #bbb;
+    margin: 0 0 12px;
+  }
+}
+
+.browse-reels-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #E1F5EE;
+  border: 1px solid #9FE1CB;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 12px;
+  color: #0F6E56;
+  font-weight: 500;
+  cursor: pointer;
+
+  ion-icon { font-size: 15px; }
+}
+
+// ============================================================
+// COVER PHOTO — WAVE DESIGN
+// ============================================================
+
+.cover-photo-wrapper {
+  height: 120px;
+  background: linear-gradient(135deg, #1D9E75 0%, #085041 100%);
+  position: relative;
+  overflow: hidden;
+
+  .cover-wave-svg {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 36px;
+    display: block;
+  }
+}
+
+.cover-wave-svg path {
+  fill: #ffffff;
+}
+
+.cover-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.12);
+}
+
+.cc1 { width: 80px;  height: 80px;  top: 10px;  right: 30px; }
+.cc2 { width: 50px;  height: 50px;  top: 30px;  left: 20px; }
+.cc3 { width: 120px; height: 120px; top: -20px; right: -20px; }
+
+// ============================================================
+// PROFILE INFO SECTION
+// ============================================================
+
+.profile-info-section {
+  margin-top: -45px;
+  padding: 0 16px 8px;
+}
+
+.profile-container {
+  padding-bottom: 100px;
+}
+
+// ============================================================
+// SEGMENT TABS
+// ============================================================
+
+.profile-tabs {
+  background: #ffffff;
+  border-bottom: 0.5px solid #e0f4f2;
+}
+
+.custom-segment {
+  ion-segment-button {
+    --indicator-color: #1D9E75;
+    --color: #bbb;
+    --color-checked: #1D9E75;
+    font-weight: 600;
+    font-size: 12px;
+  }
+}
+
+.segment-content-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0;
+
+  ion-icon { font-size: 18px; }
+
+  ion-label {
+    font-size: 12px !important;
+    margin: 0 !important;
+  }
+}
+
+.segment-content-area {
+  min-height: 200px;
+  padding-bottom: 80px;
+}
+
+// ============================================================
+// BOTTOM NAV
+// ============================================================
+
+.bottom-nav {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  height: 64px;
+  background: #04342C;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 6px 10px;
+
+    span {
+      font-size: 10px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    ion-icon {
+      font-size: 22px;
+      color: rgba(255,255,255,0.85);
+    }
+    
+
+    &.active {
+      opacity: 1;
+      ion-icon { color: white; }
+      span { color: white; }
+    }
+  }
+
+  
+  .upload-btn-wrap {
+    color:white;
+    margin-top: -20px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+
+    .upload-plus-btn {
+      width: 54px;
+      height: 54px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2.5px solid #1D9E75;
+      margin-bottom: 2px;
+
+      ion-icon {
+        font-size: 28px;
+        color: #1D9E75;
+      }
+    }
+
+    span {
+      font-size: 10px;
+      color: rgba(255,255,255,0.85);
+    }
+  }
+}
+
+.nav-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+// ── Profile Glow (active icon) ──
+.profile-glow-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.9);
+  transform: translateY(-6px);
+  animation: glowPulse 2s ease-in-out infinite;
+
+  ion-icon {
+    font-size: 22px;
+    color: white;
+    animation: iconSpin 4s ease-in-out infinite;
+  }
+}
+
+.nav-item.active span {
+  opacity: 0;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255,255,255,0.5),
+                0 0 16px rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.7);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255,255,255,0.95),
+                0 0 36px rgba(255,255,255,0.5);
+    border-color: rgba(255,255,255,1);
+  }
+}
+
+@keyframes iconSpin {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(10deg) scale(1.15); }
+  50%  { transform: rotate(-10deg) scale(1); }
+  75%  { transform: rotate(10deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+// ============================================================
+// NOTIF BADGE
+// ============================================================
+
+.notif-icon-wrapper {
+  position: relative;
+
+  ion-icon { font-size: 22px; }
+
+  .notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: #fff;
+    color: #0F6E56;
+    font-size: 9px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ============================================================
+// HEADER HIDDEN / CONTENT HIDDEN
+// ============================================================
+
+.header-hidden  { display: none !important; }
+.content-hidden { display: none !important; }
+
+// ============================================================
+// SIDE MENU
+// ============================================================
+
+.menu-item {
+  --background: transparent;
+  --color: white;
+  --border-color: transparent;
+  font-size: 14px;
+  margin-bottom: 2px;
+
+  ion-icon {
+    color: rgba(255,255,255,0.85);
+    font-size: 20px;
+  }
+}
+
+// ============================================================
+// FOLLOWING / FOLLOWER MODAL
+// ============================================================
+
+.follow-modal-user-item {
+  transition: background 0.2s ease;
+
+  &:hover  { background: #E1F5EE; }
+  &:active { background: #9FE1CB; }
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+
+ion-modal {
+  --border-radius: 16px;
+
+  &::part(content) {
+    backdrop-filter: blur(8px);
+  }
+}
+
+// ============================================================
+// REELS
+// ============================================================
+
+.reels-fullscreen-wrapper {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 500;
+  flex-direction: column;
+
+  &.reels-visible { display: flex; }
+}
+
+.reels-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+
+  .reels-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.reels-snap-container {
+  flex: 1;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.reel-snap-item {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  scroll-snap-align: start;
+  overflow: hidden;
+  background: #000;
+}
+
+.reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel-bottom-overlay {
+  position: absolute;
+  bottom: 80px;
+  left: 12px;
+  right: 70px;
+  color: #fff;
+  z-index: 5;
+}
+
+.reel-user-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  .reel-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1D9E75, #085041);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+  }
+
+  .reel-username {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .follow-btn {
+    background: transparent;
+    border: 1.5px solid #fff;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+}
+
+.reel-description {
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0 0 6px;
+}
+
+.reel-audio-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.reel-right-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  z-index: 5;
+
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #fff;
+    font-size: 11px;
+    cursor: pointer;
+
+    ion-icon { font-size: 24px; }
+  }
+}
+
+.vinyl-disc {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #085041, #04342C);
+  border: 2px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.spinning { animation: spin 3s linear infinite; }
+
+  .vinyl-inner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1D9E75, #085041);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.pause-icon-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 6;
+
+  &.show-pause { opacity: 1; }
+
+  ion-icon {
+    font-size: 60px;
+    color: rgba(255,255,255,0.85);
+  }
+}
+
+// ============================================================
+// EMPTY STATE
+// ============================================================
+
+.empty-state-box {
+  text-align: center;
+  padding: 40px 20px;
+}

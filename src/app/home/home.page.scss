@@ -1,0 +1,306 @@
+/* =========================
+   MAIN BACKGROUND
+========================= */
+
+/* =========================
+   MAIN BACKGROUND (SMOOTH TEAL GRADIENT)
+========================= */
+
+.main-content {
+  /* No lines - Smooth Top (Light) to Bottom (Dark) transition */
+  --background: linear-gradient(
+    to bottom,
+    #7bc2b5, /* Top: Light Teal */
+    #00828a, /* Middle: Vibrant Teal */
+    #00575d, /* Lower Middle: Dark Teal */
+    #00383d  /* Bottom: Very Dark Teal */
+  );
+
+  background-size: 100% 200%;
+
+  /* Super slow and smooth vertical motion only */
+  animation: gradientBG 14s ease-in-out infinite;
+}
+
+
+/* =========================
+   KEYFRAMES (UPDATED FOR NO LINES)
+========================= */
+
+@keyframes gradientBG {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+
+  height: 98vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  padding: 20px;
+
+  overflow: hidden;
+
+  perspective: 1000px;
+}
+
+
+/* =========================
+   LOGO IMAGE
+========================= */
+
+.top-img {
+
+  width: 300px;
+  height: 300px;
+
+  object-fit: contain;
+
+  margin-bottom: 20px;
+
+  filter: drop-shadow(
+    0 10px 20px rgba(0,0,0,0.3)
+  );
+
+  /* Entrance Animation */
+  animation:
+    slideInLeftBounce 1.5s
+    cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+
+    floating 3s ease-in-out infinite 1.5s;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.title {
+
+  font-size: 50px;
+
+  font-weight: 900;
+
+  color: white;
+
+  margin-top: -40px;
+
+  font-family: 'Times New Roman', Times, serif;
+
+  text-shadow:
+    0 0 15px rgba(255, 255, 255, 0.5),
+    0 5px 10px rgba(0,0,0,0.3);
+
+  letter-spacing: 2px;
+
+  animation:
+    slideInRightBounce 1.5s
+    cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+
+/* =========================
+   SUBTITLE
+========================= */
+
+.subtitle {
+
+  font-size: 18px;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  margin-top: 15px;
+
+  font-family: 'Times New Roman', Times, serif;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+
+  opacity: 0;
+
+  animation:
+    popIn 0.8s
+    cubic-bezier(0.68, -0.55, 0.265, 1.55)
+    1.2s forwards;
+}
+
+
+/* =========================
+   LOADER
+========================= */
+
+.loader {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 35px;
+}
+
+.loader span {
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  animation:
+    bounce 1.4s infinite ease-in-out both;
+}
+
+.loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+
+/* =========================
+   KEYFRAMES
+========================= */
+
+@keyframes gradientBG {
+
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+/* Left Slide */
+@keyframes slideInLeftBounce {
+
+  0% {
+    transform: translateX(-200%) rotate(-20deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+
+/* Right Slide */
+@keyframes slideInRightBounce {
+
+  0% {
+    transform: translateX(200%) scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* Floating Effect */
+@keyframes floating {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+
+/* Pop Animation */
+@keyframes popIn {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* Loader Bounce */
+@keyframes bounce {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media(max-width:576px) {
+
+  .title {
+
+    font-size: 45px;
+
+    margin-top: -60px;
+  }
+
+  .top-img {
+
+    width: 280px;
+    height: 280px;
+
+    margin-bottom: 60px;
+  }
+
+  .subtitle {
+
+    font-size: 15px;
+
+    letter-spacing: 2px;
+  }
+}

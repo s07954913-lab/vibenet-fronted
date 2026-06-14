@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #f4511e; --color: white;">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" style="color: white;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 800; letter-spacing: 1px;">My Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Profile Header -->
+  <div class="account-profile-header">
+    <div class="account-avatar-ring">
+      <img [src]="profileImage" class="account-avatar-img"
+           onError="this.src='assets/icon/favicon.png'" />
+    </div>
+    <h3>{{ userName }}</h3>
+    <p>@{{ userName.replace(' ', '_').toLowerCase() }}</p>
+  </div>
+
+  <!-- Menu Items -->
+  <ion-list lines="none" class="account-menu-list">
+
+    <ion-item button detail class="account-menu-item" (click)="goToBalance()">
+      <div class="account-menu-icon orange" slot="start">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <ion-label>
+        <h2>Balance</h2>
+        <p>View your wallet & earnings</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail class="account-menu-item" (click)="goToActivityCenter()">
+      <div class="account-menu-icon blue" slot="start">
+        <ion-icon name="time-outline"></ion-icon>
+      </div>
+      <ion-label>
+        <h2>Activity Center</h2>
+        <p>Recent activity & notifications</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail class="account-menu-item" (click)="goToQRCode()">
+      <div class="account-menu-icon green" slot="start">
+        <ion-icon name="qr-code-outline"></ion-icon>
+      </div>
+      <ion-label>
+        <h2>QR Code</h2>
+        <p>Your personal QR code</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button detail class="account-menu-item" (click)="goToSettings()">
+      <div class="account-menu-icon amber" slot="start">
+        <ion-icon name="settings-outline"></ion-icon>
+      </div>
+      <ion-label>
+        <h2>Settings</h2>
+        <p>App preferences & privacy</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Logout Button -->
+  <div class="account-logout-wrapper">
+    <ion-button expand="block" fill="outline" color="danger" (click)="logout()"
+      class="logout-btn">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Logout
+    </ion-button>
+  </div>
+
+</ion-content>

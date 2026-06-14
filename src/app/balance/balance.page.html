@@ -1,0 +1,271 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/userprofile" color="dark" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      {{ ui?.title }} <br>
+      <small style="color: #2ecc71; font-size: 10px;">
+        <ion-icon name="shield-checkmark-outline"></ion-icon> {{ ui?.secure }}
+      </small>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openNotificationsModal()" class="notif-btn">
+        <ion-icon name="notifications-outline" color="dark"></ion-icon>
+        <span class="notif-badge" *ngIf="unreadAlerts > 0">{{ unreadAlerts }}</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- BALANCE CARD -->
+  <div class="balance-container ion-text-center">
+    <p class="label">
+      {{ ui?.estimated_bal }}
+      <span class="currency-dropdown" (click)="toggleCurrencyMenu()">
+        {{ currency }} <ion-icon name="caret-down"></ion-icon>
+      </span>
+    </p>
+
+    <div class="currency-menu" *ngIf="showCurrencyMenu">
+      <div *ngFor="let cur of currencyList" class="currency-option" [class.active]="cur.code === currency" (click)="selectCurrency(cur)">
+        <span class="cur-symbol">{{ cur.symbol }}</span>
+        <span class="cur-code">{{ cur.code }}</span>
+        <span class="cur-label">{{ cur.label }}</span>
+      </div>
+    </div>
+
+    <h1 class="amount">
+      {{ currencySymbol }}{{ convertedBalance | number:'1.2-2' }}
+      <ion-icon name="chevron-forward" size="small" (click)="viewAllTransactions()"></ion-icon>
+    </h1>
+
+    <div class="mini-chart-row">
+      <span class="chart-label">{{ ui?.trend_30day }}</span>
+      <div class="mini-bars">
+        <div *ngFor="let bar of balanceHistory" class="mini-bar" [style.height.px]="bar.height" [class.positive]="bar.positive" [title]="bar.label"></div>
+      </div>
+    </div>
+
+    <div class="coins-info">
+      <span class="coin-tag">
+        <img src="../../assets/download (14).jpg" width="16"> {{ ui?.coins_label }} {{ totalCoins }}
+      </span>
+      <span class="get-coins" (click)="openRechargeModal()">
+        🎁 {{ ui?.get_coins }} <ion-icon name="arrow-forward"></ion-icon>
+      </span>
+    </div>
+
+    <div class="low-balance-alert" *ngIf="estimatedBalanceUSD < lowBalanceThreshold && estimatedBalanceUSD >= 0">
+      <ion-icon name="warning-outline"></ion-icon>
+      {{ ui?.low_bal_warning }}
+    </div>
+
+    <div class="action-buttons-row ion-margin-top">
+      <ion-button color="primary" size="small" (click)="openRechargeModal()">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        {{ ui?.recharge }}
+      </ion-button>
+      <ion-button color="success" size="small" (click)="openWithdrawModal()" [disabled]="estimatedBalanceUSD <= 0">
+        <ion-icon name="cash-outline" slot="start"></ion-icon>
+        {{ ui?.withdraw }}
+      </ion-button>
+      <ion-button color="tertiary" size="small" (click)="openCoinHistoryModal()">
+        <ion-icon name="time-outline" slot="start"></ion-icon>
+        {{ ui?.coin_log }}
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- MONTHLY ANALYTICS -->
+  <div class="analytics-section">
+    <div class="section-row">
+      <span class="group-title">{{ ui?.monthly_earnings }}</span>
+      <span class="view-link" (click)="toggleAnalytics()">
+        {{ showAnalytics ? ui?.hide : ui?.show }}
+        <ion-icon [name]="showAnalytics ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </span>
+    </div>
+
+    <div class="analytics-card" *ngIf="showAnalytics">
+      <div class="bar-chart">
+        <div *ngFor="let m of monthlyStats" class="bar-item">
+          <div class="bar-wrap">
+            <div class="bar-fill" [style.height.%]="m.percent" [class.highlight]="m.isCurrentMonth"></div>
+          </div>
+          <span class="bar-label">{{ getLocalizedMonth(m.month) }}</span>
+          <span class="bar-value">${{ m.amount }}</span>
+        </div>
+      </div>
+
+      <div class="top-sources">
+        <p class="sources-title">{{ ui?.top_sources_title }}</p>
+        <div class="source-row" *ngFor="let src of topSources">
+          <div class="source-info">
+            <ion-icon [name]="src.icon" [style.color]="src.color"></ion-icon>
+            <span>{{ getLocalizedSourceName(src.name) }}</span>
+          </div>
+          <div class="source-bar-outer">
+            <div class="source-bar-fill" [style.width.%]="src.percent" [style.background]="src.color"></div>
+          </div>
+          <span class="source-percent">{{ src.percent }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <ion-item lines="none" class="section-header">
+    <ion-label>{{ ui?.tx_history }}</ion-label>
+    <ion-note slot="end" color="medium" (click)="viewAllTransactions()">
+      {{ ui?.view_all }} <ion-icon name="chevron-forward"></ion-icon>
+    </ion-note>
+  </ion-item>
+
+  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearchChange()" [placeholder]="ui?.search_placeholder" animated="true" class="custom-search"></ion-searchbar>
+
+  <div class="filter-row">
+    <ion-chip *ngFor="let f of transactionFilters" [color]="activeFilter === f.value ? 'primary' : 'medium'" (click)="setFilter(f.value)">
+      <ion-icon [name]="f.icon" style="margin-right:4px"></ion-icon>
+      {{ getFilterLabel(f) }}
+    </ion-chip>
+  </div>
+
+  <div class="date-filter-row">
+    <span *ngFor="let d of dateRanges" class="date-chip" [class.active]="activeDateRange === d.value" (click)="setDateRange(d.value)">
+      {{ getDateRangeLabel(d) }}
+    </span>
+  </div>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color:#aaa; font-size:13px; margin-top:8px;">{{ ui?.loading }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredTransactions.length === 0" class="empty-state">
+    <ion-icon name="receipt-outline"></ion-icon>
+    <p>{{ ui?.empty_tx }}</p>
+    <small>{{ ui?.empty_tx_sub }}</small>
+  </div>
+
+  <ion-list *ngIf="!isLoading && filteredTransactions.length > 0" class="transaction-list">
+    <ion-item-sliding *ngFor="let tx of paginatedTransactions">
+      <ion-item lines="inset" (click)="openTransactionDetail(tx)">
+        <div class="tx-icon-wrap" slot="start" [class.credit]="tx.type === 'credit'" [class.debit]="tx.type === 'debit'">
+          <ion-icon [name]="tx.type === 'credit' ? 'arrow-down-outline' : 'arrow-up-outline'"></ion-icon>
+        </div>
+        <ion-label>
+          <h3>{{ tx.id === 'TX101' ? (ui?.src_referrals || tx.description) : (tx.id === 'TX102' ? (ui?.src_rewards || tx.description) : tx.description) }}</h3>
+          <p>{{ tx.date | date:'dd MMM yyyy, hh:mm a' }}</p>
+          <ion-badge [color]="tx.status === 'completed' ? 'success' : tx.status === 'pending' ? 'warning' : 'danger'" class="status-badge">
+            {{ getStatusLabel(tx.status) }}
+          </ion-badge>
+        </ion-label>
+        <ion-note slot="end" [color]="tx.type === 'credit' ? 'success' : 'danger'" class="tx-amount">
+          {{ tx.type === 'credit' ? '+' : '-' }}{{ currencySymbol }}{{ (tx.amount * currentRate) | number:'1.2-2' }}
+        </ion-note>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- RECHARGE MODAL (RESTORED) -->
+  <ion-modal [isOpen]="showRechargeModal" (didDismiss)="showRechargeModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ ui?.recharge_title }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showRechargeModal = false"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>{{ ui?.package_choose }}</p>
+        <div class="packages-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+          <div *ngFor="let pkg of rechargePackages" class="package-card" [style.border]="selectedPackage?.label === pkg.label ? '2px solid #ff6b00' : '1px solid #ddd'" style="padding: 15px; border-radius: 10px; text-align: center;" (click)="selectPackage(pkg)">
+            <span style="font-size: 24px;">{{ pkg.emoji }}</span>
+            <h3>{{ pkg.label }}</h3>
+            <p>+{{ pkg.bonusCoins }} {{ ui?.coins_label }}</p>
+          </div>
+        </div>
+        <ion-button expand="block" color="primary" [disabled]="!selectedPackage" (click)="executeRecharge()">{{ ui?.proceed }}</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- WITHDRAW MODAL (RESTORED) -->
+  <ion-modal [isOpen]="showWithdrawModal" (didDismiss)="showWithdrawModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ ui?.withdraw_title }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showWithdrawModal = false"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">{{ ui?.enter_amount }}</ion-label>
+          <ion-input type="number" [(ngModel)]="withdrawAmount" placeholder="0.00"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="success" style="margin-top: 20px;" (click)="executeWithdrawal()">{{ ui?.withdraw }}</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- COIN LOG MODAL (RESTORED) -->
+  <ion-modal [isOpen]="showCoinHistoryModal" (didDismiss)="showCoinHistoryModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ ui?.coin_history_title }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showCoinHistoryModal = false"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item *ngFor="let log of coinHistory">
+            <ion-icon slot="start" [name]="log.type === 'earned' ? 'checkmark-circle-outline' : 'remove-circle-outline'" [color]="log.type === 'earned' ? 'success' : 'danger'"></ion-icon>
+            <ion-label>
+              <h3>{{ log.description }}</h3>
+              <p>{{ log.date }}</p>
+            </ion-label>
+            <ion-note slot="end" [color]="log.type === 'earned' ? 'success' : 'danger'">{{ log.type === 'earned' ? '+' : '-' }}{{ log.coins }}</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- NOTIFICATIONS MODAL (RESTORED) -->
+  <ion-modal [isOpen]="showNotificationsModal" (didDismiss)="showNotificationsModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ ui?.alert_title }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showNotificationsModal = false"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item *ngFor="let alert of transactionAlerts">
+            <ion-icon slot="start" name="alert-circle-outline" color="warning"></ion-icon>
+            <ion-label>
+              <h3>{{ alert.title }}</h3>
+              <p>{{ alert.message }}</p>
+            </ion-label>
+            <ion-note slot="end">{{ alert.time }}</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

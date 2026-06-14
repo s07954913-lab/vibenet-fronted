@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium">
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="main-title">
+      {{ ui?.title }} <span style="color: #ff4500;">AI</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="medium">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Search Bar -->
+  <ion-searchbar
+    [placeholder]="ui?.search_placeholder"
+    mode="ios"
+    class="custom-search"
+    (ionInput)="handleSearch($event)"
+    debounce="300">
+  </ion-searchbar>
+
+  <!-- Chat List -->
+  <ion-list lines="none">
+    <ion-item *ngFor="let chat of filteredChats" class="chat-item" (click)="openChat(chat)" button="true" detail="false">
+      <ion-avatar slot="start" class="avatar-box" style="position: relative;">
+        <img [src]="chat.img" />
+        <div class="online-status" *ngIf="chat.online"
+             style="position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #2dd36f; border: 2px solid #fff; border-radius: 50%;">
+        </div>
+      </ion-avatar>
+      <ion-label>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-weight: 600; margin: 0; font-size: 1rem;">{{ chat.name }}</h2>
+          <span style="font-size: 0.75rem; color: #ffa500; font-weight: bold; text-transform: uppercase;">{{ chat.time }}</span>
+        </div>
+        <p style="margin-top: 4px; font-size: 0.85rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          {{ chat.msg }}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- No Results Placeholder -->
+  <div *ngIf="filteredChats.length === 0" class="ion-text-center" style="margin-top: 40px; color: #999;">
+    <p>{{ ui?.no_results }}</p>
+  </div>
+
+  <!-- New Message Floating Button -->
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 90px;">
+    <ion-button (click)="startNewChat()"
+                style="--border-radius: 30px; --background: linear-gradient(to right, #ff4500, #ff8c00); font-weight: bold; height: 50px;">
+      <ion-icon name="create-outline" slot="start"></ion-icon>
+      {{ ui?.new_message }}
+    </ion-button>
+  </ion-fab>
+</ion-content>
+
+<!-- =================== BOTTOM NAV =================== -->
+<div class="bottom-nav">
+  <div class="nav-item" [class.active]="activeTab === 'home'" (click)="navigateTo('home', '/homefeed')">
+    <div class="nav-icon-wrap"><ion-icon name="home-outline"></ion-icon></div>
+    <span>Home</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'chat'" (click)="navigateTo('chat', '/chatsystem')">
+    <div class="nav-icon-wrap"><ion-icon name="chatbubble-outline"></ion-icon></div>
+    <span>Chat</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'reels'" (click)="navigateTo('reels', '/reels')">
+    <div class="nav-icon-wrap"><ion-icon name="play-outline"></ion-icon></div>
+    <span>Reels</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'explore'" (click)="navigateTo('explore', '/explore')">
+    <div class="nav-icon-wrap"><ion-icon name="compass-outline"></ion-icon></div>
+    <span>Explore</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'ai'" (click)="navigateTo('ai', '/ai-assistant')">
+    <div class="nav-icon-wrap"><ion-icon name="sparkles-outline"></ion-icon></div>
+    <span>AI</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'profile'" (click)="navigateTo('profile', '/userprofile')">
+    <div class="nav-icon-wrap"><ion-icon name="person-circle-outline"></ion-icon></div>
+    <span>Profile</span>
+  </div>
+</div>

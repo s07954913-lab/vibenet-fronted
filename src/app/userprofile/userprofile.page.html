@@ -1,0 +1,593 @@
+<!-- src/app/userprofile/userprofile.page.html -->
+
+<!-- 1. VibeNet Side Menu -->
+<ion-menu contentId="main-content" side="end" menuId="vibenet-menu">
+  <ion-header class="ion-no-border">
+    <ion-toolbar style="--background: #0F6E56; --color: white;">
+      <ion-title style="font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 6px; cursor: pointer;" (click)="goToMyAccount()">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        My Account
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-toggle>
+          <ion-button (click)="closeMenu()">
+            <ion-icon name="close-outline" style="font-size: 26px; color: white;"></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content style="--background: #085041;">
+    <div class="menu-profile-header">
+      <div class="menu-avatar-ring">
+        <img *ngIf="profileImage && profileImage !== ''" [src]="profileImage" class="menu-avatar-img" />
+        <div *ngIf="!profileImage || profileImage === ''" class="menu-avatar-initials">{{ getInitials() }}</div>
+      </div>
+      <div class="menu-user-info">
+        <h3>{{ userName || 'Loading...' }}</h3>
+        <p>@{{ (userName || 'user').toLowerCase().replace(' ', '_') }}</p>
+        <p *ngIf="userEmail" style="font-size:11px; opacity:0.85; margin:0;">{{ userEmail }}</p>
+      </div>
+    </div>
+
+    <ion-list lines="none" style="background: transparent;" class="ion-padding-top">
+      <ion-item button class="menu-item" (click)="router.navigate(['/home'])">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-item>
+      <ion-item button class="menu-item" (click)="goToBalance()">
+        <ion-icon name="wallet-outline" slot="start"></ion-icon>
+        <ion-label>Balance</ion-label>
+      </ion-item>
+      <ion-item button class="menu-item" (click)="goToActivityCenter()">
+        <ion-icon name="time-outline" slot="start"></ion-icon>
+        <ion-label>Activity center</ion-label>
+      </ion-item>
+      <ion-item button class="menu-item" (click)="goToQRCode()">
+        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+        <ion-label>Your QR code</ion-label>
+      </ion-item>
+      <ion-item button class="menu-item" (click)="goToSettings()">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- 2. Main Page Content -->
+<div class="ion-page" id="main-content">
+
+  <!-- Top Header -->
+  <ion-header class="ion-no-border" [class.header-hidden]="activeSegment === 'reels'">
+    <ion-toolbar style="--background: #0F6E56; --color: white;">
+      <ion-buttons slot="start">
+        <ion-button (click)="showPhotoOptions = true" class="header-profile-btn">
+          <div class="header-avatar-wrapper">
+            <img *ngIf="profileImage && profileImage !== ''" [src]="profileImage" class="header-profile-img" />
+            <div *ngIf="!profileImage || profileImage === ''" class="header-initials-circle">{{ getInitials() }}</div>
+            <div class="header-online-dot"></div>
+          </div>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="ion-text-center" style="font-weight: 800; letter-spacing: 1px;">VibeNet AI</ion-title>
+      <ion-buttons slot="end">
+        <ion-button color="light" (click)="goToNotifications()">
+          <div class="notif-icon-wrapper">
+            <ion-icon name="notifications-outline"></ion-icon>
+            <span class="notif-badge">3</span>
+          </div>
+        </ion-button>
+        <ion-menu-button color="light" auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [class.content-hidden]="activeSegment === 'reels'">
+
+    <!-- Pull to Refresh -->
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
+    </ion-refresher>
+
+    <div class="profile-container">
+
+      <!-- Cover Photo — TEAL WAVE DESIGN -->
+      <div class="cover-photo-wrapper">
+        <div class="cover-circles">
+          <div class="cover-circle cc1"></div>
+          <div class="cover-circle cc2"></div>
+          <div class="cover-circle cc3"></div>
+        </div>
+        <svg class="cover-wave-svg" viewBox="0 0 400 35"
+             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,22 Q100,2 200,18 Q300,34 400,12 L400,35 L0,35 Z" fill="#ffffff"/>
+        </svg>
+      </div>
+
+      <!-- Profile Info -->
+      <div class="ion-text-center profile-info-section">
+        <div class="avatar-wrapper">
+          <div class="status-chip">What's good?</div>
+
+          <!-- MAIN PROFILE AVATAR -->
+          <div class="profile-avatar" (click)="showPhotoOptions = true">
+            <img *ngIf="profileImage && profileImage !== ''" [src]="profileImage" />
+            <div *ngIf="!profileImage || profileImage === ''" class="profile-initials-circle">
+              {{ getInitials() }}
+            </div>
+            <div class="plus-icon">+</div>
+            <div class="online-ring"></div>
+          </div>
+        </div>
+
+        <!-- User Name -->
+        <h3 class="user-display-name">{{ userName || 'Loading...' }}</h3>
+        <p class="user-handle">@{{ (userName || 'user').toLowerCase().replace(' ', '_') }}</p>
+
+        <!-- Email -->
+        <p class="user-email-text" *ngIf="userEmail">{{ userEmail }}</p>
+
+        <!-- Bio -->
+        <p class="user-bio-text" *ngIf="bio">{{ bio }}</p>
+
+        <!-- Bio Persona Pill -->
+        <div class="bio-persona-pill" *ngIf="bio">
+          <ion-icon name="sparkles-outline"></ion-icon>
+          {{ bio }}
+        </div>
+
+        <!-- Google Sign In Button -->
+        <div id="googleBtnContainer" class="ion-margin-bottom" style="display:flex; justify-content:center;"></div>
+
+        <!-- Stats Bar — TEAL CARD STYLE -->
+        <div class="stats-bar-card">
+          <div class="stat-cell" (click)="openFollowingModal()">
+            <span class="stat-big">{{ followingCount }}</span>
+            <span class="stat-small">Following</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-cell" (click)="openFollowersModal()">
+            <span class="stat-big">{{ followerCount }}</span>
+            <span class="stat-small">Followers</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-cell">
+            <span class="stat-big">{{ likesCount }}</span>
+            <span class="stat-small">Likes</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons ion-margin-bottom">
+          <ion-button fill="outline" size="small" (click)="openEditModal()"
+            style="--color: #0F6E56; --border-color: #1D9E75;">
+            <ion-icon name="pencil" slot="start"></ion-icon>
+            Edit Profile
+          </ion-button>
+          <ion-button fill="solid" size="small" (click)="shareProfile()"
+            style="--background: linear-gradient(135deg, #1D9E75, #085041); --color: white;">
+            <ion-icon name="share-social-outline" slot="start"></ion-icon>
+            Share
+          </ion-button>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links-row">
+          <ion-button fill="clear" size="small" class="social-link-btn">
+            <ion-icon name="logo-tiktok" style="color: #085041;"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" class="social-link-btn">
+            <ion-icon name="link-outline" style="color: #1D9E75;"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" class="social-link-btn">
+            <ion-icon name="qr-code-outline" style="color: #085041;" (click)="goToQRCode()"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Following Section — TEAL CARD STYLE -->
+      <div class="following-section-wrapper">
+        <div class="following-section-header">
+          <div class="following-head-left">
+            <ion-icon name="people-outline"></ion-icon>
+            <h4>Following ({{ followingList.length }})</h4>
+          </div>
+          <span class="see-all-btn" *ngIf="followingList.length > 0"
+                (click)="openFollowingModal()">See all</span>
+        </div>
+
+        <div *ngIf="followingList && followingList.length > 0"
+             class="following-list-container">
+          <div *ngFor="let user of followingList.slice(0,3)"
+               class="following-card-item">
+            <div class="following-avatar">
+              <img [src]="user.profileImage || 'assets/default-avatar.png'" />
+            </div>
+            <div class="following-info">
+              <h5>{{ user.channelTitle }}</h5>
+              <p>{{ user.followedAt | date:'dd MMM yyyy' }}</p>
+            </div>
+            <ion-button fill="clear" color="danger" size="small"
+                        (click)="unfollowFromProfile(user, $event)"
+                        class="unfollow-btn">
+              <ion-icon name="person-remove-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+        <div *ngIf="!followingList || followingList.length === 0"
+             class="empty-following-state">
+          <ion-icon name="person-add-outline"></ion-icon>
+          <h5>Not following anyone yet</h5>
+          <p>Follow users from Reels to see them here</p>
+          <div class="browse-reels-chip" (click)="goToReelsPage()">
+            <ion-icon name="play-circle-outline"></ion-icon>
+            Browse Reels
+          </div>
+        </div>
+      </div>
+
+      <!-- Segment Tabs -->
+      <ion-segment [(ngModel)]="activeSegment" (ionChange)="onSegmentChange()" mode="md"
+        class="profile-tabs custom-segment"
+        style="--indicator-color: #1D9E75; margin-top: 10px;">
+        <ion-segment-button value="posts">
+          <div class="segment-content-layout">
+            <ion-icon name="grid-outline"></ion-icon>
+            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Posts</ion-label>
+          </div>
+        </ion-segment-button>
+        <ion-segment-button value="reels">
+          <div class="segment-content-layout">
+            <ion-icon name="film-outline"></ion-icon>
+            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Reels</ion-label>
+          </div>
+        </ion-segment-button>
+        <ion-segment-button value="saved">
+          <div class="segment-content-layout">
+            <ion-icon name="bookmark-outline"></ion-icon>
+            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Saved</ion-label>
+          </div>
+        </ion-segment-button>
+      </ion-segment>
+
+      <!-- Segment Content Area -->
+      <div [ngSwitch]="activeSegment" class="segment-content-area">
+
+        <!-- ========== POSTS TAB ========== -->
+        <div *ngSwitchCase="'posts'">
+
+          <!-- Loading Spinner -->
+          <div *ngIf="isLoadingPosts" style="text-align:center; padding:40px;">
+            <ion-spinner name="crescent" style="color:#1D9E75;"></ion-spinner>
+            <p style="color:#999; margin-top:8px;">Posts load ho rahi hain...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="!isLoadingPosts && userPosts.length === 0" style="text-align:center; padding:60px 20px;">
+            <ion-icon name="film-outline" style="font-size:48px; color:#1D9E75; opacity:0.4;"></ion-icon>
+            <p style="color:#999; margin-top:12px;">Abhi tak koi post nahi</p>
+            <ion-button (click)="goToUpload()" style="--background: linear-gradient(135deg, #1D9E75, #085041); margin-top: 10px;">
+              <ion-icon name="add-outline" slot="start"></ion-icon>
+              Create First Post
+            </ion-button>
+          </div>
+
+          <!-- Posts Grid -->
+          <div *ngIf="!isLoadingPosts && userPosts.length > 0"
+            style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:8px;">
+
+            <div *ngFor="let post of userPosts"
+              style="position:relative; aspect-ratio:1/1; background:#04342C; cursor:pointer; overflow:hidden;"
+              (click)="openPost(post)">
+
+              <!-- Video Post -->
+              <video *ngIf="post.mediaUrl && (post.type === 'video' || isVideoUrl(post.mediaUrl))"
+                [src]="post.mediaUrl"
+                style="width:100%; height:100%; object-fit:cover;"
+                preload="metadata" muted playsinline
+                (error)="post.mediaUrl = undefined">
+              </video>
+
+              <!-- Image Post -->
+              <img *ngIf="post.mediaUrl && (post.type === 'photo' || (!isVideoUrl(post.mediaUrl) && post.type !== 'video'))"
+                [src]="post.mediaUrl"
+                style="width:100%; height:100%; object-fit:cover;"
+                (error)="post.mediaUrl = undefined" />
+
+              <!-- Caption-only Post -->
+              <div *ngIf="!post.mediaUrl && post.caption"
+                style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
+                       justify-content:center; background:#04342C; padding:8px;">
+                <ion-icon name="text-outline" style="font-size:24px; color:#5DCAA5; opacity:0.6; margin-bottom:6px;"></ion-icon>
+                <span style="color:#ccc; font-size:10px; text-align:center; overflow:hidden;
+                             display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical;">
+                  {{ post.caption }}
+                </span>
+              </div>
+
+              <!-- No Media Placeholder -->
+              <div *ngIf="!post.mediaUrl && !post.caption"
+                style="width:100%; height:100%; display:flex; flex-direction:column;
+                       align-items:center; justify-content:center; background:#085041;">
+                <ion-icon name="image-outline" style="font-size:32px; color:#5DCAA5; opacity:0.5;"></ion-icon>
+                <span style="color:#5DCAA5; font-size:10px; margin-top:4px;">No preview</span>
+              </div>
+
+              <!-- Like Badge -->
+              <div style="position:absolute; bottom:4px; left:4px; color:#fff; font-size:11px;
+                          background:rgba(0,0,0,0.55); padding:2px 6px; border-radius:4px;
+                          display:flex; align-items:center; gap:3px;">
+                <ion-icon name="heart-outline"></ion-icon>
+                {{ post.likes || 0 }}
+              </div>
+
+              <!-- Video Icon Badge -->
+              <div *ngIf="post.mediaUrl && (post.type === 'video' || isVideoUrl(post.mediaUrl))"
+                style="position:absolute; top:4px; right:4px; color:#fff; font-size:10px;
+                       background:rgba(0,0,0,0.55); padding:2px 5px; border-radius:4px;">
+                <ion-icon name="play-outline"></ion-icon>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== REELS TAB ========== -->
+        <div *ngSwitchCase="'reels'" class="reels-fullscreen-wrapper" [class.reels-visible]="activeSegment === 'reels'">
+          <div class="reels-top-bar">
+            <ion-button fill="clear" color="light" (click)="activeSegment = 'posts'; onSegmentChange()">
+              <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <span class="reels-title">Reels</span>
+            <ion-button fill="clear" color="light">
+              <ion-icon name="camera-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+
+          <div class="reels-snap-container" #reelsContainer>
+            <div *ngFor="let reel of forYouReels; let i = index"
+              class="reel-snap-item" [attr.data-index]="i">
+              <video #reelVideoPlayer [src]="reel.videoUrl" loop muted playsinline
+                preload="metadata" class="reel-video"
+                (click)="toggleVideoPlayback($event)">
+              </video>
+              <div class="pause-icon-overlay" [class.show-pause]="reel.isPaused">
+                <ion-icon name="pause-outline"></ion-icon>
+              </div>
+              <div class="reel-bottom-overlay">
+                <div class="reel-user-row">
+                  <div class="reel-avatar">{{ reel.username.charAt(0).toUpperCase() }}</div>
+                  <span class="reel-username">{{ reel.username }}</span>
+                  <button class="follow-btn">Follow</button>
+                </div>
+                <p class="reel-description">{{ reel.description }}</p>
+                <div class="reel-audio-row">
+                  <ion-icon name="musical-notes-outline"></ion-icon>
+                  <span>Original Audio — {{ reel.username }}</span>
+                </div>
+              </div>
+              <div class="reel-right-actions">
+                <div class="action-btn" (click)="toggleLike(reel)">
+                  <ion-icon [name]="reel.liked ? 'heart' : 'heart-outline'"
+                    [style.color]="reel.liked ? '#5DCAA5' : 'white'">
+                  </ion-icon>
+                  <span>{{ reel.likes }}</span>
+                </div>
+                <div class="action-btn">
+                  <ion-icon name="chatbubble-outline"></ion-icon>
+                  <span>{{ reel.comments }}</span>
+                </div>
+                <div class="action-btn">
+                  <ion-icon name="share-social-outline"></ion-icon>
+                  <span>Share</span>
+                </div>
+                <div class="action-btn" (click)="goToReel(reel)">
+                  <ion-icon name="open-outline"></ion-icon>
+                  <span>Open</span>
+                </div>
+                <div class="vinyl-disc" [class.spinning]="!reel.isPaused">
+                  <div class="vinyl-inner">{{ reel.username.charAt(0) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <ion-infinite-scroll (ionInfinite)="loadMoreForYouVideos($event)" threshold="200px">
+              <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more reels...">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+          </div>
+        </div>
+
+        <!-- ========== SAVED TAB ========== -->
+        <div *ngSwitchCase="'saved'">
+
+          <!-- Loading -->
+          <div *ngIf="isLoadingSaved" style="text-align:center; padding:40px;">
+            <ion-spinner name="crescent" style="color:#1D9E75;"></ion-spinner>
+            <p style="color:#999; margin-top:8px;">Saved items load ho rahe hain...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="!isLoadingSaved && savedItems.length === 0"
+            style="text-align:center; padding:60px 20px;">
+            <ion-icon name="bookmark-outline" style="font-size:48px; color:#1D9E75; opacity:0.4;"></ion-icon>
+            <p style="color:#666; margin-top:12px;">
+              {{ ui.saved_empty || 'Your Saved items will appear here.' }}
+            </p>
+            <ion-button fill="clear" (click)="goToReelsPage()"
+              style="--color: #1D9E75; margin-top:8px;">
+              <ion-icon name="play-circle-outline" slot="start"></ion-icon>
+              Reels browse karein
+            </ion-button>
+          </div>
+
+          <!-- Saved Items Grid -->
+          <div *ngIf="!isLoadingSaved && savedItems.length > 0"
+            style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; padding:2px; margin-top:8px;">
+
+            <div *ngFor="let item of savedItems"
+              (click)="openSavedItem(item)"
+              style="position:relative; aspect-ratio:1/1; overflow:hidden;
+                     background:#085041; cursor:pointer; border-radius:4px;">
+
+              <!-- Video thumbnail -->
+              <video *ngIf="item.mediaType === 'video' && item.mediaUrl"
+                [src]="item.mediaUrl"
+                style="width:100%; height:100%; object-fit:cover;"
+                muted playsinline preload="metadata">
+              </video>
+
+              <!-- Image -->
+              <img *ngIf="item.mediaType === 'image' && item.mediaUrl"
+                [src]="item.mediaUrl"
+                style="width:100%; height:100%; object-fit:cover;" />
+
+              <!-- No media placeholder -->
+              <div *ngIf="!item.mediaUrl"
+                style="width:100%; height:100%; display:flex; flex-direction:column;
+                       align-items:center; justify-content:center; background:#04342C;">
+                <ion-icon name="image-outline" style="font-size:32px; color:#5DCAA5; opacity:0.4;"></ion-icon>
+                <span style="color:#5DCAA5; font-size:10px; margin-top:4px;">No preview</span>
+              </div>
+
+              <!-- Video badge -->
+              <div *ngIf="item.mediaType === 'video'"
+                style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.6);
+                       border-radius:4px; padding:2px 4px;">
+                <ion-icon name="play-circle-outline" style="font-size:16px; color:white;"></ion-icon>
+              </div>
+
+              <!-- Username badge -->
+              <div style="position:absolute; bottom:0; left:0; right:0;
+                          background:linear-gradient(transparent, rgba(4,52,44,0.85));
+                          padding:12px 6px 4px; color:white; font-size:10px;">
+                {{ item.username }}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </ion-content>
+
+</div>
+
+<!-- ========== PHOTO ACTION SHEET ========== -->
+<ion-action-sheet
+  [isOpen]="showPhotoOptions"
+  header="Profile Photo"
+  [buttons]="photoActionButtons"
+  (didDismiss)="showPhotoOptions = false">
+</ion-action-sheet>
+
+<!-- ========== EDIT PROFILE MODAL ========== -->
+<ion-modal [isOpen]="isEditModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar style="--background: linear-gradient(135deg, #1D9E75, #085041); --color: white;">
+        <ion-title>Edit Profile</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isEditModalOpen = false">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+
+      <div class="ion-text-center ion-margin-bottom">
+        <div class="modal-avatar-wrapper" (click)="showPhotoOptions = true">
+          <img *ngIf="profileImage && profileImage !== ''" [src]="profileImage" class="modal-profile-img" />
+          <div *ngIf="!profileImage || profileImage === ''" class="modal-initials-circle">{{ getInitials() }}</div>
+          <div class="modal-camera-overlay">
+            <ion-icon name="camera-outline" style="color:white; font-size:13px;"></ion-icon>
+          </div>
+        </div>
+        <p style="font-size:12px; color:#999; margin-top:6px;">Tap to change photo</p>
+        <p *ngIf="userEmail" style="font-size:13px; color:#0F6E56; margin-top:4px;">{{ userEmail }}</p>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating" style="color:#0F6E56;">Name</ion-label>
+        <ion-input [(ngModel)]="tempName"></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-margin-top">
+        <ion-label position="floating" style="color:#0F6E56;">Bio</ion-label>
+        <ion-input [(ngModel)]="tempBio"></ion-input>
+      </ion-item>
+
+      <ion-grid class="ion-margin-top"
+        style="background:#E1F5EE; border-radius:12px; border:1px solid #9FE1CB;">
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <strong style="color:#0F6E56;">{{ followingCount }}</strong><br>
+            <small style="color:#5DCAA5;">Following</small>
+          </ion-col>
+          <ion-col>
+            <strong style="color:#0F6E56;">{{ followerCount }}</strong><br>
+            <small style="color:#5DCAA5;">Follower</small>
+          </ion-col>
+          <ion-col>
+            <strong style="color:#0F6E56;">{{ likesCount }}</strong><br>
+            <small style="color:#5DCAA5;">Likes</small>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-button expand="block" (click)="saveProfile()"
+        style="--background: linear-gradient(135deg, #1D9E75, #085041); --border-radius: 10px;"
+        class="ion-margin-top">
+        Save Changes
+      </ion-button>
+
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<div class="bottom-nav">
+  <!-- Home -->
+  <div class="nav-item" (click)="router.navigate(['/homefeed'])">
+    <div class="nav-icon-wrap">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <span>Home</span>
+  </div>
+
+  <!-- Explore -->
+  <div class="nav-item" (click)="router.navigate(['/explore'])">
+    <div class="nav-icon-wrap">
+      <ion-icon name="compass-outline"></ion-icon>
+    </div>
+    <span>Explore</span>
+  </div>
+
+  <!-- Upload (center raised) -->
+  <div class="nav-item upload-btn-wrap" (click)="goToUpload()">
+    <div class="upload-plus-btn">
+      <ion-icon name="add"></ion-icon>
+    </div>
+    <span>Upload</span>
+  </div>
+
+  <!-- AI Assistant -->
+  <div class="nav-item" (click)="router.navigate(['/ai-assistant'])">
+    <div class="nav-icon-wrap">
+      <ion-icon name="sparkles-outline"></ion-icon>
+    </div>
+    <span>AI</span>
+  </div>
+
+  <!-- Profile (active + glow) -->
+  <div class="nav-item active">
+    <div class="profile-glow-wrap">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </div>
+    <span>Profile</span>
+  </div>
+</div>

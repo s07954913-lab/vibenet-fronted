@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vibenet AI Chat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="logo">⚡ Vibenet</div>
+      <p>Real-time chat mein khush aamdeed!</p>
+      <input type="text" id="usernameInput" placeholder="Apna naam likhein..." maxlength="20" />
+      <button onclick="joinChat()">Chat Join Karein</button>
+    </div>
+  </div>
+
+  <div class="chat-screen hidden" id="chatScreen">
+    <div class="sidebar">
+      <div class="sidebar-header">⚡ Vibenet</div>
+      <div class="online-label">🟢 Online Users</div>
+      <ul id="userList"></ul>
+    </div>
+    <div class="chat-main">
+      <div class="chat-header">
+        <span>💬 Global Chat Room</span>
+        <span id="myName" class="my-name-badge"></span>
+      </div>
+      <div class="messages" id="messages"></div>
+      <div class="typing-indicator" id="typingIndicator"></div>
+      <div class="input-area">
+        <input type="text" id="messageInput" placeholder="Message likhein..."
+          onkeydown="handleKey(event)" oninput="handleTyping()" />
+        <button onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

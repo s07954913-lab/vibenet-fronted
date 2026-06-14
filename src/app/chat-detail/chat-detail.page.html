@@ -1,0 +1,389 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background:#00575d; --border-width:0; --padding-start:8px; --padding-end:8px;">
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chatsystem" style="--color:#fff;"></ion-back-button>
+    </ion-buttons>
+
+    <div slot="start" style="display:flex;align-items:center;gap:10px;">
+      <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.22);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500;font-size:16px;flex-shrink:0;">
+        {{ chatName.charAt(0) }}
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:500;color:#fff;">{{ chatName }}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:4px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#6dffb3;display:inline-block;"></span>
+          {{ ui?.online || 'Online' }}
+        </div>
+      </div>
+    </div>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleSearch()" style="--color:#fff;">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="startCall()" style="--color:#fff;">
+        <ion-icon name="call-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="startVideo()" style="--color:#fff;">
+        <ion-icon name="videocam-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toggleMenu()" style="--color:#fff;">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Dropdown Menu Backdrop -->
+  <div *ngIf="showMenu" class="menu-backdrop" (click)="closeMenu()"></div>
+
+  <!-- Dropdown Menu -->
+  <div *ngIf="showMenu" class="dropdown-menu">
+
+    <div class="menu-item" (click)="menuAction('view-profile')">
+      <div class="menu-icon-wrap" style="background:#e1f5ee;">
+        <ion-icon name="person-outline" style="color:#00575d;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label">View Profile</div>
+        <div class="menu-sub">See contact info</div>
+      </div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item" (click)="menuAction('mute')">
+      <div class="menu-icon-wrap" style="background:#f0f0f0;">
+        <ion-icon name="notifications-off-outline" style="color:#555;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label">{{ isMuted ? 'Unmute' : 'Mute' }} Notifications</div>
+        <div class="menu-sub">{{ isMuted ? 'Turn on notifications' : 'Silence this chat' }}</div>
+      </div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item" (click)="menuAction('search')">
+      <div class="menu-icon-wrap" style="background:#f0f0f0;">
+        <ion-icon name="search-outline" style="color:#555;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label">Search Messages</div>
+        <div class="menu-sub">Find in conversation</div>
+      </div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item" (click)="menuAction('wallpaper')">
+      <div class="menu-icon-wrap" style="background:#f0f0f0;">
+        <ion-icon name="image-outline" style="color:#555;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label">Change Wallpaper</div>
+        <div class="menu-sub">Customize background</div>
+      </div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item" (click)="menuAction('clear')">
+      <div class="menu-icon-wrap" style="background:#e1f5ee;">
+        <ion-icon name="trash-outline" style="color:#00575d;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label" style="color:#00575d;">Clear Chat</div>
+        <div class="menu-sub">Remove all messages</div>
+      </div>
+    </div>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item" (click)="menuAction('delete')">
+      <div class="menu-icon-wrap" style="background:#ffebeb;">
+        <ion-icon name="close-circle-outline" style="color:#00575d;font-size:18px;"></ion-icon>
+      </div>
+      <div>
+        <div class="menu-label" style="color:#00575d;">Delete Chat</div>
+        <div class="menu-sub">Permanently remove</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pinned Message Bar -->
+  <div *ngIf="pinnedMessage"
+    style="background:#e1f5ee;border-bottom:1px solid #9fe1cb;padding:7px 16px;display:flex;align-items:center;gap:7px;">
+    <ion-icon name="pin-outline" style="color:#00575d;font-size:14px;flex-shrink:0;"></ion-icon>
+    <span style="flex:1;font-size:12px;color:#00474d;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+      {{ pinnedMessage }}
+    </span>
+    <ion-icon name="close-outline" (click)="pinnedMessage = null"
+      style="color:#00575d;font-size:16px;cursor:pointer;flex-shrink:0;"></ion-icon>
+  </div>
+
+  <!-- Search Bar -->
+  <div *ngIf="showSearch"
+    style="padding:8px 12px;background:#fff;border-bottom:0.5px solid #eee;">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      placeholder="Search messages..."
+      (ionInput)="filterMessages()"
+      style="--background:#f5f5f7;--border-radius:20px;--box-shadow:none;--color:#1a1a1a;padding:0;">
+    </ion-searchbar>
+  </div>
+
+  <!-- Typing Indicator -->
+  <div *ngIf="isTyping"
+    style="display:flex;align-items:center;gap:4px;padding:5px 16px 6px;background:#f5f5f7;">
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+    <span style="font-size:11px;color:#bbb;margin-left:4px;">{{ chatName }} is typing...</span>
+  </div>
+
+</ion-header>
+
+<!-- ══════════════════════════════════
+     MESSAGES
+══════════════════════════════════ -->
+<ion-content style="--background:#f5f5f7;" #contentArea>
+  <div style="padding:12px 12px 8px;">
+
+    <ng-container *ngFor="let msg of filteredMessages; let i = index">
+
+      <!-- Date Separator -->
+      <div *ngIf="i === 0 || isDifferentDay(filteredMessages[i-1], msg)"
+        style="text-align:center;font-size:11px;color:#aaa;padding:8px 0 4px;letter-spacing:0.2px;">
+        {{ formatDateLabel(msg.time) }}
+      </div>
+
+      <!-- Message Row -->
+      <div style="display:flex;align-items:flex-end;gap:6px;padding:3px 0;margin-bottom:2px;"
+        [style.flexDirection]="msg.sender === 'me' ? 'row-reverse' : 'row'">
+
+        <!-- Avatar (them only) -->
+        <div *ngIf="msg.sender !== 'me'"
+          style="width:28px;height:28px;border-radius:50%;background:#00575d;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          {{ chatName.charAt(0) }}
+        </div>
+
+        <div [style.maxWidth]="'72%'">
+
+          <!-- Reply Preview -->
+          <div *ngIf="msg.replyTo"
+            [style.background]="msg.sender === 'me' ? 'rgba(255,255,255,0.2)' : '#e1f5ee'"
+            [style.color]="msg.sender === 'me' ? '#fff' : '#00474d'"
+            [style.borderLeft]="msg.sender === 'me' ? '2px solid rgba(255,255,255,0.6)' : '3px solid #00575d'"
+            style="font-size:11px;padding:5px 10px 4px;display:flex;align-items:center;gap:5px;border-radius:6px 6px 0 0;">
+            <ion-icon name="return-up-back-outline" style="font-size:11px;flex-shrink:0;"></ion-icon>
+            {{ msg.replyTo | slice:0:40 }}...
+          </div>
+
+          <!-- Bubble -->
+          <div
+            [style.background]="msg.sender === 'me' ? (msg.translating ? '#00474d' : '#00575d') : '#ffffff'"
+            [style.color]="msg.sender === 'me' ? '#fff' : '#1a1a1a'"
+            [style.border]="msg.sender === 'me' ? 'none' : '0.5px solid #e0e0e0'"
+            [style.borderRadius]="msg.sender === 'me' ? '18px 18px 5px 18px' : '18px 18px 18px 5px'"
+            [style.opacity]="msg.translating ? '0.75' : '1'"
+            [style.fontStyle]="msg.translating ? 'italic' : 'normal'"
+            style="padding:10px 13px 7px;font-size:13.5px;line-height:1.52;word-break:break-word;"
+            (click)="onBubbleClick(msg)"
+            (contextmenu)="onRightClick($event, msg)">
+
+            <!-- Image -->
+            <img *ngIf="msg.image" [src]="msg.image"
+              style="width:100%;max-width:200px;border-radius:10px;margin-bottom:4px;display:block;" />
+
+            <!-- Voice -->
+            <div *ngIf="msg.isVoice"
+              style="display:flex;align-items:center;gap:8px;min-width:140px;">
+              <ion-icon name="play-outline" style="font-size:20px;"></ion-icon>
+              <div style="flex:1;height:3px;background:rgba(255,255,255,0.35);border-radius:2px;"></div>
+              <span style="font-size:11px;opacity:0.7;">{{ msg.voiceDuration || '0:12' }}</span>
+            </div>
+
+            <!-- Text -->
+            <div *ngIf="msg.text && !msg.isVoice">{{ msg.text }}</div>
+
+            <!-- Time + Read -->
+            <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:5px;">
+              <span style="font-size:10px;opacity:0.6;">{{ msg.time }}</span>
+              <span *ngIf="msg.sender === 'me'"
+                [style.color]="msg.read ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)'"
+                style="font-size:11px;">
+                {{ msg.read ? '✓✓' : '✓' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Reaction Trigger -->
+          <div [style.textAlign]="msg.sender === 'me' ? 'right' : 'left'" style="margin-top:3px;">
+            <span (click)="onLongPress(msg)"
+              style="font-size:12px;cursor:pointer;color:#00575d;background:#e1f5ee;border-radius:20px;padding:1px 8px;border:0.5px solid #9fe1cb;">
+              😊 +
+            </span>
+          </div>
+
+          <!-- Reactions Display -->
+          <div *ngIf="msg.reactions?.length"
+            style="display:flex;flex-wrap:wrap;gap:4px;margin-top:3px;padding:0 2px;"
+            [style.justifyContent]="msg.sender === 'me' ? 'flex-end' : 'flex-start'">
+            <span *ngFor="let r of msg.reactions"
+              (click)="toggleReaction(msg, r.emoji)"
+              style="background:#fff;border:0.5px solid #00575d;border-radius:20px;padding:2px 8px;font-size:12px;color:#00474d;cursor:pointer;">
+              {{ r.emoji }} {{ r.count > 1 ? r.count : '' }}
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display:none;">
+  <input type="file" #docInput (change)="onDocSelected($event)" accept=".pdf,.doc,.docx" style="display:none;">
+</ion-content>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<ion-footer class="ion-no-border">
+
+  <!-- Reaction Picker -->
+  <div *ngIf="showReactionPicker"
+    style="display:flex;align-items:center;gap:12px;padding:10px 18px;background:#fff;border-top:0.5px solid #eee;">
+    <span *ngFor="let e of quickEmojis"
+      (click)="addReaction(selectedMsg, e)"
+      style="font-size:24px;cursor:pointer;">{{ e }}</span>
+    <ion-icon name="close-outline" (click)="showReactionPicker = false"
+      style="font-size:22px;color:#aaa;margin-left:auto;cursor:pointer;"></ion-icon>
+  </div>
+
+  <!-- Reply Bar -->
+  <div *ngIf="replyingTo"
+    style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:#e1f5ee;border-top:0.5px solid #9fe1cb;">
+    <ion-icon name="return-up-back-outline" style="color:#00575d;font-size:16px;flex-shrink:0;"></ion-icon>
+    <div style="flex:1;font-size:12px;color:#00474d;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+      Replying to: {{ replyingTo.text | slice:0:50 }}
+    </div>
+    <ion-icon name="close-outline" (click)="cancelReply()"
+      style="font-size:18px;color:#aaa;cursor:pointer;flex-shrink:0;"></ion-icon>
+  </div>
+
+  <!-- Image Preview Bar -->
+  <div *ngIf="selectedImagePreview"
+    style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:#e1f5ee;border-top:0.5px solid #9fe1cb;">
+    <div style="position:relative;display:inline-block;">
+      <img [src]="selectedImagePreview"
+        style="width:52px;height:52px;border-radius:8px;object-fit:cover;border:1.5px solid #00575d;" />
+      <div (click)="cancelImage()"
+        style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#00575d;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <ion-icon name="close-outline" style="font-size:12px;color:#fff;"></ion-icon>
+      </div>
+    </div>
+    <span style="font-size:12px;color:#00474d;flex:1;">Image selected — press send</span>
+  </div>
+
+  <!-- Emoji Quick Bar -->
+  <div *ngIf="showEmojiBar"
+    style="display:flex;gap:10px;padding:10px 16px;background:#fff;border-top:0.5px solid #eee;overflow-x:auto;scrollbar-width:none;">
+    <span *ngFor="let e of allEmojis"
+      (click)="insertEmoji(e)"
+      style="font-size:22px;cursor:pointer;flex-shrink:0;">{{ e }}</span>
+  </div>
+
+  <ion-toolbar style="--background:#fff;--border-width:0;--padding-top:8px;--padding-bottom:12px;--padding-start:10px;--padding-end:10px;">
+    <div style="display:flex;align-items:center;gap:6px;">
+
+      <!-- Camera Button -->
+      <div (click)="fileInput.click()"
+        style="width:34px;height:34px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:0.5px solid #9fe1cb;">
+        <ion-icon name="camera-outline" style="font-size:18px;color:#00575d;"></ion-icon>
+      </div>
+
+      <!-- Emoji Button -->
+      <div (click)="toggleEmojiBar()"
+        style="width:34px;height:34px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:0.5px solid #9fe1cb;">
+        <span style="font-size:17px;line-height:1;">😊</span>
+      </div>
+
+      <!-- Text Input Box -->
+      <div style="flex:1;background:#f5f5f7;border-radius:24px;border:0.5px solid #e0e0e0;display:flex;align-items:center;padding:0 8px 0 12px;height:38px;gap:4px;">
+        <ion-input
+          [placeholder]="ui?.placeholder || 'Type a message...'"
+          [(ngModel)]="newMessage"
+          style="--padding-start:0;--padding-end:0;--color:#1a1a1a;font-size:13px;flex:1;"
+          (ionInput)="onInput()"
+          (keyup.enter)="sendMessage()">
+        </ion-input>
+        <div (click)="docInput.click()" style="cursor:pointer;display:flex;align-items:center;flex-shrink:0;">
+          <ion-icon name="attach-outline" style="font-size:18px;color:#bbb;"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Mic Button -->
+      <div *ngIf="!newMessage.trim() && !selectedImagePreview" (click)="recordVoice()"
+        style="width:34px;height:34px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:0.5px solid #00575d;">
+        <ion-icon name="mic-outline" style="font-size:18px;color:#00575d;"></ion-icon>
+      </div>
+
+      <!-- Send Button -->
+      <div *ngIf="newMessage.trim() || selectedImagePreview" (click)="sendMessage()"
+        [style.background]="isSending ? '#00474d' : '#00575d'"
+        style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+        <ion-icon name="send-outline" style="font-size:17px;color:#fff;"></ion-icon>
+      </div>
+
+    </div>
+  </ion-toolbar>
+
+</ion-footer>
+
+<!-- ══════════════════════════════════
+     CUSTOM MODAL
+══════════════════════════════════ -->
+
+<!-- Backdrop -->
+<div *ngIf="modal.show"
+  class="custom-modal-backdrop"
+  (click)="modal.cancelable !== false && closeModal()">
+</div>
+
+<!-- Modal Box -->
+<div *ngIf="modal.show" class="custom-modal-wrap">
+
+  <!-- Top Color Bar -->
+  <div class="modal-top-bar" [ngClass]="modal.type"></div>
+
+  <!-- Icon -->
+  <div class="modal-icon-ring" [ngClass]="modal.type">
+    <ion-icon [name]="modal.icon"></ion-icon>
+  </div>
+
+  <!-- Title -->
+  <div class="modal-title">{{ modal.title }}</div>
+
+  <!-- Message -->
+  <div class="modal-message">{{ modal.message }}</div>
+
+  <!-- Buttons -->
+  <div class="modal-btn-row" [class.single]="!modal.cancelLabel">
+
+    <button *ngIf="modal.cancelLabel"
+      class="modal-btn modal-btn-cancel"
+      (click)="closeModal()">
+      {{ modal.cancelLabel }}
+    </button>
+
+    <button class="modal-btn"
+      [ngClass]="modal.confirmClass || 'modal-btn-confirm'"
+      (click)="confirmModal()">
+      {{ modal.confirmLabel || 'OK' }}
+    </button>
+
+  </div>
+
+</div>

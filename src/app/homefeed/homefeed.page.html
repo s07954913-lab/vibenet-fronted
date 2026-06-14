@@ -1,0 +1,353 @@
+<!-- homefeed.page.html — COMPLETE FIXED VERSION -->
+
+<input type="file" id="postFileInput"  accept="image/*,video/*" style="display:none" (change)="onFileSelected($event, 'post')" />
+<input type="file" id="storyFileInput" accept="image/*,video/*" style="display:none" (change)="onFileSelected($event, 'story')" />
+
+<ion-header class="vn-header">
+  <ion-toolbar>
+    <ion-title class="vn-logo">VibeNet</ion-title>
+    <ion-buttons slot="end">
+    <ion-button class="vn-header-btn" (click)="goToNotification()">
+  <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+  <!-- Live badge -->
+  <span *ngIf="notificationCount > 0"
+        style="position:absolute; top:4px; right:4px;
+               background:red; color:white; border-radius:50%;
+               width:16px; height:16px; font-size:10px;
+               display:flex; align-items:center; justify-content:center;">
+    {{ notificationCount }}
+  </span>
+</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="vn-content">
+
+  <!-- Stories Row -->
+  <div class="vn-section-label">Stories</div>
+  <div class="vn-stories-row">
+
+    <div class="vn-story-add" (click)="openGallery('story')">
+      <div class="vn-story-add-circle">
+        <ion-icon name="add-outline"></ion-icon>
+      </div>
+      <span class="vn-story-name vn-story-name--add">Add Story</span>
+    </div>
+
+    <div class="vn-story-item" *ngFor="let story of myStories" (click)="openStory(story)">
+      <div class="vn-story-ring">
+        <div class="vn-story-ring-inner">
+          <img *ngIf="story.thumbnail && story.type === 'photo'"
+               [src]="story.thumbnail" [alt]="story.label" />
+          <video *ngIf="story.thumbnail && story.type === 'video'"
+                 [src]="story.thumbnail"
+                 autoplay muted loop playsinline
+                 style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+          </video>
+          <div class="vn-story-emoji" *ngIf="!story.thumbnail">{{ story.emoji }}</div>
+        </div>
+      </div>
+      <!-- ✅ Story ke neeche usi user ka naam -->
+      <span class="vn-story-name">{{ story.userName || 'User' }}</span>
+    </div>
+
+  </div>
+
+  <!-- Posts Feed -->
+  <div class="vn-section-label">Posts</div>
+
+  <div class="vn-feed">
+<div class="vn-post-card" *ngFor="let post of myPosts">
+
+      <!-- ✅ Har post ka apna user name, initial, aur time -->
+      <div class="vn-post-header">
+        <div class="vn-post-avatar">
+          {{ post.userInitial || 'U' }}
+        </div>
+        <div class="vn-post-meta">
+          <span class="vn-post-username">{{ post.userName || 'User' }}</span>
+          <span class="vn-post-time">{{ getTimeAgo(post.createdAt) }}</span>
+        </div>
+        <ion-button fill="clear" class="vn-post-options" (click)="openPostOptions(post)">
+          <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Media — click se reels -->
+      <div class="vn-post-media"
+     *ngIf="post.mediaUrl"
+     (click)="openPostInReels(post)"
+     style="position:relative; cursor:pointer;">
+
+        <img *ngIf="post.mediaUrl && post.type === 'photo'"
+             [src]="post.mediaUrl"
+             [alt]="post.caption" />
+
+        <video *ngIf="post.mediaUrl && post.type === 'video'"
+               [src]="post.mediaUrl"
+               style="width:100%; display:block; border-radius:12px;"
+               muted playsinline preload="metadata">
+        </video>
+
+        <div *ngIf="post.mediaUrl"
+             style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+                    background:rgba(0,0,0,0.15); border-radius:12px;">
+          <ion-icon name="play-circle-outline"
+                    style="font-size:56px; color:rgba(255,255,255,0.92);
+                           filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));">
+          </ion-icon>
+        </div>
+
+        <div class="vn-no-media-placeholder" *ngIf="!post.mediaUrl">
+          <ion-icon name="image-outline"></ion-icon>
+          <p>No image or video uploaded yet</p>
+        </div>
+      </div>
+
+      <!-- ✅ Actions — Like count real aur per-user -->
+      <div class="vn-post-actions">
+        <button class="vn-action-btn"
+                [class.vn-action-btn--liked]="post.liked"
+                (click)="toggleLike(post)">
+          <ion-icon [name]="post.liked ? 'heart' : 'heart-outline'"></ion-icon>
+          <span>{{ post.likes }}</span>
+        </button>
+
+        <!-- ✅ Comment icon pe actual comment count -->
+        <button class="vn-action-btn" (click)="openComments(post)">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <span>{{ post.comments }}</span>
+        </button>
+
+        <button class="vn-action-btn" (click)="sharePost(post)">
+          <ion-icon name="share-social-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="vn-post-location" *ngIf="post.location">
+        <ion-icon name="location-outline"></ion-icon>
+        {{ post.location }}
+      </div>
+
+      <div class="vn-post-caption" *ngIf="post.caption">
+        {{ post.caption }}
+        <span class="vn-hashtag" *ngFor="let tag of post.hashtags"> #{{ tag }}</span>
+      </div>
+
+    </div>
+
+    <div class="vn-empty-state" *ngIf="myPosts.length === 0">
+      <ion-icon name="camera-outline"></ion-icon>
+      <p>No posts yet!</p>
+      <p class="vn-empty-sub">Tap the + button below to share your first moment.</p>
+    </div>
+  </div>
+
+</ion-content>
+
+<!-- ── FOOTER TAB BAR ────────────────────────────────────────────────────── -->
+<div class="vn-tab-bar">
+
+ <!-- Home tab — active class lagao -->
+<button class="vn-tab-btn vn-tab-btn--active" (click)="goToTab('home')">
+  <div class="vn-tab-icon-wrap">
+    <ion-icon name="home"></ion-icon>
+  </div>
+  <span class="vn-tab-label">Home</span>
+</button>
+
+  <button class="vn-tab-btn" [class.vn-tab-btn--active]=""
+          (click)="goToTab('explore')">
+    <div class="vn-tab-icon-wrap">
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+    <span class="vn-tab-label">Explore</span>
+  </button>
+
+  <button class="vn-tab-btn vn-tab-btn--upload" (click)="openGallery('post')">
+    <div class="vn-upload-circle">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
+  </button>
+
+<button class="vn-tab-btn" [class.vn-tab-btn--active]=""
+        (click)="goToAI()">
+  <div class="vn-tab-icon-wrap">
+    <ion-icon name="sparkles-outline"></ion-icon>
+  </div>
+  <span class="vn-tab-label">AI Assistant</span>
+</button>
+
+  <button class="vn-tab-btn" [class.vn-tab-btn--active]=""
+          (click)="goToTab('profile')">
+    <div class="vn-tab-icon-wrap">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+    <span class="vn-tab-label">Profile</span>
+  </button>
+
+</div>
+
+<!-- ── PUBLISH MODAL ──────────────────────────────────────────────────────── -->
+<ion-modal
+  [isOpen]="showPublishModal"
+  (didDismiss)="closePublishModal()"
+  class="vn-modal-publish"
+  [breakpoints]="[0, 1]"
+  [initialBreakpoint]="1">
+
+  <ng-template>
+    <div class="vn-publish-sheet">
+
+      <button class="vn-sheet-close" (click)="closePublishModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <div class="vn-sheet-title">Share Your Moment</div>
+      <div class="vn-sheet-sub">Where do you want to post it?</div>
+
+      <div class="vn-sheet-media">
+        <ng-container *ngIf="selectedMedia">
+          <img *ngIf="selectedMedia.objectUrl && selectedMedia.type === 'photo'"
+               [src]="selectedMedia.objectUrl" class="vn-sheet-img" alt="Selected media" />
+          <video *ngIf="selectedMedia.objectUrl && selectedMedia.type === 'video'"
+                 [src]="selectedMedia.objectUrl" class="vn-sheet-img" autoplay muted loop playsinline>
+          </video>
+        </ng-container>
+        <div class="vn-media-type-badge" *ngIf="selectedMedia?.type === 'video'">
+          <ion-icon name="play-circle-outline"></ion-icon> Video
+        </div>
+      </div>
+
+      <div class="vn-sheet-form">
+        <div class="vn-sheet-field">
+          <ion-icon name="pencil-outline" class="vn-sfield-icon"></ion-icon>
+          <input type="text" [(ngModel)]="newPost.caption"
+                 placeholder="Write a caption..." class="vn-sfield-input" />
+        </div>
+        <div class="vn-sheet-field">
+          <ion-icon name="location-outline" class="vn-sfield-icon"></ion-icon>
+          <input type="text" [(ngModel)]="newPost.location"
+                 placeholder="Add a location..." class="vn-sfield-input" />
+        </div>
+        <div class="vn-sheet-field">
+          <ion-icon name="pricetag-outline" class="vn-sfield-icon"></ion-icon>
+          <input type="text" [(ngModel)]="newPost.hashtags"
+                 placeholder="#hashtags  #vibenet..." class="vn-sfield-input" />
+        </div>
+      </div>
+
+      <div class="vn-sheet-actions">
+        <button class="vn-btn-story" (click)="publishAs('story')">
+          <div class="vn-btn-icon-wrap vn-btn-icon-wrap--story">
+            <ion-icon name="play-circle-outline"></ion-icon>
+          </div>
+          <div class="vn-btn-text">
+            <span class="vn-btn-label">Your Story</span>
+            <span class="vn-btn-desc">Disappears in 24h</span>
+          </div>
+        </button>
+
+        <button class="vn-btn-post" (click)="publishAs('post')">
+          <div class="vn-btn-icon-wrap vn-btn-icon-wrap--post">
+            <ion-icon name="send-outline"></ion-icon>
+          </div>
+          <div class="vn-btn-text">
+            <span class="vn-btn-label">Post</span>
+            <span class="vn-btn-desc">Stays on your profile</span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ── STORY VIEWER MODAL ─────────────────────────────────────────────────── -->
+<ion-modal
+  [isOpen]="showStoryViewer"
+  (didDismiss)="closeStoryViewer()"
+  class="vn-story-viewer-modal">
+
+  <ng-template>
+    <div class="vn-story-viewer" *ngIf="activeStory">
+
+      <div class="vn-story-progress-wrap">
+        <div class="vn-story-progress-bar">
+          <div class="vn-story-progress-fill"
+               [class.vn-story-progress-fill--active]="showStoryViewer">
+          </div>
+        </div>
+      </div>
+
+      <div class="vn-story-view-header">
+        <div class="vn-story-view-avatar">
+          {{ activeStory.userInitial || userInitial }}
+        </div>
+        <div class="vn-story-view-info">
+          <!-- ✅ Story waale user ka naam -->
+          <span class="vn-story-view-name">{{ activeStory.userName || userName }}</span>
+          <span class="vn-story-view-time">{{ getTimeAgo(activeStory.createdAt) }}</span>
+        </div>
+        <button class="vn-story-close-btn" (click)="closeStoryViewer()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="vn-story-view-media">
+        <img
+          *ngIf="activeStory.thumbnail && activeStory.type === 'photo'"
+          [src]="activeStory.thumbnail"
+          class="vn-story-full-img" />
+
+        <!-- ✅ Video story — muted=false so audio aaye -->
+        <video
+          *ngIf="activeStory.thumbnail && activeStory.type === 'video'"
+          [src]="activeStory.thumbnail"
+          class="vn-story-full-img"
+          autoplay loop playsinline
+          [muted]="false">
+        </video>
+
+        <div class="vn-story-no-media" *ngIf="!activeStory.thumbnail">
+          <span class="vn-story-no-media-emoji">{{ activeStory.emoji || '📸' }}</span>
+        </div>
+      </div>
+
+      <div class="vn-story-view-footer">
+        <div class="vn-story-reply-row">
+          <input
+            type="text"
+            class="vn-story-reply-input"
+            placeholder="Reply to story..."
+            [(ngModel)]="storyReply" />
+          <button class="vn-story-send-btn" (click)="sendStoryReply()">
+            <ion-icon name="send-outline"></ion-icon>
+          </button>
+        </div>
+
+        <div class="vn-story-actions-row">
+          <button
+            class="vn-story-action-btn"
+            [class.vn-story-action-btn--liked]="activeStory.storyLiked"
+            (click)="toggleStoryLike()">
+            <ion-icon [name]="activeStory.storyLiked ? 'heart' : 'heart-outline'"></ion-icon>
+            <span>{{ activeStory.storyLikes || 0 }}</span>
+          </button>
+
+          <button class="vn-story-action-btn" (click)="openStoryComments()">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+            <span>{{ activeStory.storyComments || 0 }}</span>
+          </button>
+
+          <button class="vn-story-action-btn" (click)="shareStory()">
+            <ion-icon name="share-social-outline"></ion-icon>
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+</ion-modal>

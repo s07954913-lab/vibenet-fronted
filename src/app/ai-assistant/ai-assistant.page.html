@@ -1,0 +1,303 @@
+<ion-header class="ion-no-border">
+
+  <nav class="navbar">
+    <div class="menu-icon" (click)="showMenu = !showMenu">☰</div>
+    <div class="logo">{{ ui?.logo }}</div>
+    <div class="right-section">
+      <ion-icon style="color: white; font-size: 25px;" name="notifications-outline" (click)="goToNotifications()"></ion-icon>
+    </div>
+  </nav>
+
+  <!-- AI Assistant Info Bar (Image 1 style) -->
+  <div class="ai-info-bar">
+    <div class="ai-avatar">
+      <ion-icon name="ribbon-outline"></ion-icon>
+    </div>
+    <div class="ai-info-text">
+      <span class="ai-info-name">{{ ui?.ai_name }}</span>
+      <span class="ai-info-sub">Always here to help you ✦</span>
+    </div>
+    <div class="online-badge">
+      <span class="online-dot"></span> Online
+    </div>
+  </div>
+
+</ion-header>
+
+<!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+
+<div class="sidebar" [class.active]="showMenu">
+
+  <div class="close-icon" (click)="showMenu = false">
+    <ion-icon name="close-outline"></ion-icon>
+  </div>
+
+  <div class="sidebar-header">
+
+    <h3 class="welcome-text">
+      {{ ui?.welcome }}
+    </h3>
+
+    <div class="profile-ring">
+      <img
+        src="../../assets/download (2).jpg"
+        alt="Profile"
+        class="sidebar-profile-pic">
+    </div>
+
+    <p class="sidebar-username">Vibenet User</p>
+    <p class="sidebar-handle">@vibenet_ai</p>
+
+  </div>
+
+  <ul class="nav-links">
+
+    <li>
+      <a href="#">
+        <ion-icon name="home-outline"></ion-icon>
+        {{ ui?.home }}
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <ion-icon name="person-outline"></ion-icon>
+        {{ ui?.profile }}
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <ion-icon name="bookmark-outline"></ion-icon>
+        {{ ui?.saved }}
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        {{ ui?.trending }}
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <ion-icon name="settings-outline"></ion-icon>
+        {{ ui?.settings }}
+      </a>
+    </li>
+
+  </ul>
+
+  <!-- CLEAR HISTORY -->
+  <div class="clear-btn-wrap">
+    <button
+      class="clear-history-btn"
+      (click)="clearHistory(); showMenu = false">
+      {{ ui?.clear_history }}
+    </button>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════ CHAT CONTENT ═══════════════════════════ -->
+
+<ion-content class="ion-padding chat-bg">
+
+  <!-- INTRO — only shown when no messages -->
+  <div
+    class="assistant-intro ion-text-center"
+    *ngIf="messages.length === 0">
+
+    <div class="avatar-container">
+      <ion-icon name="ribbon-outline"></ion-icon>
+    </div>
+
+    <h2>{{ ui?.title }}</h2>
+
+    <p>{{ ui?.subtitle }}</p>
+
+  </div>
+
+  <!-- QUICK CHIPS — only shown when no messages -->
+  <div
+    class="chips-container"
+    *ngIf="messages.length === 0">
+
+    <ion-chip (click)="userMessage = 'Summarize this: '">
+      <ion-icon name="sparkles-outline"></ion-icon>
+      {{ ui?.summarize }}
+    </ion-chip>
+
+    <ion-chip (click)="userMessage = 'Help me with this code: '">
+      <ion-icon name="code-slash-outline"></ion-icon>
+      {{ ui?.coding }}
+    </ion-chip>
+
+    <ion-chip (click)="userMessage = 'Write a caption for: '">
+      <ion-icon name="create-outline"></ion-icon>
+      {{ ui?.caption }}
+    </ion-chip>
+
+  </div>
+
+  <!-- ═══ CHAT LIST ═══ -->
+  <div class="chat-list">
+
+    <div *ngFor="let msg of messages; let i = index">
+
+      <!-- USER MESSAGE -->
+      <div
+        class="message-row user-row"
+        *ngIf="msg.role === 'user'">
+
+        <div class="message user-message">
+          <p>{{ msg.content }}</p>
+        </div>
+
+      </div>
+
+      <!-- AI MESSAGE -->
+      <div
+        class="message-row ai-row"
+        *ngIf="msg.role === 'assistant'">
+
+        <div class="message ai-message">
+
+          <div class="ai-header">
+            <ion-icon name="ribbon"></ion-icon>
+            <span>{{ ui?.ai_name }}</span>
+          </div>
+
+          <p>{{ msg.content }}</p>
+
+          <!-- ACTIONS -->
+          <div class="message-actions">
+
+            <!-- LIKE -->
+            <ion-icon
+              [name]="msg.liked ? 'thumbs-up' : 'thumbs-up-outline'"
+              [class.liked]="msg.liked"
+              (click)="toggleLike(i)">
+            </ion-icon>
+
+            <!-- DISLIKE -->
+            <ion-icon
+              [name]="msg.disliked ? 'thumbs-down' : 'thumbs-down-outline'"
+              [class.disliked]="msg.disliked"
+              (click)="toggleDislike(i)">
+            </ion-icon>
+
+            <!-- COPY -->
+            <ion-icon
+              name="copy-outline"
+              (click)="copyToClipboard(msg.content)">
+            </ion-icon>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LOADING INDICATOR -->
+    <div
+      class="message-row ai-row"
+      *ngIf="isLoading">
+
+      <div class="message ai-message">
+
+        <div class="ai-header">
+          <ion-icon name="ribbon"></ion-icon>
+          <span>{{ ui?.ai_name }}</span>
+        </div>
+
+        <p class="typing-text">{{ ui?.thinking }}</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>
+
+<!-- ═══════════════════════════ INPUT BAR ═══════════════════════════ -->
+
+<div class="input-container">
+
+  <ion-item lines="none" class="message-input">
+
+    <!-- MIC BUTTON -->
+    <ion-button
+      slot="start"
+      fill="clear"
+      class="voice-btn"
+      (click)="toggleVoice()"
+      [class.listening]="isListening">
+      <ion-icon [name]="isListening ? 'mic' : 'mic-outline'"></ion-icon>
+    </ion-button>
+
+    <!-- TEXT INPUT -->
+    <ion-input
+      [(ngModel)]="userMessage"
+      [placeholder]="ui?.placeholder"
+      (keyup.enter)="sendMessage()"
+      [disabled]="isLoading">
+    </ion-input>
+
+    <!-- SEND BUTTON -->
+    <ion-button
+      slot="end"
+      class="send-btn"
+      (click)="sendMessage()"
+      [disabled]="isLoading">
+      <ion-icon name="paper-plane"></ion-icon>
+    </ion-button>
+
+  </ion-item>
+
+</div>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<div class="bottom-nav">
+
+  <div class="nav-item" [class.active]="activeTab === 'Home'" (click)="setTab('Home')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <span>{{ ui?.nav_home }}</span>
+  </div>
+
+<div class="nav-item" [class.active]="activeTab === 'Explore'" (click)="setTab('Explore')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="compass-outline"></ion-icon>
+    </div>
+    <span>Explore</span>
+  </div>
+
+  <!-- CENTER UPLOAD BUTTON -->
+  <div class="nav-item nav-upload" (click)="openAddSheet()">
+    <div class="upload-circle">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
+    <span>Upload</span>
+  </div>
+
+  <div class="nav-item" [class.active]="activeTab === 'AI'" (click)="setTab('AI')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="sparkles-outline"></ion-icon>
+    </div>
+    <span>{{ ui?.nav_ai }}</span>
+  </div>
+
+  <div class="nav-item" [class.active]="activeTab === 'Profile'" (click)="setTab('Profile')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </div>
+    <span>{{ ui?.nav_profile }}</span>
+  </div>
+
+</div>

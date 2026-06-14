@@ -1,0 +1,540 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+$orange       : #7bc2b5, /* Top: Light Teal */
+    #00828a, /* Middle: Vibrant Teal */
+    #00575d, /* Lower Middle: Dark Teal */
+    #00383d;
+$orange-dark  : #7bc2b5, /* Top: Light Teal */
+    #00828a, /* Middle: Vibrant Teal */
+    #00575d, /* Lower Middle: Dark Teal */
+    #00383d;
+$orange-light : #FFF8F5;
+$orange-border: #FFE0D0;
+$orange-mid   : #FFB380;
+$bg           : #F7F7F7;
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.cv-header {
+  ion-toolbar.cv-toolbar {
+    --background: #{$orange};
+    --border-width: 0;
+    --padding-top: 4px;
+    --padding-bottom: 4px;
+    --min-height: 52px;
+  }
+}
+
+.cv-back-btn {
+  --color: #fff;
+  --background: rgba(255,255,255,0.15);
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+}
+
+.cv-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cv-title {
+  --color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0;
+}
+
+.cv-subtitle {
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  margin-top: -2px;
+}
+
+.cv-header-curve {
+  background: $orange;
+  height: 16px;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 16px;
+    background: $bg;
+    border-radius: 18px 18px 0 0;
+  }
+}
+
+// ── Content ──────────────────────────────────────────────────────────────────
+.cv-content {
+  --background: #{$bg};
+}
+
+// ── Post Preview ─────────────────────────────────────────────────────────────
+.cv-post-wrap {
+  padding: 0 12px 10px;
+  background: $bg;
+}
+
+.cv-post-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid $orange-border;
+}
+
+.cv-post-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+}
+
+.cv-post-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: $orange;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cv-post-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-post-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.cv-post-time {
+  font-size: 10px;
+  color: #aaa;
+}
+
+.cv-post-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.cv-stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: #888;
+  ion-icon {
+    font-size: 13px;
+    color: $orange;
+  }
+}
+
+.cv-post-media {
+  position: relative;
+  background: #1a1a1a;
+  max-height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cv-media-img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.cv-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+}
+
+.cv-play-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ion-icon {
+    font-size: 20px;
+    color: rgba(255,255,255,0.9);
+  }
+}
+
+.cv-caption-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.5);
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #fff;
+}
+
+.cv-hashtag {
+  color: #FFB380;
+}
+
+// ── Divider ──────────────────────────────────────────────────────────────────
+.cv-divider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 10px;
+  background: $bg;
+}
+
+.cv-divider-line {
+  flex: 1;
+  height: 1px;
+  background: $orange-border;
+}
+
+.cv-divider-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: $orange;
+  letter-spacing: 0.5px;
+}
+
+// ── Comments List ─────────────────────────────────────────────────────────────
+.cv-comments-list {
+  padding: 0 12px 120px;
+  background: $bg;
+}
+
+.cv-comment-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cv-c-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid $orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  &--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 9px;
+  }
+}
+
+.cv-c-body {
+  flex: 1;
+}
+
+.cv-c-bubble {
+  background: #fff;
+  border: 1px solid $orange-border;
+  border-radius: 4px 14px 14px 14px;
+  padding: 8px 11px;
+}
+
+.cv-c-bubble-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.cv-c-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: $orange-dark;
+}
+
+.cv-options-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.cv-c-text {
+  font-size: 12px;
+  color: #333;
+  margin: 2px 0 0;
+  line-height: 1.45;
+}
+
+.cv-reactions {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.cv-reaction-pill {
+  background: $orange-light;
+  border: 1px solid $orange-border;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: $orange-dark;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &.cv-reaction-active {
+    background: $orange;
+    border-color: $orange;
+    color: #fff;
+  }
+}
+
+.cv-c-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  padding-left: 4px;
+  align-items: center;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 10px;
+    font-weight: 600;
+    color: $orange;
+    cursor: pointer;
+    padding: 0;
+
+    &.cv-liked {
+      color: #7bc2b5, /* Top: Light Teal */
+    #00828a, /* Middle: Vibrant Teal */
+    #00575d, /* Lower Middle: Dark Teal */
+    #00383d;
+    }
+  }
+}
+
+.cv-c-time {
+  font-size: 10px;
+  color: #bbb;
+}
+
+// ── Reply Input ───────────────────────────────────────────────────────────────
+.cv-reply-input-wrap {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin-top: 7px;
+
+  .cv-reply-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: $orange;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  input {
+    flex: 1;
+    background: $orange-light;
+    border: 1.5px solid $orange;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 11px;
+    outline: none;
+    font-family: inherit;
+    color: #1a1a1a;
+
+    &::placeholder { color: #bbb; }
+  }
+
+  button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: $orange;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon { font-size: 14px; }
+  }
+}
+
+// ── Nested Replies ────────────────────────────────────────────────────────────
+.cv-nested-replies {
+  margin-top: 8px;
+  padding-left: 10px;
+  border-left: 2px solid $orange-mid;
+}
+
+.cv-reply-item {
+  margin-bottom: 6px;
+}
+
+// ── Empty State ───────────────────────────────────────────────────────────────
+.cv-empty {
+  text-align: center;
+  padding: 48px 0 24px;
+
+  ion-icon {
+    font-size: 48px;
+    color: $orange-border;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 600;
+    color: #888;
+    margin: 10px 0 4px;
+  }
+
+  span {
+    font-size: 12px;
+    color: #bbb;
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+.cv-footer {
+  --background: #fff;
+  border-top: 1px solid $orange-border;
+}
+
+.cv-emoji-strip {
+  display: flex;
+  gap: 4px;
+  padding: 7px 14px 4px;
+  background: $orange-light;
+  border-bottom: 1px solid $orange-border;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.cv-emoji-btn {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.cv-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 9px 12px 10px;
+}
+
+.cv-my-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $orange;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cv-input-wrap {
+  flex: 1;
+  position: relative;
+
+  textarea {
+    width: 100%;
+    background: $orange-light;
+    border: 1.5px solid $orange;
+    border-radius: 20px;
+    padding: 9px 38px 9px 14px;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    color: #1a1a1a;
+    line-height: 1.4;
+    max-height: 80px;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    &::placeholder { color: #bbb; }
+  }
+}
+
+.cv-emoji-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $orange;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  ion-icon { font-size: 18px; }
+}
+
+.cv-send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: $orange;
+  color: black;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+
+  &:active {
+    background: $orange-dark;
+    transform: scale(0.95);
+  }
+
+  ion-icon { font-size: 17px; }
+}

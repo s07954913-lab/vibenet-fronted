@@ -1,0 +1,795 @@
+// =========================================
+// HOST
+// =========================================
+:host {
+  --ion-color-primary: #04342C;
+}
+
+// =========================================
+// NAVBAR
+// =========================================
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: #04342C;
+  height: 60px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.menu-icon {
+  font-size: 26px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+// =========================================
+// SIDEBAR
+// =========================================
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: linear-gradient(to bottom, #04342C,#04342C);
+  z-index: 9999;
+  transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 20px 20px 0;
+  box-shadow: 10px 0 30px rgba(0,0,0,0.25);
+  padding: 20px;
+  color: white;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.close-icon {
+  text-align: right;
+  font-size: 28px;
+  cursor: pointer;
+
+  ion-icon {
+    color: white;
+  }
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.welcome-text {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.profile-ring {
+  width: 95px;
+  height: 95px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  margin: 0 auto;
+  padding: 4px;
+  background: rgba(255,255,255,0.15);
+}
+
+.sidebar-profile-pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-username {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 12px;
+  font-family: Georgia, serif;
+}
+
+.sidebar-handle {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.nav-links li {
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.nav-links ion-icon {
+  font-size: 22px;
+}
+
+.clear-btn-wrap {
+  padding: 20px 16px 0;
+}
+
+.clear-history-btn {
+  width: 100%;
+  padding: 10px;
+  background: #04342C;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+// =========================================
+// CHAT CONTENT
+// =========================================
+.chat-bg {
+  --background: #f9f9f9;
+  --padding-bottom: 160px;
+}
+
+.assistant-intro {
+  margin: 25px 0;
+  text-align: center;
+
+  .avatar-container {
+    background: #04342C;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      color: white;
+      font-size: 30px;
+    }
+  }
+
+  h2 {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  p {
+    color: #04342C;
+    font-size: 0.9rem;
+  }
+}
+
+// =========================================
+// CHIPS
+// =========================================
+.chips-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.chips-container ion-chip {
+  --background: #ffffff;
+  --color: #04342C;
+  border: 1px solid #d6d6d6;
+  border-radius: 30px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chips-container ion-icon {
+  font-size: 16px;
+  color: #04342C;
+}
+
+// =========================================
+// MESSAGES
+// =========================================
+.chat-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.user-row {
+  justify-content: flex-end;
+}
+
+.ai-row {
+  justify-content: flex-start;
+}
+
+.user-message {
+  background:#04342C;
+  color: white;
+  border-radius: 18px 18px 4px 18px;
+  max-width: 75%;
+  padding: 10px 14px;
+}
+
+.ai-message {
+  background: white;
+  color: #333;
+  border: 1px solid #eee;
+  border-radius: 18px 18px 18px 4px;
+  max-width: 75%;
+  padding: 10px 14px;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  color:#04342C;
+}
+
+.message-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+
+  ion-icon {
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+  }
+}
+
+// =========================================
+// TYPING ANIMATION
+// =========================================
+@keyframes blink {
+  0%   { opacity: 0.2; }
+  20%  { opacity: 1;   }
+  100% { opacity: 0.2; }
+}
+
+.typing-text span {
+  animation: blink 1.4s infinite both;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.typing-text span:nth-child(2) { animation-delay: 0.2s; }
+.typing-text span:nth-child(3) { animation-delay: 0.4s; }
+
+// =========================================
+// INPUT BAR
+// =========================================
+.input-container {
+  position: fixed;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background: white;
+  border-top: 1px solid #f0f0f0;
+  z-index: 100;
+}
+
+.message-input {
+  --background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 18px;
+  padding: 6px 10px;
+  transition: all 0.3s ease;
+}
+
+.message-input:focus-within {
+  border: 1px solid #04342C;
+  box-shadow: 0 0 0 3px rgba(255,92,0,0.15);
+}
+
+.message-input::part(native) {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+// =========================================
+// VOICE BUTTON
+// =========================================
+.voice-btn {
+  --color: #888;
+  font-size: 20px;
+}
+
+.voice-btn.listening {
+  --color: #04342C;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.4; }
+}
+
+// =========================================
+// BOTTOM NAV
+// =========================================
+.bottom-nav {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  height: 70px;
+  background: linear-gradient(135deg, #04342C,#04342C,#04342C);
+  border-radius: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.nav-item {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+  padding-bottom: 10px;
+
+  ion-icon {
+    font-size: 24px;
+    color: rgba(255,255,255,0.85);
+    position: relative;
+    z-index: 1;
+  }
+
+  span {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 3px;
+    transition: opacity 0.3s ease;
+  }
+}
+
+.nav-item.active {
+  transform: translateY(-16px);
+  padding-bottom: 0;
+  justify-content: center;
+}
+
+.nav-item.active span {
+  opacity: 0;
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  background: #ffffff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  box-shadow: 0 0 18px rgba(255,255,255,0.85);
+}
+
+.nav-item.active ion-icon {
+  color: #c85a00;
+  z-index: 1;
+  position: relative;
+}
+
+// Add button
+.add-item {
+  padding-bottom: 0;
+}
+
+.add-item .add-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 22px;
+    color: white;
+  }
+}
+
+.add-item span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 2px;
+}
+.nav-item.active {
+  transform: translateY(-16px);
+  padding-bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-item.active span {
+  opacity: 0;
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.30);   /* hafif transparent white */
+  border: 2px solid rgba(255, 255, 255, 0.90);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
+  margin-top: 10px;
+}
+
+.nav-item.active ion-icon {
+  color: #ffffff;
+
+  position: relative;
+  top: 0;
+  margin: 0;
+}
+.nav-item.active ion-icon {
+  color: #ffffff;
+  z-index: 1;
+  position: relative;
+  top: 0;
+  margin: 0;
+  margin-top: 40px;  /* ← yeh add karein */
+  margin-left: auto;
+  margin-right: auto;
+}
+// =========================================
+// AI INFO BAR (Header bottom strip)
+// =========================================
+.ai-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9f9;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eee;
+
+  .ai-avatar {
+    width: 42px;
+    height: 42px;
+    background: #04342C;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      color: white;
+      font-size: 22px;
+    }
+  }
+
+  .ai-info-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .ai-info-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #111;
+    }
+
+    .ai-info-sub {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+
+  .online-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2e7d32;
+
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      background: #43a047;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+}
+
+// =========================================
+// BOTTOM NAV — Image 2 style
+// =========================================
+.bottom-nav {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  height: 70px;
+  background: #04342C;
+  border-radius: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.nav-item {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+
+  ion-icon {
+    font-size: 22px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  span {
+    font-size: 10px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 3px;
+  }
+}
+
+// ACTIVE — AI tab glow (sparkles icon)
+.nav-item.active {
+  transform: translateY(-4px);
+
+  ion-icon {
+    color: #ffffff;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
+  }
+
+  span {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+  }
+}
+
+// CENTER UPLOAD BUTTON
+.nav-upload {
+  position: relative;
+  top: -14px;
+
+  .upload-circle {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    border: 3px solid #04342C;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 26px;
+      color: #04342C;
+    }
+  }
+
+  span {
+    color: rgba(255,255,255,0.8);
+    font-size: 10px;
+    margin-top: 2px;
+  }
+}
+// CENTER UPLOAD BUTTON
+.nav-upload {
+  position: relative;
+  top: -20px;
+
+  .upload-circle {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;      // ← yeh zaroori hai
+    min-height: 56px;     // ← yeh zaroori hai
+    background: white;
+    border-radius: 50%;
+    border: 2.5px solid #04342C;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;  // ← perfect circle guarantee
+
+    ion-icon {
+      font-size: 26px;
+      color: #04342C;
+      pointer-events: none;
+    }
+  }
+
+  span {
+    color: rgba(255,255,255,0.8);
+    font-size: 10px;
+    margin-top: 3px;
+    display: block;
+    text-align: center;
+  }
+}
+
+// ACTIVE — AI tab — aur upar
+.nav-item.active {
+  transform: translateY(-22px);   // ← aur upar uthaya
+
+  .nav-icon-wrap {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 16px rgba(255,255,255,0.6),
+                0 0 30px rgba(255,255,255,0.25);
+  }
+
+  ion-icon {
+    color: #ffffff;
+    font-size: 22px;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
+  }
+
+  span {
+    opacity: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+  }
+}
+.nav-item.active {
+  transform: translateY(-22px);
+
+  &::before {
+    display: none !important;
+  }
+
+  .nav-icon-wrap {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    margin-top: 40px;
+    border: 2px solid rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;  // ← center
+    box-shadow: 0 0 16px rgba(255,255,255,0.6),
+                0 0 30px rgba(255,255,255,0.25);
+    animation: glowPulse 2s ease-in-out infinite;  // ← animation
+  }
+
+  ion-icon {
+    color: #ffffff;
+    font-size: 22px;
+    position: relative;
+    top: 0;           // ← reset any offset
+    margin: 0;        // ← reset margins
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
+    animation: iconSpin 4s ease-in-out infinite;  // ← rotate animation
+  }
+
+  span {
+    opacity: 0;
+  }
+
+  &::after {
+    display: none;   // ← dot hatao
+  }
+}
+
+// ── ANIMATIONS ──────────────────────────
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.7);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255,255,255,0.95),
+                0 0 45px rgba(255,255,255,0.5);
+    border-color: rgba(255,255,255,1);
+  }
+}
+
+@keyframes iconSpin {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  25%  { transform: rotate(10deg)  scale(1.15); }
+  50%  { transform: rotate(-10deg) scale(1);    }
+  75%  { transform: rotate(10deg)  scale(1.1);  }
+  100% { transform: rotate(0deg)   scale(1);    }
+}

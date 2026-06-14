@@ -1,0 +1,1661 @@
+// homefeed.page.scss
+// VibeNet — Teal & White Theme (FIXED) - Color: #04342C
+
+// ─── Global Ionic Color Override ─────────────────────────────
+// This overrides Ionic's default blue primary color
+:root {
+  --ion-color-primary:       #04342C;
+  --ion-color-primary-rgb:     4, 52, 44;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade:   #04342C;
+  --ion-color-primary-tint:    #04342C;
+
+  // VibeNet custom tokens
+  --vn-teal:          #04342C;
+  --vn-teal-light:    #0a4a3f;
+  --vn-teal-pale:     #E8F3F0;
+  --vn-teal-dark:     #03241e;
+  --vn-white:         #FFFFFF;
+  --vn-bg:            #F7F7F5;
+  --vn-card-bg:       #FFFFFF;
+  --vn-text-primary:  #1A1A1A;
+  --vn-text-secondary:#666666;
+  --vn-text-muted:    #AAAAAA;
+  --vn-border:        #EEEEEE;
+  --vn-radius-sm:     8px;
+  --vn-radius-md:     14px;
+  --vn-radius-lg:     20px;
+}
+
+// ─── Ionic Toolbar — FORCE Teal ────────────────────────────
+ion-toolbar {
+  --background: #04342C !important;
+  --color: #FFFFFF !important;
+  --border-color: transparent;
+}
+
+// Header title
+ion-title {
+  --color: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+// Header buttons
+ion-header ion-button {
+  --color: rgba(255,255,255,0.92) !important;
+}
+
+// ─── Content background ───────────────────────────────────────
+ion-content {
+  --background: #F7F7F5;
+}
+
+// ─── Logo ────────────────────────────────────────────────────
+.vn-logo {
+  font-size: 24px !important;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #FFFFFF !important;
+  --color: #FFFFFF !important;
+}
+
+// ─── Header icon buttons ─────────────────────────────────────
+.vn-header-btn {
+  --color: rgba(255,255,255,0.92);
+  --background-hover: rgba(255,255,255,0.15);
+  --border-radius: 50%;
+
+  ion-icon {
+    font-size: 22px;
+    color: #FFFFFF;
+  }
+}
+
+// ─── Content ─────────────────────────────────────────────────
+.vn-content {
+  --padding-top: 6px;
+  --padding-bottom: 88px;
+}
+
+// ─── Section Labels ──────────────────────────────────────────
+.vn-section-label {
+  padding: 16px 16px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #AAAAAA;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+// ─── Stories Row ─────────────────────────────────────────────
+.vn-stories-row {
+  display: flex;
+  gap: 14px;
+  padding: 4px 16px 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.vn-story-add {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.vn-story-add-circle {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px dashed #04342C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+
+  ion-icon {
+    font-size: 28px;
+    color: #04342C;
+  }
+
+  &:hover {
+    background: #E8F3F0;
+    transform: scale(1.04);
+  }
+}
+
+.vn-story-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+
+  &:active .vn-story-ring {
+    transform: scale(0.95);
+  }
+}
+
+.vn-story-ring {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: linear-gradient(135deg, #04342C 0%, #0a4a3f 100%);
+  transition: transform 0.15s;
+}
+
+.vn-story-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  overflow: hidden;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.vn-story-emoji {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.vn-story-name {
+  font-size: 10px;
+  color: #666666;
+  max-width: 66px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &--add {
+    color: #04342C;
+    font-weight: 700;
+  }
+}
+
+// ─── Feed ────────────────────────────────────────────────────
+.vn-feed {
+  padding: 0 12px 20px;
+}
+
+// ─── Post Card ───────────────────────────────────────────────
+.vn-post-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 0.5px solid #EEEEEE;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s;
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+// Post Header
+.vn-post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+
+.vn-post-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #04342C, #0a4a3f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.vn-post-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vn-post-username {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.vn-post-time {
+  font-size: 11px;
+  color: #AAAAAA;
+}
+
+.vn-post-options {
+  --color: #AAAAAA;
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --background-hover: #F7F7F5;
+  height: 36px;
+  width: 36px;
+}
+
+// Post Media
+.vn-post-media {
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(135deg, #f0f0f0, #e5e5e5);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // subtle bottom gradient overlay
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.12), transparent);
+    pointer-events: none;
+  }
+}
+
+.vn-post-media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 80px;
+}
+
+// Hide empty media section
+.vn-post-media:has(.vn-no-media-placeholder) {
+  display: none;
+}
+
+// Post Actions
+.vn-post-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 10px 6px;
+}
+
+.vn-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666666;
+  transition: background 0.15s, color 0.15s;
+
+  ion-icon {
+    font-size: 21px;
+  }
+
+  &:hover {
+    background: #F7F7F5;
+  }
+
+  &--liked {
+    color: #04342C;
+
+    ion-icon {
+      color: #04342C;
+    }
+  }
+}
+
+// Location
+.vn-post-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 14px 8px;
+  font-size: 11px;
+  color: #AAAAAA;
+
+  ion-icon {
+    font-size: 13px;
+    color: #04342C;
+  }
+}
+
+// Caption
+.vn-post-caption {
+  padding: 0 14px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1A1A1A;
+}
+
+.vn-hashtag {
+  color: #04342C;
+  font-weight: 600;
+}
+
+// ─── Empty State ─────────────────────────────────────────────
+.vn-empty-state {
+  text-align: center;
+  padding: 52px 24px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 0.5px solid #EEEEEE;
+
+  ion-icon {
+    font-size: 56px;
+    color: #04342C;
+    opacity: 0.3;
+    display: block;
+    margin: 0 auto 14px;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 600;
+    color: #666666;
+    margin: 0;
+  }
+}
+
+.vn-empty-sub {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #AAAAAA !important;
+  margin-top: 6px !important;
+}
+
+// ─── FAB Button ──────────────────────────────────────────────
+ion-fab-button {
+  --background: #04342C !important;
+  --background-hover: #0a4a3f !important;
+  --background-activated: #03241e !important;
+  --box-shadow: 0 6px 22px rgba(4, 52, 44, 0.5) !important;
+  --color: #FFFFFF !important;
+}
+
+.vn-fab {
+  --background: #04342C !important;
+  --background-hover: #0a4a3f !important;
+  --background-activated: #03241e !important;
+  --box-shadow: 0 6px 22px rgba(4, 52, 44, 0.5) !important;
+
+  ion-icon {
+    font-size: 30px;
+    color: #FFFFFF;
+  }
+}
+
+// ─── Tab Bar ─────────────────────────────────────────────────
+ion-tab-bar {
+  --background: #FFFFFF !important;
+  border-top: 0.5px solid #EEEEEE;
+}
+
+.vn-tab-bar {
+  --background: #FFFFFF;
+  border-top: 0.5px solid #EEEEEE;
+  height: 60px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: #AAAAAA !important;
+  --color-selected: #04342C !important;
+  --ripple-color: #E8F3F0 !important;
+
+  ion-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+}
+
+.vn-tab-btn {
+  --color: #AAAAAA;
+  --color-selected: #04342C;
+
+  ion-label {
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 3px;
+  }
+}
+
+.vn-tab-spacer {
+  pointer-events: none;
+}
+
+// ─── Gallery Modal ───────────────────────────────────────────
+.vn-modal-gallery {
+  --height: 100%;
+  --border-radius: 0;
+}
+
+.vn-gallery-header ion-toolbar {
+  --background: #111111 !important;
+  --color: #FFFFFF !important;
+}
+
+.vn-gallery-header ion-title {
+  --color: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.vn-gallery-preview {
+  width: 100%;
+  height: 220px;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.vn-gallery-preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #555555;
+
+  ion-icon {
+    font-size: 44px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+}
+
+.vn-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 2px;
+}
+
+.vn-gallery-cell {
+  aspect-ratio: 1;
+  background: #1a1a1a;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:active { opacity: 0.75; }
+
+  &--selected::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 3px solid #04342C;
+    border-radius: 2px;
+  }
+}
+
+.vn-gallery-cell-placeholder {
+  font-size: 34px;
+}
+
+.vn-gallery-sel-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #04342C;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.vn-gallery-video-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 4px;
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    font-size: 12px;
+    color: #ffffff;
+  }
+}
+
+.vn-next-btn {
+  font-size: 14px;
+  font-weight: 700;
+  color: #555555;
+  opacity: 0.45;
+  transition: opacity 0.2s, color 0.2s;
+
+  &--active {
+    color: #04342C !important;
+    --color: #04342C !important;
+    opacity: 1;
+  }
+}
+
+// ─── Preview Modal ───────────────────────────────────────────
+.vn-modal-preview {
+  --height: 100%;
+  --border-radius: 0;
+}
+
+.vn-modal-preview ion-toolbar {
+  --background: #04342C !important;
+  --color: #FFFFFF !important;
+}
+
+.vn-modal-preview ion-title {
+  color: #FFFFFF !important;
+  --color: #FFFFFF !important;
+}
+
+.vn-preview-content {
+  --background: #FFFFFF;
+}
+
+.vn-preview-media {
+  width: 100%;
+  height: 270px;
+  background: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.vn-preview-placeholder {
+  font-size: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.vn-preview-form {
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vn-form-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #F5F5F5;
+  border-radius: 14px;
+  padding: 12px 16px;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:focus-within {
+    background: #E8F3F0;
+    border-color: #04342C;
+  }
+}
+
+.vn-field-icon {
+  font-size: 20px;
+  color: #04342C;
+  flex-shrink: 0;
+}
+
+.vn-field-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --placeholder-color: #AAAAAA;
+  --color: #1A1A1A;
+  font-size: 14px;
+  flex: 1;
+}
+
+// ─── Publish Footer ──────────────────────────────────────────
+.vn-preview-footer {
+  background: #FFFFFF;
+  border-top: 0.5px solid #EEEEEE;
+}
+
+.vn-publish-btns {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+}
+
+.vn-btn-story {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 10px;
+  border: 2.5px solid #04342C;
+  background: #FFFFFF;
+  color: #04342C;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+  font-family: inherit;
+
+  ion-icon { font-size: 18px; }
+
+  &:active {
+    background: #E8F3F0;
+    transform: scale(0.97);
+  }
+}
+
+.vn-btn-post {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 10px;
+  border: none;
+  background: #04342C;
+  color: #FFFFFF;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+  font-family: inherit;
+
+  ion-icon { font-size: 18px; }
+
+  &:active {
+    background: #03241e;
+    transform: scale(0.97);
+  }
+}
+
+// ─── Toast ───────────────────────────────────────────────────
+.vn-toast {
+  --border-radius: 28px;
+  --min-height: 42px;
+  --box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+// ─── Publish Modal Sheet ────────────────────────────────────
+ion-modal.vn-modal-publish {
+  --border-radius: 28px 28px 0 0;
+  --box-shadow: 0 -4px 32px rgba(0,0,0,0.14);
+  --background: transparent;
+
+  &::part(backdrop) {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+  }
+}
+
+.vn-publish-sheet {
+  background: #FFFFFF;
+  border-radius: 28px 28px 0 0;
+  padding: 0 0 40px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  // drag handle
+  &::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #E0E0E0;
+    border-radius: 100px;
+    margin: 14px auto 6px;
+  }
+}
+
+// Close button
+.vn-sheet-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #F2F2F2;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+
+  ion-icon {
+    font-size: 18px;
+    color: #555555;
+  }
+
+  &:active { transform: scale(0.92); }
+}
+
+// Titles
+.vn-sheet-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-top: 10px;
+  letter-spacing: -0.3px;
+}
+
+.vn-sheet-sub {
+  text-align: center;
+  font-size: 13px;
+  color: #999999;
+  margin: 3px 0 16px;
+}
+
+// Media Preview
+.vn-sheet-media {
+  position: relative;
+  margin: 0 20px 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #F0F0F0;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px #E8F3F0, 0 0 0 5px #B8D9D0;
+}
+
+.vn-sheet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vn-sheet-media-fallback {
+  font-size: 72px;
+  line-height: 1;
+}
+
+.vn-media-type-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  ion-icon { font-size: 13px; }
+}
+
+// Form Fields
+.vn-sheet-form {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.vn-sheet-field {
+  display: flex;
+  align-items: center;
+  background: #FAFAFA;
+  border: 1.5px solid #EBEBEB;
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 46px;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: #04342C;
+    background: #E8F3F0;
+  }
+}
+
+.vn-sfield-icon {
+  color: #04342C;
+  font-size: 18px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.vn-sfield-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #1A1A1A;
+  outline: none;
+  font-family: inherit;
+
+  &::placeholder { color: #999999; }
+}
+
+// Publish Buttons
+.vn-sheet-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+// Shared button base
+.vn-btn-story,
+.vn-btn-post {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+// Story = white card with teal accent
+.vn-btn-story {
+  background: #FFFFFF;
+  border: 2px solid #B8D9D0;
+  box-shadow: 0 2px 12px rgba(4, 52, 44, 0.10);
+
+  &:active {
+    box-shadow: 0 1px 6px rgba(4, 52, 44, 0.15);
+  }
+
+  .vn-btn-label { color: #04342C; }
+  .vn-btn-desc  { color: #999999; }
+}
+
+// Post = teal solid
+.vn-btn-post {
+  background: linear-gradient(135deg, #04342C 0%, #0a4a3f 100%);
+  box-shadow: 0 4px 18px rgba(4, 52, 44, 0.35);
+
+  &:active {
+    box-shadow: 0 2px 10px rgba(4, 52, 44, 0.30);
+  }
+
+  .vn-btn-label { color: #FFFFFF; }
+  .vn-btn-desc  { color: rgba(255,255,255,0.72); }
+}
+
+// Icon wrap circles
+.vn-btn-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon { font-size: 20px; }
+}
+
+.vn-btn-icon-wrap--story {
+  background: #E8F3F0;
+  ion-icon { color: #04342C; }
+}
+
+.vn-btn-icon-wrap--post {
+  background: rgba(255,255,255,0.22);
+  ion-icon { color: #FFFFFF; }
+}
+
+// Button text stack
+.vn-btn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vn-btn-label {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.vn-btn-desc {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.vn-no-media-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: #f7f7f7;
+  border-radius: 12px;
+  color: #bbb;
+  gap: 8px;
+
+  ion-icon {
+    font-size: 42px;
+    color: #ccc;
+  }
+
+  p {
+    font-size: 13px;
+    margin: 0;
+    color: #bbb;
+  }
+}
+
+// ── FOOTER TAB BAR ───────────────────────────────────────────
+.vn-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #04342C;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: none;
+  box-shadow: 0 -4px 20px rgba(4, 52, 44, 0.35);
+  z-index: 999;
+}
+
+.vn-tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  gap: 3px;
+  transition: all 0.2s ease;
+
+  /* Icon wrapper for glow animation */
+  .vn-tab-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: background 0.25s ease, transform 0.2s ease;
+
+    ion-icon {
+      font-size: 22px;
+      color: rgba(255, 255, 255, 0.75);
+      transition: color 0.25s ease, filter 0.25s ease, transform 0.2s ease;
+    }
+  }
+
+  .vn-tab-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    transition: color 0.25s ease, opacity 0.25s ease;
+    letter-spacing: 0.3px;
+  }
+
+  /* Tap press scale animation */
+  &:active .vn-tab-icon-wrap {
+    transform: scale(0.88);
+  }
+}
+
+/* Active Tab */
+.vn-tab-btn--active {
+  .vn-tab-icon-wrap {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+
+    ion-icon {
+      color: #ffffff;
+      filter:
+        drop-shadow(0 0 5px rgba(255, 255, 255, 0.95))
+        drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+    }
+  }
+
+  .vn-tab-label {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  }
+
+  /* Animated underline dot */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+    animation: dotPop 0.3s ease forwards;
+  }
+}
+
+/* Upload Center Button */
+.vn-tab-btn--upload {
+  flex: 1;
+  margin-top: -22px;
+  gap: 0;
+
+  .vn-upload-circle {
+    width: 54px;
+    height: 54px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #04342C;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(255, 255, 255, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    ion-icon {
+      font-size: 30px;
+      color: #04342C;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  &:active .vn-upload-circle {
+    transform: scale(0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+    ion-icon {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+/* Dot pop animation */
+@keyframes dotPop {
+  0%   { opacity: 0; transform: scale(0); }
+  60%  { transform: scale(1.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Icon bounce on tab switch */
+.vn-tab-btn--active .vn-tab-icon-wrap ion-icon {
+  animation: iconBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes iconBounce {
+  0%   { transform: scale(0.7) translateY(4px); }
+  60%  { transform: scale(1.15) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+// ── Story Viewer Modal ──────────────────────────────────────
+.vn-story-viewer-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+  --background: #fff;
+}
+
+.vn-story-viewer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+// Progress bar
+.vn-story-progress-wrap {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+}
+
+.vn-story-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(4, 52, 44, 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.vn-story-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #04342C;
+  border-radius: 2px;
+
+  &--active {
+    animation: storyProgress 5s linear forwards;
+  }
+}
+
+@keyframes storyProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+// Header
+.vn-story-view-header {
+  position: absolute;
+  top: 24px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vn-story-view-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #04342C, #0a4a3f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  border: 2px solid #04342C;
+  flex-shrink: 0;
+}
+
+.vn-story-view-name {
+  color: #04342C;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.vn-story-view-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vn-story-view-time {
+  color: #04342C;
+  font-size: 11px;
+}
+
+.vn-story-close-btn {
+  margin-left: auto;
+  background: rgba(4, 52, 44, 0.1);
+  border: 1.5px solid rgba(4, 52, 44, 0.3);
+  border-radius: 50%;
+  color: #04342C;
+  font-size: 22px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:active {
+    background: rgba(4, 52, 44, 0.2);
+    transform: scale(0.93);
+  }
+}
+
+// Media
+.vn-story-view-media {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vn-story-full-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vn-story-no-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #E8F3F0 0%, #D4E8E2 50%, #B8D9D0 100%);
+}
+
+.vn-story-no-media-emoji {
+  font-size: 80px;
+}
+
+// Footer
+.vn-story-view-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 12px 16px 36px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.97) 60%, transparent 100%);
+}
+
+.vn-story-reply-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.vn-story-reply-input {
+  flex: 1;
+  background: #E8F3F0;
+  border: 1.5px solid #04342C;
+  border-radius: 24px;
+  padding: 10px 16px;
+  color: #333;
+  font-size: 14px;
+  outline: none;
+
+  &::placeholder {
+    color: #04342C;
+  }
+
+  &:focus {
+    border-color: #04342C;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(4, 52, 44, 0.12);
+  }
+}
+
+.vn-story-send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #04342C, #0a4a3f);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.93);
+    opacity: 0.85;
+  }
+}
+
+.vn-story-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.vn-story-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #04342C;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 8px 20px;
+  border-radius: 12px;
+  transition: background 0.2s;
+
+  ion-icon {
+    font-size: 26px;
+    color: #04342C;
+  }
+
+  span {
+    color: #04342C;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &:active {
+    background: rgba(4, 52, 44, 0.08);
+    transform: scale(0.95);
+  }
+
+  &--liked {
+    ion-icon {
+      color: #04342C;
+    }
+    span {
+      color: #04342C;
+    }
+  }
+}
+/* ===== FOOTER BAR ===== */
+
+.vn-tab-bar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background: linear-gradient(
+    90deg,
+    #012f2c,
+    #01443f,
+    #01544d
+  );
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 9999;
+
+  border-top: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 -5px 25px rgba(0,0,0,.35);
+}
+
+/* ===== TAB BUTTON ===== */
+
+.vn-tab-btn{
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.7);
+  flex: 1;
+  position: relative;
+}
+
+.vn-tab-icon-wrap{
+  font-size: 24px;
+  transition: .3s;
+}
+
+.vn-tab-label{
+  font-size: 11px;
+  margin-top: 3px;
+  color: rgba(255,255,255,.75);
+}
+
+/* ===== ACTIVE TAB ===== */
+
+.vn-tab-btn--active{
+  color: #fff;
+}
+
+.vn-tab-btn--active .vn-tab-icon-wrap{
+  color: #fff;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.9));
+  animation: pulseGlow 1.8s infinite;
+}
+
+.vn-tab-btn--active .vn-tab-label{
+  color: #fff;
+}
+
+/* ===== CENTER UPLOAD ===== */
+
+.vn-tab-btn--upload{
+  flex: 0 0 auto;
+  margin-top: -38px;
+}
+
+.vn-upload-circle{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.35),
+    0 0 0 5px rgba(255,255,255,.12);
+
+  transition: .3s;
+}
+
+.vn-upload-circle ion-icon{
+  font-size: 34px;
+  color: #01443f;
+}
+
+.vn-upload-circle:active{
+  transform: scale(.95);
+}
+
+/* ===== HOME ACTIVE EXTRA GLOW ===== */
+
+.vn-tab-btn--active::before{
+  content: "";
+  position: absolute;
+  top: -18px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,.45) 0%,
+    rgba(255,255,255,.12) 45%,
+    transparent 75%
+  );
+
+  animation: glowRing 2s infinite;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes pulseGlow{
+  0%{
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,.8));
+  }
+  50%{
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 18px rgba(255,255,255,1));
+  }
+  100%{
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,.8));
+  }
+}
+
+@keyframes glowRing{
+  0%{
+    transform: scale(.8);
+    opacity: .7;
+  }
+  50%{
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100%{
+    transform: scale(.8);
+    opacity: .7;
+  }
+}
+.vn-tab-btn--active {
+  .vn-tab-icon-wrap {
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 6px rgba(255,255,255,.07),
+      0 0 0 12px rgba(255,255,255,.04),
+      0 0 20px rgba(255,255,255,.35);
+    animation: glowPulse 2s ease-in-out infinite;
+
+    ion-icon {
+      color: #ffffff;
+      filter:
+        drop-shadow(0 0 8px rgba(255,255,255,1))
+        drop-shadow(0 0 16px rgba(255,255,255,.7));
+    }
+  }
+  .vn-tab-label { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,.8); }
+}
+
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 0 5px rgba(255,255,255,.06), 0 0 18px rgba(255,255,255,.28); }
+  50%  { box-shadow: 0 0 0 8px rgba(255,255,255,.12), 0 0 30px rgba(255,255,255,.5); }
+  100% { box-shadow: 0 0 0 5px rgba(255,255,255,.06), 0 0 18px rgba(255,255,255,.28); }
+}
+.vn-tab-btn--active {
+  .vn-tab-icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(255,255,255,0.12) 0%,
+      rgba(255,255,255,0.06) 50%,
+      transparent 100%
+    );
+    border: 1.5px solid rgba(255,255,255,0.85);
+    box-shadow:
+      0 0 12px rgba(255,255,255,0.35),
+      0 0 24px rgba(255,255,255,0.15),
+      inset 0 0 12px rgba(255,255,255,0.08);
+    animation: glowPulse 2s ease-in-out infinite;
+
+    ion-icon {
+      font-size: 24px;
+      color: #ffffff;
+      filter:
+        drop-shadow(0 0 6px rgba(255,255,255,0.9))
+        drop-shadow(0 0 12px rgba(255,255,255,0.5));
+    }
+  }
+
+  .vn-tab-label {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(255,255,255,0.7);
+  }
+
+  &::before {
+    display: none; /* Halo ring band */
+  }
+}
+
+@keyframes glowPulse {
+  0%   {
+    box-shadow:
+      0 0 10px rgba(255,255,255,0.25),
+      0 0 20px rgba(255,255,255,0.10),
+      inset 0 0 10px rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.70);
+  }
+  50%  {
+    box-shadow:
+      0 0 18px rgba(255,255,255,0.50),
+      0 0 35px rgba(255,255,255,0.20),
+      inset 0 0 16px rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,1);
+  }
+  100% {
+    box-shadow:
+      0 0 10px rgba(255,255,255,0.25),
+      0 0 20px rgba(255,255,255,0.10),
+      inset 0 0 10px rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.70);
+  }
+}

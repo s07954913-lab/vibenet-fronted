@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/userprofile" color="white" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="white">
+        <ion-icon name="scan-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Background Design Overlay -->
+  <div class="background-overlay"></div>
+
+  <div class="qr-main-container">
+
+    <!-- Main White QR Card -->
+    <div class="qr-card">
+
+      <ion-avatar class="profile-pic">
+        <img [src]="profileImage" />
+      </ion-avatar>
+
+      <h2 class="user-name">{{ userName }}</h2>
+      <p class="user-handle">@{{ userName.replace(' ', '_').toLowerCase() }}</p>
+
+      <!-- Dynamic & Scannable QR Code -->
+      <div class="qr-image-wrapper">
+        <img [src]="getSafeQRUrl()" alt="QR Code" class="actual-qr">
+      </div>
+
+      <div class="tiktok-logo">
+        <ion-icon name="logo-tiktok"></ion-icon>
+        <span>TikTok</span>
+      </div>
+
+    </div>
+
+    <!-- Interactive Action Buttons -->
+    <ion-row class="action-buttons">
+
+      <!-- Copy Link -->
+      <ion-col size="6">
+        <div class="action-card" (click)="copyLink()">
+          <ion-icon name="link-outline"></ion-icon>
+          <p>{{ ui?.copy_link }}</p>
+        </div>
+      </ion-col>
+
+      <!-- Share Link -->
+      <ion-col size="6">
+        <div class="action-card" (click)="shareLink()">
+          <ion-icon name="share-outline"></ion-icon>
+          <p>{{ ui?.share_link }}</p>
+        </div>
+      </ion-col>
+
+    </ion-row>
+
+    <p class="footer-text">{{ ui?.footer_text }}</p>
+
+  </div>
+
+</ion-content>

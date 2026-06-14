@@ -1,0 +1,256 @@
+:host {
+  --orange-primary: #00828a; /* Updated to Teal */
+  --white-bg: #ffffff;
+  --text-dark: #000000;
+  --text-muted: #666666;
+  --cloud-color: #7bc2b5; /* Updated to Light Teal */
+}
+
+.vibenet-bg {
+  /* No lines - Smooth Top (Light) to Bottom (Dark) transition */
+  --background: linear-gradient(
+    to bottom,
+    #7bc2b5, /* Top: Light Teal */
+    #00828a, /* Middle: Vibrant Teal */
+    #00575d, /* Lower Middle: Dark Teal */
+    #00383d  /* Bottom: Very Dark Teal */
+  );
+  background-size: 100% 200%;
+  animation: gradientBG 14s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-container {
+  width: 90%;
+  max-width: 360px;
+  height: 90%;
+  max-height: 700px;
+  margin: 5% auto;
+  background-color: var(--white-bg);
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px; /* Pehlay 100px tha, ab kam kar diya ha */
+}
+
+.image-section {
+  background-color: var(--orange-primary);
+  flex: 1.2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+// Absolute Positioned Back Button Styling
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  ion-icon {
+    color: #00383d; /* Updated to Dark Teal */
+    font-size: 1.5rem;
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.center-image-container {
+  width: 75%;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.center-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+}
+
+.sparkles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  span {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .sparkle-one { top: 15%; left: 20%; font-size: 1.5rem; }
+  .sparkle-two { top: 8%; right: 25%; font-size: 1.2rem; }
+}
+
+.clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.cloud {
+  position: absolute;
+  background-color: var(--cloud-color);
+  border-radius: 50%;
+  opacity: 0.5;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    background-color: var(--cloud-color);
+    border-radius: 50%;
+  }
+}
+
+.cloud-left {
+  width: 100px;
+  height: 60px;
+  top: 20%;
+  left: -20px;
+  &::before { width: 70px; height: 70px; top: -30px; left: 20px; }
+  &::after { width: 60px; height: 60px; top: -10px; left: 60px; }
+}
+
+.cloud-right {
+  width: 120px;
+  height: 70px;
+  top: 25%;
+  right: -30px;
+  &::before { width: 80px; height: 80px; top: -35px; right: 20px; }
+  &::after { width: 70px; height: 70px; top: -10px; right: 60px; }
+}
+
+.text-section {
+  flex: 1;
+  background-color: var(--white-bg);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.main-heading {
+  color: var(--text-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 1rem 0;
+}
+
+.sub-heading {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 2rem 0;
+}
+
+.log-in-btn {
+  width: 100%;
+  background-color: var(--orange-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 1.1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 130, 138, 0.3); /* Teal shadow */
+  transition: transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.my-swiper {
+  height: 100%;
+  --swiper-pagination-color: #00575d; /* Updated to Deep Teal */
+  --swiper-pagination-bullet-inactive-color: #ddd;
+}
+
+.text-section {
+  padding: 40px 20px;
+  text-align: left;
+
+  .main-heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .sub-heading {
+    color: #666;
+    margin-bottom: 30px;
+  }
+}
+
+.action-btn {
+  background: #00575d; /* Updated to Deep Teal button */
+  color: white;
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.center-img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.image-section {
+  background-color: #fdfdfd;
+  padding: 40px 20px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+/* =========================
+   KEYFRAMES (SMOOTH VERTICAL MOTION)
+========================= */
+@keyframes gradientBG {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}

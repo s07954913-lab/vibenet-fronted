@@ -1,0 +1,268 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="admin-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: #666;"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="admin-title">{{ ui?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="notifications-outline" class="header-icon"></ion-icon>
+      <ion-avatar class="admin-profile">
+        <img src="assets/download (2).jpg" />
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding admin-bg">
+
+  <div class="welcome-section">
+    <h1>{{ ui?.welcome_title }}</h1>
+    <p>{{ ui?.welcome_desc }}</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="card-header">
+        <div class="icon-box user-icon"><ion-icon name="people-outline"></ion-icon></div>
+        <span class="percentage positive">+12.5%</span>
+      </div>
+      <p class="label">{{ ui?.total_users }}</p>
+      <h2>1,284,092</h2>
+    </div>
+    <div class="stat-card">
+      <div class="card-header">
+        <div class="icon-box post-icon"><ion-icon name="link-outline"></ion-icon></div>
+        <span class="percentage positive">+8.2%</span>
+      </div>
+      <p class="label">{{ ui?.daily_posts }}</p>
+      <h2>84,203</h2>
+    </div>
+    <div class="stat-card">
+      <div class="card-header">
+        <div class="icon-box ai-icon"><ion-icon name="hardware-chip-outline"></ion-icon></div>
+        <span class="badge-optimized">{{ ui?.optimized }}</span>
+      </div>
+      <p class="label">{{ ui?.ai_efficiency }}</p>
+      <h2>99.8%</h2>
+    </div>
+  </div>
+
+  <!-- GROWTH CHART -->
+  <div class="white-card">
+    <div class="card-section-header">
+      <h3>{{ ui?.growth_title }}</h3>
+      <div class="chart-toggle"><span class="active">7D</span><span>30D</span></div>
+    </div>
+    <div class="bar-chart">
+      <div class="bar" style="height:40%"><span>MON</span></div>
+      <div class="bar" style="height:60%"><span>TUE</span></div>
+      <div class="bar" style="height:55%"><span>WED</span></div>
+      <div class="bar" style="height:80%"><span>THU</span></div>
+      <div class="bar" style="height:70%"><span>FRI</span></div>
+      <div class="bar active-bar" style="height:95%"><span>SAT</span></div>
+    </div>
+  </div>
+
+  <!-- AI FOCUS -->
+  <div class="white-card">
+    <h3>{{ ui?.ai_focus }}</h3>
+    <div class="progress-item">
+      <div class="progress-info"><span>{{ ui?.image_analysis }}</span><span>64%</span></div>
+      <div class="progress-bar"><div class="fill" style="width:64%"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-info"><span>{{ ui?.nlp }}</span><span>28%</span></div>
+      <div class="progress-bar"><div class="fill" style="width:28%"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-info"><span>{{ ui?.fraud }}</span><span>8%</span></div>
+      <div class="progress-bar"><div class="fill" style="width:8%"></div></div>
+    </div>
+    <div class="insight-banner">
+      <h4>{{ ui?.ai_insights }}</h4>
+      <p>{{ ui?.ai_insight_text }}</p>
+    </div>
+  </div>
+
+  <!-- USER MANAGEMENT -->
+  <div class="white-card no-padding">
+    <div class="card-section-header padding-lr">
+      <h3>{{ ui?.user_mgmt }}</h3>
+      <span class="view-all" (click)="openAllUsers()">
+        {{ ui?.view_all }} <ion-icon name="chevron-forward-outline"></ion-icon>
+      </span>
+    </div>
+    <ion-list lines="full">
+      <ion-item *ngFor="let user of previewUsers">
+        <ion-avatar slot="start" [class]="'avatar-' + user.color">{{ user.initials }}</ion-avatar>
+        <ion-label>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+        </ion-label>
+        <div slot="end" class="status-dot" [style.background]="getStatusColor(user.status)"></div>
+        <ion-icon name="create-outline" slot="end" class="edit-icon" (click)="openEdit(user)"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- REPORTED CONTENT -->
+  <div class="white-card no-padding">
+    <div class="card-section-header padding-lr">
+      <h3>{{ ui?.reported }}</h3>
+      <span class="badge-new">{{ pendingReports.length }} {{ ui?.new_reports }}</span>
+    </div>
+
+    <div *ngIf="pendingReports.length === 0" style="text-align:center; padding: 30px; color: #999;">
+      <ion-icon name="shield-outline" style="font-size:40px; color:#22c55e;"></ion-icon>
+      <p>All clear! No pending reports.</p>
+    </div>
+
+    <div class="report-item" *ngFor="let report of pendingReports">
+      <div class="report-top">
+        <img *ngIf="report.type === 'image'" [src]="report.img" class="report-img" />
+        <div *ngIf="report.type === 'doc'" class="report-img icon-placeholder">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </div>
+        <div class="report-text">
+          <div class="flex-row">
+            <strong>{{ report.title }}</strong>
+            <span class="time">{{ report.time }} {{ ui?.ago }}</span>
+          </div>
+          <p>{{ report.desc }}</p>
+          <span class="view-detail-link" (click)="openReportDetail(report)">
+            {{ ui?.view_detail }} →
+          </span>
+        </div>
+      </div>
+      <div class="report-actions">
+        <button class="btn-keep" (click)="keepContent(report)">
+          <ion-icon name="checkmark-circle-outline"></ion-icon> {{ ui?.keep }}
+        </button>
+        <button class="btn-remove" (click)="removeContent(report)">
+          <ion-icon name="trash-outline"></ion-icon> {{ ui?.remove }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ALL USERS MODAL ===== -->
+  <ion-modal [isOpen]="showAllUsersModal" (didDismiss)="closeAllUsers()" [breakpoints]="[0,1]" [initialBreakpoint]="1">
+    <ng-template>
+      <div class="modal-header">
+        <ion-icon name="people-outline"></ion-icon>
+        <h2>{{ ui?.all_users }}</h2>
+        <ion-button fill="clear" (click)="closeAllUsers()" class="close-btn">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-content class="modal-inner">
+        <ion-searchbar
+          [(ngModel)]="userSearchQuery"
+          [placeholder]="ui?.search_users"
+          style="--background:#f5f5f5; padding: 10px 16px 0;">
+        </ion-searchbar>
+
+        <ion-list lines="full" style="margin-top: 8px;">
+          <ion-item *ngFor="let user of filteredUsers">
+            <ion-avatar slot="start" [class]="'avatar-' + user.color">{{ user.initials }}</ion-avatar>
+            <ion-label>
+              <h2>{{ user.name }}</h2>
+              <p>{{ user.email }}</p>
+              <p style="font-size:11px; margin-top:2px;">
+                <span [style.color]="getStatusColor(user.status)">● {{ ui?.[user.status] }}</span>
+                &nbsp;·&nbsp; {{ ui?.joined }}: {{ user.joined }}
+                &nbsp;·&nbsp; {{ ui?.posts }}: {{ user.posts }}
+              </p>
+            </ion-label>
+            <ion-icon name="create-outline" slot="end" class="edit-icon" (click)="openEdit(user)"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ===== EDIT USER MODAL ===== -->
+  <ion-modal [isOpen]="showEditModal" (didDismiss)="showEditModal=false" [breakpoints]="[0,0.6]" [initialBreakpoint]="0.6">
+    <ng-template>
+      <div class="modal-header">
+        <ion-icon name="create-outline"></ion-icon>
+        <h2>{{ ui?.edit_user }}</h2>
+        <ion-button fill="clear" (click)="showEditModal=false" class="close-btn">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-content class="ion-padding modal-inner">
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label position="stacked" style="color:#ffa500">{{ ui?.full_name }}</ion-label>
+            <ion-input [(ngModel)]="editName" clearInput></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" style="color:#ffa500">{{ ui?.email }}</ion-label>
+            <ion-input [(ngModel)]="editEmail" type="email" clearInput></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" style="color:#ffa500">{{ ui?.status }}</ion-label>
+            <ion-select [(ngModel)]="editStatus" interface="popover">
+              <ion-select-option value="active">{{ ui?.active }}</ion-select-option>
+              <ion-select-option value="suspended">{{ ui?.suspended }}</ion-select-option>
+              <ion-select-option value="banned">{{ ui?.banned }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <ion-button expand="block" fill="outline" color="medium" (click)="showEditModal=false" style="flex:1">
+            {{ ui?.cancel }}
+          </ion-button>
+          <ion-button expand="block" color="warning" (click)="saveEdit()" style="flex:1">
+            {{ ui?.save }}
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ===== REPORT DETAIL MODAL ===== -->
+  <ion-modal [isOpen]="showReportDetailModal" (didDismiss)="showReportDetailModal=false" [breakpoints]="[0,0.65]" [initialBreakpoint]="0.65">
+    <ng-template>
+      <div class="modal-header">
+        <ion-icon name="shield-outline"></ion-icon>
+        <h2>{{ ui?.report_detail }}</h2>
+        <ion-button fill="clear" (click)="showReportDetailModal=false" class="close-btn">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-content class="ion-padding modal-inner" *ngIf="selectedReport">
+        <div class="report-detail-img" *ngIf="selectedReport.type === 'image'">
+          <img [src]="selectedReport.img" />
+        </div>
+        <div class="report-detail-icon" *ngIf="selectedReport.type === 'doc'">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </div>
+
+        <h3 style="font-weight:700; margin: 12px 0 6px;">{{ selectedReport.title }}</h3>
+        <p style="color:#666; font-size:14px; line-height:1.6;">{{ selectedReport.detail }}</p>
+
+        <div class="ai-flag-box">
+          <ion-icon name="hardware-chip-outline" style="color:#ffa500"></ion-icon>
+          <span>{{ ui?.ai_confidence }}: <strong style="color:#ffa500">{{ selectedReport.title }}</strong></span>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button class="btn-keep-lg" (click)="keepContent(selectedReport)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon> {{ ui?.keep }}
+          </button>
+          <button class="btn-remove-lg" (click)="removeContent(selectedReport)">
+            <ion-icon name="trash-outline"></ion-icon> {{ ui?.remove }}
+          </button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-toast [isOpen]="showToast" [message]="toastMsg" [duration]="2500"
+    (didDismiss)="showToast=false" [color]="toastColor" position="bottom">
+  </ion-toast>
+
+</ion-content>

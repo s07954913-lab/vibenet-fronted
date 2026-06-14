@@ -1,0 +1,158 @@
+<!-- reels.page.html -->
+<ion-content [fullscreen]="true" [scrollY]="false" class="reels-content">
+
+  <!-- Reels Full Screen Container -->
+  <div class="reel-wrapper">
+
+    <!-- Top Header -->
+    <div class="reel-header">
+      <span class="app-logo">VibeNet</span>
+      <div class="header-icons">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-icon name="camera-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Background (replace with real media later) -->
+    <div class="reel-bg">
+      <div class="reel-bg-pattern"></div>
+    </div>
+
+    <!-- Actual Media Display — tap to pause/play -->
+    <div class="reel-media"
+         *ngIf="currentReel.mediaUrl"
+         (click)="togglePlayPause()">
+
+      <!-- ✅ #reelVideo template reference add kiya — ViewChild ke liye zaroori -->
+      <video #reelVideo
+             *ngIf="currentReel.mediaType === 'video'"
+             [src]="currentReel.mediaUrl"
+             autoplay loop muted playsinline
+             class="reel-video">
+      </video>
+
+      <img *ngIf="currentReel.mediaType === 'image'"
+           [src]="currentReel.mediaUrl"
+           class="reel-image" />
+
+      <!-- Pause / Play indicator -->
+      <div class="play-pause-indicator" [class.show]="isVideoPaused">
+        <ion-icon name="play-outline"></ion-icon>
+      </div>
+
+    </div>
+
+    <!-- Bottom Gradient Overlay -->
+    <div class="reel-overlay"></div>
+
+    <!-- Right Side Action Buttons -->
+    <div class="reel-actions">
+
+      <div class="reel-avatar-wrap">
+        <div class="reel-avatar">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <div class="reel-follow-btn" (click)="toggleFollow()">
+          <ion-icon name="add-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="action-btn" (click)="toggleLike()">
+        <ion-icon [name]="currentReel.isLiked ? 'heart' : 'heart-outline'"></ion-icon>
+        <span>{{ currentReel.likes }}</span>
+      </div>
+
+      <div class="action-btn">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <span>{{ currentReel.comments }}</span>
+      </div>
+
+      <div class="action-btn" (click)="shareReel()">
+        <ion-icon name="arrow-redo-outline"></ion-icon>
+        <span>Share</span>
+      </div>
+
+      <div class="action-btn" (click)="toggleSave()">
+        <ion-icon [name]="currentReel.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+        <span>Save</span>
+      </div>
+
+      <div class="music-disc">
+        <div class="music-disc-inner"></div>
+      </div>
+
+    </div>
+
+    <!-- Bottom User Info & Caption -->
+    <div class="reel-info">
+      <div class="reel-user-row">
+        <span class="reel-username">{{ currentReel.username }}</span>
+        <span class="reel-dot">·</span>
+        <span class="reel-follow-text" (click)="toggleFollow()">
+          {{ currentReel.isFollowing ? 'Following' : 'Follow' }}
+        </span>
+      </div>
+      <p class="reel-caption">
+        {{ currentReel.caption }}
+        <span class="reel-hashtags">{{ currentReel.hashtags }}</span>
+      </p>
+      <div class="reel-music-row">
+        <ion-icon name="musical-notes-outline" class="music-icon"></ion-icon>
+        <span class="reel-music-name">{{ currentReel.musicName }}</span>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator (dots) -->
+    <div class="scroll-indicator">
+      <div *ngFor="let reel of reels; let i = index"
+           class="scroll-dot"
+           [class.active]="i === currentReelIndex">
+      </div>
+    </div>
+
+    <!-- Next / Prev tap zones for reel navigation -->
+    <div class="nav-zone nav-zone-top" (click)="prevReel()"></div>
+    <div class="nav-zone nav-zone-bottom" (click)="nextReel()"></div>
+
+  </div>
+
+</ion-content>
+<div class="bottom-nav">
+
+  <div class="nav-item" [class.active]="activeTab === 'home'" (click)="onTabChange('home')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="home-outline"></ion-icon>
+    </div>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" [class.active]="activeTab === 'reels'" (click)="onTabChange('reels')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="play-outline"></ion-icon>
+    </div>
+    <span>Reels</span>
+  </div>
+
+  <!-- CENTER UPLOAD BUTTON -->
+  <div class="nav-item nav-upload" (click)="onTabChange('upload')">
+    <div class="upload-circle">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
+    <span>Upload</span>
+  </div>
+
+  <div class="nav-item" [class.active]="activeTab === 'explore'" (click)="onTabChange('explore')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+    <span>Explore</span>
+  </div>
+
+  <div class="nav-item" [class.active]="activeTab === 'profile'" (click)="onTabChange('profile')">
+    <div class="nav-icon-wrap">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </div>
+    <span>Profile</span>
+  </div>
+
+</div>

@@ -1,0 +1,307 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/userprofile" color="dark" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">{{ ui?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-list lines="none">
+
+      <ion-item button (click)="openModal('search')">
+        <ion-icon name="search-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.search }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('ads')">
+        <ion-icon name="link-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.ads }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('mention')">
+        <ion-icon name="at-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.mention }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('account')">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.account }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('screen')">
+        <ion-icon name="hourglass-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.screen }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('reuse')">
+        <ion-icon name="copy-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.reuse }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('deleted')">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.deleted }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('visibility')">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.visibility }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('comments_perm')">
+        <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.comments_perm }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+      <ion-item button (click)="openModal('reuse_perm')">
+        <ion-icon name="videocam-outline" slot="start"></ion-icon>
+        <ion-label>{{ ui?.reuse_perm }}</ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" class="arrow" [style.transform]="isRtl ? 'rotate(180deg)' : 'none'"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <!-- ========== MODAL ========== -->
+  <ion-modal [isOpen]="modalOpen" (didDismiss)="closeModal()" [breakpoints]="[0, 0.6, 1]" [initialBreakpoint]="0.6">
+    <ng-template>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <ion-icon [name]="activeModal?.icon" class="modal-icon"></ion-icon>
+        <h2>{{ activeModal?.title }}</h2>
+        <ion-button fill="clear" (click)="closeModal()" class="close-btn">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-content class="ion-padding modal-content">
+
+        <!-- SEARCH HISTORY -->
+        <ng-container *ngIf="activeType === 'search'">
+          <p class="modal-desc">{{ ui?.search_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of searchHistory">
+              <ion-icon name="search-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>{{ item.query }}</ion-label>
+              <ion-note slot="end">{{ item.time }}</ion-note>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="danger" fill="outline" (click)="clearList('search')" style="margin-top:16px;">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            {{ ui?.clear_all }}
+          </ion-button>
+        </ng-container>
+
+        <!-- ADS HISTORY -->
+        <ng-container *ngIf="activeType === 'ads'">
+          <p class="modal-desc">{{ ui?.ads_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of adsHistory">
+              <ion-icon name="link-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.url }}</p>
+              </ion-label>
+              <ion-note slot="end">{{ item.time }}</ion-note>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="danger" fill="outline" (click)="clearList('ads')" style="margin-top:16px;">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            {{ ui?.clear_all }}
+          </ion-button>
+        </ng-container>
+
+        <!-- MENTION/TAG HISTORY -->
+        <ng-container *ngIf="activeType === 'mention'">
+          <p class="modal-desc">{{ ui?.mention_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of mentionHistory">
+              <ion-avatar slot="start">
+                <img [src]="item.avatar" />
+              </ion-avatar>
+              <ion-label>
+                <h3>{{ item.user }}</h3>
+                <p>{{ item.context }}</p>
+              </ion-label>
+              <ion-note slot="end">{{ item.time }}</ion-note>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+
+        <!-- ACCOUNT HISTORY -->
+        <ng-container *ngIf="activeType === 'account'">
+          <p class="modal-desc">{{ ui?.account_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of accountHistory">
+              <ion-icon [name]="item.icon" slot="start" color="warning"></ion-icon>
+              <ion-label>
+                <h3>{{ item.action }}</h3>
+                <p>{{ item.detail }}</p>
+              </ion-label>
+              <ion-note slot="end">{{ item.time }}</ion-note>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+
+        <!-- SCREEN TIME -->
+        <ng-container *ngIf="activeType === 'screen'">
+          <p class="modal-desc">{{ ui?.screen_desc }}</p>
+          <div class="screen-time-card">
+            <div class="time-big">{{ screenTime.today }}</div>
+            <p>{{ ui?.today }}</p>
+          </div>
+          <div class="screen-stats">
+            <div class="stat-item">
+              <span class="stat-val">{{ screenTime.week }}</span>
+              <span class="stat-lbl">{{ ui?.this_week }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">{{ screenTime.avg }}</span>
+              <span class="stat-lbl">{{ ui?.daily_avg }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">{{ screenTime.month }}</span>
+              <span class="stat-lbl">{{ ui?.this_month }}</span>
+            </div>
+          </div>
+          <ion-item lines="none" style="margin-top:16px;">
+            <ion-label>{{ ui?.set_limit }}</ion-label>
+            <ion-toggle slot="end" mode="ios" [(ngModel)]="screenLimitEnabled"></ion-toggle>
+          </ion-item>
+        </ng-container>
+
+        <!-- CONTENT REUSE HISTORY -->
+        <ng-container *ngIf="activeType === 'reuse'">
+          <p class="modal-desc">{{ ui?.reuse_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of reuseHistory">
+              <ion-icon name="copy-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h3>{{ item.content }}</h3>
+                <p>{{ ui?.reused_by }}: {{ item.by }}</p>
+              </ion-label>
+              <ion-note slot="end">{{ item.time }}</ion-note>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+
+        <!-- RECENTLY DELETED -->
+        <ng-container *ngIf="activeType === 'deleted'">
+          <p class="modal-desc">{{ ui?.deleted_desc }}</p>
+          <ion-list lines="full">
+            <ion-item *ngFor="let item of deletedItems">
+              <ion-icon [name]="item.icon" slot="start" color="danger"></ion-icon>
+              <ion-label>
+                <h3>{{ item.title }}</h3>
+                <p>{{ ui?.deleted_on }}: {{ item.date }}</p>
+              </ion-label>
+              <ion-button fill="clear" color="warning" slot="end" (click)="restoreItem(item)">
+                {{ ui?.restore }}
+              </ion-button>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="danger" fill="outline" (click)="clearList('deleted')" style="margin-top:16px;">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            {{ ui?.delete_all }}
+          </ion-button>
+        </ng-container>
+
+        <!-- MANAGE POST VISIBILITY -->
+        <ng-container *ngIf="activeType === 'visibility'">
+          <p class="modal-desc">{{ ui?.visibility_desc }}</p>
+          <ion-list lines="full">
+            <ion-radio-group [(ngModel)]="postVisibility">
+              <ion-item>
+                <ion-icon name="globe-outline" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ ui?.everyone }}</ion-label>
+                <ion-radio slot="end" value="everyone" mode="ios"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="people-outline" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ ui?.followers_only }}</ion-label>
+                <ion-radio slot="end" value="followers" mode="ios"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="lock-closed-outline" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ ui?.only_me }}</ion-label>
+                <ion-radio slot="end" value="only_me" mode="ios"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+          <ion-button expand="block" color="warning" (click)="saveVisibility()" style="margin-top:16px;">
+            {{ ui?.save_changes }}
+          </ion-button>
+        </ng-container>
+
+        <!-- MANAGE COMMENT PERMISSIONS -->
+        <ng-container *ngIf="activeType === 'comments_perm'">
+          <p class="modal-desc">{{ ui?.comments_perm_desc }}</p>
+          <ion-list lines="full">
+            <ion-radio-group [(ngModel)]="commentPerm">
+              <ion-item>
+                <ion-icon name="globe-outline" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ ui?.everyone }}</ion-label>
+                <ion-radio slot="end" value="everyone" mode="ios"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="people-outline" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ ui?.followers_only }}</ion-label>
+                <ion-radio slot="end" value="followers" mode="ios"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="ban-outline" slot="start" color="danger"></ion-icon>
+                <ion-label>{{ ui?.no_one }}</ion-label>
+                <ion-radio slot="end" value="no_one" mode="ios"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+          <ion-button expand="block" color="warning" (click)="saveCommentPerm()" style="margin-top:16px;">
+            {{ ui?.save_changes }}
+          </ion-button>
+        </ng-container>
+
+        <!-- POST REUSE PERMISSION -->
+        <ng-container *ngIf="activeType === 'reuse_perm'">
+          <p class="modal-desc">{{ ui?.reuse_perm_desc }}</p>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-icon name="people-outline" slot="start" color="warning"></ion-icon>
+              <ion-label>{{ ui?.allow_followers }}</ion-label>
+              <ion-toggle slot="end" mode="ios" [(ngModel)]="reusePerms.followers"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="globe-outline" slot="start" color="warning"></ion-icon>
+              <ion-label>{{ ui?.allow_everyone }}</ion-label>
+              <ion-toggle slot="end" mode="ios" [(ngModel)]="reusePerms.everyone"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="musical-notes-outline" slot="start" color="warning"></ion-icon>
+              <ion-label>{{ ui?.allow_audio }}</ion-label>
+              <ion-toggle slot="end" mode="ios" [(ngModel)]="reusePerms.audio"></ion-toggle>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="warning" (click)="saveReusePerm()" style="margin-top:16px;">
+            {{ ui?.save_changes }}
+          </ion-button>
+        </ng-container>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-toast [isOpen]="showToast" [message]="toastMsg" [duration]="2000"
+    (didDismiss)="showToast=false" color="success" position="bottom"></ion-toast>
+
+</ion-content>

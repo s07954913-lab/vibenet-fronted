@@ -1,0 +1,585 @@
+/* reels.page.scss */
+
+/* ─── Variables ─────────────────────────────── */
+:host {
+  --vn-orange:       #04342C;
+  --vn-orange-light: #04342C;
+  --vn-dark-bg:      #0a0a0a;
+  --vn-overlay:      rgba(0, 0, 0, 0.92);
+  --vn-text:         #ffffff;
+  --vn-text-muted:   rgba(255, 255, 255, 0.6);
+  --vn-tab-height:   60px;
+}
+.bottom-nav {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  height: 70px;
+  background: #04342C;
+  border-radius: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.nav-item {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+
+  .nav-icon-wrap {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  ion-icon {
+    font-size: 22px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  span {
+    font-size: 10px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+  }
+}
+
+// ── ACTIVE — Reels glow ──
+.nav-item.active {
+  transform: translateY(-22px);
+
+  &::before {
+    display: none !important;
+  }
+
+  .nav-icon-wrap {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 16px rgba(255,255,255,0.6),
+                0 0 30px rgba(255,255,255,0.25);
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  ion-icon {
+    color: #ffffff;
+    font-size: 22px;
+    position: relative;
+    top: 0;
+    margin: 0;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
+    animation: iconSpin 4s ease-in-out infinite;
+  }
+
+  span {
+    opacity: 0;
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+// ── CENTER UPLOAD ──
+.nav-upload {
+  position: relative;
+  top: -20px;
+
+  .upload-circle {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    aspect-ratio: 1 / 1;
+    background: white;
+    border-radius: 50%;
+    border: 2.5px solid #04342C;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 26px;
+      color: #04342C;
+      pointer-events: none;
+    }
+  }
+
+  span {
+    color: rgba(255,255,255,0.8);
+    font-size: 10px;
+    margin-top: 3px;
+    display: block;
+    text-align: center;
+  }
+}
+
+// ── ANIMATIONS ──
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.7);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255,255,255,0.95),
+                0 0 45px rgba(255,255,255,0.5);
+    border-color: rgba(255,255,255,1);
+  }
+}
+
+@keyframes iconSpin {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  25%  { transform: rotate(10deg)  scale(1.15); }
+  50%  { transform: rotate(-10deg) scale(1);    }
+  75%  { transform: rotate(10deg)  scale(1.1);  }
+  100% { transform: rotate(0deg)   scale(1);    }
+}
+
+/* ─── Content ───────────────────────────────── */
+.reels-content {
+  --background: var(--vn-dark-bg);
+  --padding-bottom: 0;
+}
+
+/* ─── Reel Wrapper ──────────────────────────── */
+.reel-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 56px - env(safe-area-inset-bottom));
+  overflow: hidden;
+  background: #1a0a00;
+}
+
+/* ─── Background ────────────────────────────── */
+.reel-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #1a0a00 0%, #2d1200 40%, #0a0a0a 100%);
+  z-index: 0;
+}
+
+.reel-bg-pattern {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #FF5722 0px,
+    transparent 2px,
+    transparent 30px
+  );
+  opacity: 0.12;
+}
+
+/* ─── Bottom Gradient Overlay ───────────────── */
+.reel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  background: linear-gradient(to top, var(--vn-overlay) 0%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ─── Header ────────────────────────────────── */
+.reel-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 18px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.app-logo {
+  color: var(--vn-text);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.header-icons {
+  display: flex;
+  gap: 16px;
+
+  ion-icon {
+    color: var(--vn-text);
+    font-size: 22px;
+    cursor: pointer;
+  }
+}
+
+/* ─── Right Actions ─────────────────────────── */
+.reel-actions {
+  position: absolute;
+  right: 14px;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  z-index: 10;
+}
+
+/* Avatar */
+.reel-avatar-wrap {
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.reel-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vn-orange), var(--vn-orange-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+
+  ion-icon {
+    color: var(--vn-orange-light);
+    font-size: 22px;
+  }
+}
+
+.reel-follow-btn {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--vn-orange);
+  border-radius: 50%;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    color: #fff;
+    font-size: 12px;
+  }
+}
+
+/* Action Buttons */
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+
+  ion-icon {
+    color: var(--vn-text);
+    font-size: 28px;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  span {
+    color: var(--vn-text);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &:active ion-icon {
+    transform: scale(0.88);
+    color: var(--vn-orange-light);
+  }
+}
+
+/* Music Disc */
+.music-disc {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: conic-gradient(var(--vn-orange) 0%, #1a0800 60%);
+  border: 3px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 4s linear infinite;
+}
+
+.music-disc-inner {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #000;
+}
+
+/* ─── Reel Info (bottom left) ───────────────── */
+.reel-info {
+  position: absolute;
+  bottom: 22px;
+  left: 14px;
+  right: 66px;
+  z-index: 10;
+}
+
+.reel-user-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.reel-username {
+  color: var(--vn-orange-light);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.reel-dot {
+  color: var(--vn-text-muted);
+  font-size: 16px;
+}
+
+.reel-follow-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reel-caption {
+  color: var(--vn-text);
+  font-size: 13px;
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+
+.reel-hashtags {
+  color: var(--vn-orange-light);
+  font-weight: 500;
+}
+
+.reel-music-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-icon {
+  color: var(--vn-orange-light);
+  font-size: 14px;
+}
+
+.reel-music-name {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+}
+
+/* ─── Scroll Indicator ──────────────────────── */
+.scroll-indicator {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+
+.scroll-dot {
+  width: 3px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+
+  &.active {
+    height: 28px;
+    background: var(--vn-orange);
+  }
+}
+
+/* ─── Media Display ─────────────────────────── */
+.reel-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.reel-video, .reel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swipe-area {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+/* ─── Tab Bar Wrapper ───────────────────────── */
+.tab-bar-wrap {
+  position: relative;
+  overflow: visible;
+  z-index: 100;
+  background: var(--vn-orange);
+}
+
+/* ─── Upload FAB — OUTSIDE ion-tab-bar ──────── */
+.upload-fab {
+  position: absolute;
+  top: -30px;
+  left: calc(50% + 35px);
+  transform: translateX(-50%);
+  z-index: 200;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid var(--vn-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  animation: upload-pulse 2s ease-in-out infinite;
+
+  ion-icon {
+    color: var(--vn-orange);
+    font-size: 28px;
+    animation: plus-rotate 8s linear infinite;
+  }
+}
+
+/* ─── Tab Bar ───────────────────────────────── */
+.vibenet-tab-bar {
+  --background: var(--vn-orange);
+  --color: rgba(255, 255, 255, 0.75);
+  --color-selected: #ffffff;
+  height: 56px;
+  border-top: none;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  ion-tab-button {
+    --color: rgba(255, 255, 255, 0.75);
+    --color-selected: #ffffff;
+    --background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+    min-width: 0;
+    flex: 1 1 0;
+    max-width: none;
+
+    ion-icon {
+      font-size: 22px;
+      filter: none;
+      transition: filter 0.3s ease, color 0.3s ease;
+    }
+
+    ion-label {
+      font-size: 10px;
+      margin-top: 2px;
+      transition: text-shadow 0.3s ease;
+    }
+  }
+
+  /* ─── Active Tab Glow ───────────────────── */
+  .tab-active {
+    --color: #ffffff;
+
+    ion-icon {
+      color: #ffffff;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95))
+              drop-shadow(0 0 14px #04342C(255, 87, 34, 0.85))
+              drop-shadow(0 0 24px #04342C(255, 87, 34, 0.5));
+    }
+
+    ion-label {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  /* ─── Placeholder slot for FAB ──────────── */
+  .tab-upload-placeholder {
+    --color: rgba(255, 255, 255, 0.85);
+    ion-label { font-size: 10px; margin-top: 38px; }
+  }
+}
+
+/* ─── Animations ────────────────────────────── */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes upload-pulse {
+  0%   { box-shadow: 0 0 0 0    rgba(255, 255, 255, 0.7), 0 4px 14px rgba(0,0,0,0.25); }
+  50%  { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0),   0 4px 14px rgba(0,0,0,0.25); }
+  100% { box-shadow: 0 0 0 0    rgba(255, 255, 255, 0.7), 0 4px 14px rgba(0,0,0,0.25); }
+}
+
+@keyframes plus-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.play-pause-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s ease;
+  pointer-events: none;
+
+  ion-icon {
+    font-size: 36px;
+    color: white;
+  }
+
+  &.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.reel-media {
+  cursor: pointer;
+  position: relative; // ← zaroor add karo
+}

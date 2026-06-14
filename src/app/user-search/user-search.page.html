@@ -1,0 +1,125 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background:#e05500; --padding-start:8px; --padding-end:8px;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chatsystem" style="--color:#fff;"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color:#fff; font-weight:600; font-size:17px;">Find People</ion-title>
+  </ion-toolbar>
+
+  <!-- Search Bar -->
+  <div style="background:#e05500; padding:0 12px 12px;">
+    <div style="background:rgba(255,255,255,0.18); border-radius:25px; display:flex; align-items:center; padding:0 14px; height:42px; gap:8px;">
+      <ion-icon name="search-outline" style="color:rgba(255,255,255,0.8); font-size:18px; flex-shrink:0;"></ion-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchInput()"
+        placeholder="Username ya naam search karein..."
+        style="flex:1; background:transparent; border:none; outline:none; color:#fff; font-size:14px; caret-color:#fff;"
+      />
+      <ion-icon
+        *ngIf="searchQuery"
+        name="close-outline"
+        (click)="clearSearch()"
+        style="color:rgba(255,255,255,0.8); font-size:20px; cursor:pointer; flex-shrink:0;">
+      </ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content style="--background:#f5f5f7;">
+
+  <!-- Loading Skeletons -->
+  <div *ngIf="isSearching" style="padding:12px;">
+    <div *ngFor="let i of [1,2,3]"
+      style="background:#fff; border-radius:16px; padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px;">
+      <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; flex-shrink:0;">
+        <ion-skeleton-text [animated]="true" style="width:100%; height:100%;"></ion-skeleton-text>
+      </div>
+      <div style="flex:1;">
+        <ion-skeleton-text [animated]="true" style="width:60%; height:14px; border-radius:6px; margin-bottom:8px;"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width:40%; height:12px; border-radius:6px;"></ion-skeleton-text>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results List -->
+  <div *ngIf="!isSearching && users.length > 0" style="padding:12px;">
+    <p style="font-size:12px; color:#aaa; margin:0 4px 10px; letter-spacing:0.3px;">
+      {{ users.length }} user{{ users.length > 1 ? 's' : '' }} mile
+    </p>
+
+    <div *ngFor="let user of users"
+      style="background:#fff; border-radius:16px; padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+
+      <!-- Avatar -->
+      <div
+        style="width:50px; height:50px; border-radius:50%; background:#e05500; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:600; color:#fff; flex-shrink:0; border:2px solid #ffb380;">
+        <span *ngIf="!user.avatar">{{ getInitials(user) }}</span>
+        <img *ngIf="user.avatar" [src]="user.avatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" />
+      </div>
+
+      <!-- Info -->
+      <div style="flex:1; min-width:0;">
+        <p style="margin:0 0 2px; font-size:15px; font-weight:600; color:#1a1a1a; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          {{ user.name || user.username }}
+        </p>
+        <p style="margin:0 0 2px; font-size:12px; color:#e05500; font-weight:500;">
+          @{{ user.username }}
+        </p>
+        <p *ngIf="user.bio" style="margin:0; font-size:12px; color:#888; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          {{ user.bio }}
+        </p>
+      </div>
+
+      <!-- Buttons -->
+      <div style="display:flex; flex-direction:column; gap:6px; flex-shrink:0;">
+
+        <!-- Message Button -->
+        <button (click)="openChat(user)"
+          style="background:#e05500; color:#fff; border:none; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:5px;">
+          <ion-icon name="chatbubble-outline" style="font-size:13px;"></ion-icon>
+          Message
+        </button>
+
+        <!-- Follow Button -->
+        <button (click)="toggleFollow(user)"
+          [disabled]="user.isLoading"
+          [style.background]="user.isFollowing ? '#f5f5f5' : 'transparent'"
+          [style.color]="user.isFollowing ? '#888' : '#e05500'"
+          [style.border]="user.isFollowing ? '1px solid #ddd' : '1px solid #e05500'"
+          style="border-radius:20px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:5px;">
+          <ion-icon
+            [name]="user.isFollowing ? 'checkmark-outline' : 'person-add-outline'"
+            style="font-size:13px;">
+          </ion-icon>
+          {{ user.isLoading ? '...' : (user.isFollowing ? 'Following' : 'Follow') }}
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="!isSearching && hasSearched && users.length === 0"
+    style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 30px; text-align:center;">
+    <div style="width:72px; height:72px; border-radius:50%; background:#fff0e6; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+      <ion-icon name="search-outline" style="font-size:32px; color:#e05500;"></ion-icon>
+    </div>
+    <p style="font-size:16px; font-weight:600; color:#333; margin:0 0 8px;">"{{ searchQuery }}" nahi mila</p>
+    <p style="font-size:13px; color:#aaa; margin:0;">Exact username ya naam try karein</p>
+  </div>
+
+  <!-- Initial State -->
+  <div *ngIf="!isSearching && !hasSearched"
+    style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 30px; text-align:center;">
+    <div style="width:80px; height:80px; border-radius:50%; background:#fff0e6; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
+      <ion-icon name="person-outline" style="font-size:36px; color:#e05500;"></ion-icon>
+    </div>
+    <p style="font-size:17px; font-weight:600; color:#333; margin:0 0 8px;">Koi dhundhein</p>
+    <p style="font-size:13px; color:#aaa; margin:0; line-height:1.6;">
+      Username ya naam type karein<br>phir message ya follow karein
+    </p>
+  </div>
+
+</ion-content>

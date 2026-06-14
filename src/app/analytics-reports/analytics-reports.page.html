@@ -1,0 +1,71 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #fff;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/notification" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 800; color: #333;">{{ ui?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- AI Summary Card -->
+  <div class="ai-summary-card" style="background: linear-gradient(135deg, #ff6b00, #ff9e57); padding: 25px; border-radius: 25px; color: white; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+      <ion-icon name="flash-outline" style="font-size: 24px;"></ion-icon>
+      <span style="font-weight: bold; letter-spacing: 1px;">{{ ui?.ai_label }}</span>
+    </div>
+    <h1 style="font-size: 32px; font-weight: 800; margin: 0;">{{ ui?.ai_heading }}</h1>
+    <p style="opacity: 0.9; font-size: 14px; margin-top: 5px;">{{ ui?.ai_desc }}</p>
+  </div>
+
+  <!-- Key Stats Grid -->
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="6">
+        <ion-card style="margin: 5px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="people-outline" style="font-size: 28px; color: #ff6b00;"></ion-icon>
+            <h2 style="font-weight: 800; color: #333; margin: 10px 0;">+120</h2>
+            <p style="font-size: 11px; color: #999;">{{ ui?.followers }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card style="margin: 5px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="analytics-outline" style="font-size: 28px; color: #ff6b00;"></ion-icon>
+            <h2 style="font-weight: 800; color: #333; margin: 10px 0;">8.5%</h2>
+            <p style="font-size: 11px; color: #999;">{{ ui?.engage }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Growth Graph -->
+  <div class="graph-section" style="margin-top: 25px; background: #fafafa; padding: 20px; border-radius: 25px;">
+    <h3 style="font-weight: 800; font-size: 16px; color: #333; margin-bottom: 20px;">{{ ui?.weekly }}</h3>
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; height: 150px; padding: 0 10px;">
+      <div style="width: 30px; height: 40%; background: #ddd; border-radius: 8px;"></div>
+      <div style="width: 30px; height: 60%; background: #ddd; border-radius: 8px;"></div>
+      <div style="width: 30px; height: 90%; background: #ff6b00; border-radius: 8px; box-shadow: 0 5px 15px rgba(255,107,0,0.3);"></div>
+      <div style="width: 30px; height: 50%; background: #ddd; border-radius: 8px;"></div>
+      <div style="width: 30px; height: 80%; background: #ff6b00; border-radius: 8px;"></div>
+    </div>
+    <!-- Translated day labels -->
+    <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #999; font-size: 10px; font-weight: bold; padding: 0 5px;">
+      <span *ngFor="let day of ui?.days">{{ day }}</span>
+    </div>
+  </div>
+
+  <!-- Smart Suggestion -->
+  <div style="margin-top: 25px; display: flex; gap: 15px; align-items: flex-start; background: #fff5ed; padding: 15px; border-radius: 15px;">
+    <ion-icon name="star-outline" style="color: #ff6b00; font-size: 24px;"></ion-icon>
+    <div>
+      <h4 style="margin: 0; font-size: 14px; font-weight: bold; color: #333;">{{ ui?.tip_title }}</h4>
+      <p style="margin: 5px 0 0; font-size: 12px; color: #666;">{{ ui?.tip_desc }}</p>
+    </div>
+  </div>
+
+</ion-content>

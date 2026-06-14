@@ -1,0 +1,160 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/search-user" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 700;">@{{ username }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareProfile()">
+        <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- ── LOADING ── -->
+  <div *ngIf="isLoading" class="profile-loading">
+    <div class="skeleton-header">
+      <ion-skeleton-text [animated]="true" style="width:90px;height:90px;border-radius:50%;"></ion-skeleton-text>
+      <div class="skeleton-stats">
+        <ion-skeleton-text [animated]="true" style="width:60px;height:16px;border-radius:8px;"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width:60px;height:16px;border-radius:8px;"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width:60px;height:16px;border-radius:8px;"></ion-skeleton-text>
+      </div>
+    </div>
+    <ion-skeleton-text [animated]="true" style="width:40%;height:14px;border-radius:8px;margin:12px auto;"></ion-skeleton-text>
+    <ion-skeleton-text [animated]="true" style="width:60%;height:12px;border-radius:8px;margin:0 auto;"></ion-skeleton-text>
+  </div>
+
+  <!-- ── PROFILE HEADER ── -->
+  <div class="profile-header" *ngIf="!isLoading && profile">
+
+    <!-- Cover / Gradient Banner -->
+    <div class="cover-banner"></div>
+
+    <!-- Avatar -->
+   <div class="avatar-wrap">
+  <!-- Agar image hai to show karo, warna initial letter -->
+  <img
+    *ngIf="profile?.profile_image"
+    class="profile-avatar"
+    [src]="profile?.profile_image"
+    [alt]="profile?.name"
+    (error)="imgError = true"
+    [style.display]="imgError ? 'none' : 'block'">
+
+  <!-- Initial Letter Avatar -->
+  <div
+    *ngIf="!profile?.profile_image || imgError"
+    class="initial-avatar">
+    {{ getInitial() }}
+  </div>
+</div>
+
+    <!-- Name + Handle -->
+    <h2 class="profile-name">{{ profile?.name || username }}</h2>
+    <p class="profile-handle">@{{ username }}</p>
+
+    <!-- Bio -->
+    <p class="profile-bio" *ngIf="profile?.bio">{{ profile?.bio }}</p>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num">{{ posts.length }}</span>
+        <span class="stat-label">Posts</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">{{ profile?.followers || 0 }}</span>
+        <span class="stat-label">Followers</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">{{ profile?.following || 0 }}</span>
+        <span class="stat-label">Following</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-row">
+      <ion-button
+        expand="block"
+        class="follow-btn"
+        [class.following-btn]="isFollowing"
+        (click)="toggleFollow()"
+        [disabled]="followLoading">
+
+        <ion-spinner *ngIf="followLoading" name="crescent" style="width:18px;height:18px;"></ion-spinner>
+
+        <span *ngIf="!followLoading">
+          <ion-icon [name]="isFollowing ? 'person-remove-outline' : 'person-add-outline'" style="margin-right:6px;"></ion-icon>
+          {{ isFollowing ? 'Unfollow' : 'Follow' }}
+        </span>
+      </ion-button>
+
+      <ion-button class="msg-btn" fill="outline" (click)="sendMessage()">
+        <ion-icon slot="icon-only" name="chatbubble-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+
+  <!-- ── NOT FOUND ── -->
+  <div class="no-posts" *ngIf="!isLoading && !profile">
+    <ion-icon name="people-outline"></ion-icon>
+    <p>Profile nahi mili</p>
+  </div>
+
+  <!-- ── POSTS GRID ── -->
+  <div class="posts-section" *ngIf="!isLoading && profile">
+
+    <div class="section-header">
+      <ion-icon name="grid-outline"></ion-icon>
+      <span>Posts</span>
+    </div>
+
+    <!-- No Posts -->
+    <div class="no-posts" *ngIf="posts.length === 0">
+      <ion-icon name="images-outline"></ion-icon>
+      <p>Abhi koi post nahi</p>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="posts-grid" *ngIf="posts.length > 0">
+      <div
+        class="post-thumb"
+        *ngFor="let post of posts"
+        (click)="openPost(post)">
+
+        <!-- Video thumbnail / image -->
+        <img
+          [src]="getThumb(post)"
+          [alt]="post.caption || 'post'"
+          onerror="this.src='assets/download (1).jpg'"
+          loading="lazy">
+
+        <!-- Video icon overlay -->
+        <div class="video-overlay" *ngIf="isVideo(post)">
+          <ion-icon name="play-circle-outline"></ion-icon>
+        </div>
+
+        <!-- Views badge -->
+        <div class="views-badge" *ngIf="post.views && post.views !== '0'">
+          <ion-icon name="eye-outline"></ion-icon>
+          {{ post.views }}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>
