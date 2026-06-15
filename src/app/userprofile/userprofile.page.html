@@ -93,7 +93,7 @@
 
     <div class="profile-container">
 
-      <!-- Cover Photo — TEAL WAVE DESIGN -->
+      <!-- Cover Photo -->
       <div class="cover-photo-wrapper">
         <div class="cover-circles">
           <div class="cover-circle cc1"></div>
@@ -110,8 +110,6 @@
       <div class="ion-text-center profile-info-section">
         <div class="avatar-wrapper">
           <div class="status-chip">What's good?</div>
-
-          <!-- MAIN PROFILE AVATAR -->
           <div class="profile-avatar" (click)="showPhotoOptions = true">
             <img *ngIf="profileImage && profileImage !== ''" [src]="profileImage" />
             <div *ngIf="!profileImage || profileImage === ''" class="profile-initials-circle">
@@ -122,26 +120,19 @@
           </div>
         </div>
 
-        <!-- User Name -->
         <h3 class="user-display-name">{{ userName || 'Loading...' }}</h3>
         <p class="user-handle">@{{ (userName || 'user').toLowerCase().replace(' ', '_') }}</p>
-
-        <!-- Email -->
         <p class="user-email-text" *ngIf="userEmail">{{ userEmail }}</p>
-
-        <!-- Bio -->
         <p class="user-bio-text" *ngIf="bio">{{ bio }}</p>
 
-        <!-- Bio Persona Pill -->
         <div class="bio-persona-pill" *ngIf="bio">
           <ion-icon name="sparkles-outline"></ion-icon>
           {{ bio }}
         </div>
 
-        <!-- Google Sign In Button -->
         <div id="googleBtnContainer" class="ion-margin-bottom" style="display:flex; justify-content:center;"></div>
 
-        <!-- Stats Bar — TEAL CARD STYLE -->
+        <!-- Stats Bar -->
         <div class="stats-bar-card">
           <div class="stat-cell" (click)="openFollowingModal()">
             <span class="stat-big">{{ followingCount }}</span>
@@ -187,7 +178,7 @@
         </div>
       </div>
 
-      <!-- Following Section — TEAL CARD STYLE -->
+      <!-- Following Section -->
       <div class="following-section-wrapper">
         <div class="following-section-header">
           <div class="following-head-left">
@@ -229,26 +220,28 @@
         </div>
       </div>
 
-      <!-- Segment Tabs -->
-      <ion-segment [(ngModel)]="activeSegment" (ionChange)="onSegmentChange()" mode="md"
-        class="profile-tabs custom-segment"
-        style="--indicator-color: #1D9E75; margin-top: 10px;">
+      <!-- ========== SEGMENT TABS (FIXED) ========== -->
+      <ion-segment
+        [(ngModel)]="activeSegment"
+        (ionChange)="onSegmentChange()"
+        mode="md"
+        class="profile-tabs custom-segment">
         <ion-segment-button value="posts">
           <div class="segment-content-layout">
             <ion-icon name="grid-outline"></ion-icon>
-            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Posts</ion-label>
+            <ion-label>Posts</ion-label>
           </div>
         </ion-segment-button>
         <ion-segment-button value="reels">
           <div class="segment-content-layout">
             <ion-icon name="film-outline"></ion-icon>
-            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Reels</ion-label>
+            <ion-label>Reels</ion-label>
           </div>
         </ion-segment-button>
         <ion-segment-button value="saved">
           <div class="segment-content-layout">
             <ion-icon name="bookmark-outline"></ion-icon>
-            <ion-label style="font-weight: bold; font-size: 14px; margin: 0;">Saved</ion-label>
+            <ion-label>Saved</ion-label>
           </div>
         </ion-segment-button>
       </ion-segment>
@@ -259,13 +252,11 @@
         <!-- ========== POSTS TAB ========== -->
         <div *ngSwitchCase="'posts'">
 
-          <!-- Loading Spinner -->
           <div *ngIf="isLoadingPosts" style="text-align:center; padding:40px;">
             <ion-spinner name="crescent" style="color:#1D9E75;"></ion-spinner>
             <p style="color:#999; margin-top:8px;">Posts load ho rahi hain...</p>
           </div>
 
-          <!-- Empty State -->
           <div *ngIf="!isLoadingPosts && userPosts.length === 0" style="text-align:center; padding:60px 20px;">
             <ion-icon name="film-outline" style="font-size:48px; color:#1D9E75; opacity:0.4;"></ion-icon>
             <p style="color:#999; margin-top:12px;">Abhi tak koi post nahi</p>
@@ -275,15 +266,9 @@
             </ion-button>
           </div>
 
-          <!-- Posts Grid -->
-          <div *ngIf="!isLoadingPosts && userPosts.length > 0"
-            style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:8px;">
+          <div *ngIf="!isLoadingPosts && userPosts.length > 0" class="posts-grid">
+            <div *ngFor="let post of userPosts" class="post-grid-item" (click)="openPost(post)">
 
-            <div *ngFor="let post of userPosts"
-              style="position:relative; aspect-ratio:1/1; background:#04342C; cursor:pointer; overflow:hidden;"
-              (click)="openPost(post)">
-
-              <!-- Video Post -->
               <video *ngIf="post.mediaUrl && (post.type === 'video' || isVideoUrl(post.mediaUrl))"
                 [src]="post.mediaUrl"
                 style="width:100%; height:100%; object-fit:cover;"
@@ -291,43 +276,28 @@
                 (error)="post.mediaUrl = undefined">
               </video>
 
-              <!-- Image Post -->
               <img *ngIf="post.mediaUrl && (post.type === 'photo' || (!isVideoUrl(post.mediaUrl) && post.type !== 'video'))"
                 [src]="post.mediaUrl"
                 style="width:100%; height:100%; object-fit:cover;"
                 (error)="post.mediaUrl = undefined" />
 
-              <!-- Caption-only Post -->
-              <div *ngIf="!post.mediaUrl && post.caption"
-                style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
-                       justify-content:center; background:#04342C; padding:8px;">
-                <ion-icon name="text-outline" style="font-size:24px; color:#5DCAA5; opacity:0.6; margin-bottom:6px;"></ion-icon>
-                <span style="color:#ccc; font-size:10px; text-align:center; overflow:hidden;
-                             display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical;">
-                  {{ post.caption }}
-                </span>
+              <div *ngIf="!post.mediaUrl && post.caption" class="post-caption-only">
+                <ion-icon name="text-outline"></ion-icon>
+                <span>{{ post.caption }}</span>
               </div>
 
-              <!-- No Media Placeholder -->
-              <div *ngIf="!post.mediaUrl && !post.caption"
-                style="width:100%; height:100%; display:flex; flex-direction:column;
-                       align-items:center; justify-content:center; background:#085041;">
-                <ion-icon name="image-outline" style="font-size:32px; color:#5DCAA5; opacity:0.5;"></ion-icon>
-                <span style="color:#5DCAA5; font-size:10px; margin-top:4px;">No preview</span>
+              <div *ngIf="!post.mediaUrl && !post.caption" class="post-no-media">
+                <ion-icon name="image-outline"></ion-icon>
+                <span>No preview</span>
               </div>
 
-              <!-- Like Badge -->
-              <div style="position:absolute; bottom:4px; left:4px; color:#fff; font-size:11px;
-                          background:rgba(0,0,0,0.55); padding:2px 6px; border-radius:4px;
-                          display:flex; align-items:center; gap:3px;">
+              <div class="post-like-badge">
                 <ion-icon name="heart-outline"></ion-icon>
                 {{ post.likes || 0 }}
               </div>
 
-              <!-- Video Icon Badge -->
               <div *ngIf="post.mediaUrl && (post.type === 'video' || isVideoUrl(post.mediaUrl))"
-                style="position:absolute; top:4px; right:4px; color:#fff; font-size:10px;
-                       background:rgba(0,0,0,0.55); padding:2px 5px; border-radius:4px;">
+                class="post-video-badge">
                 <ion-icon name="play-outline"></ion-icon>
               </div>
 
@@ -404,13 +374,11 @@
         <!-- ========== SAVED TAB ========== -->
         <div *ngSwitchCase="'saved'">
 
-          <!-- Loading -->
           <div *ngIf="isLoadingSaved" style="text-align:center; padding:40px;">
             <ion-spinner name="crescent" style="color:#1D9E75;"></ion-spinner>
             <p style="color:#999; margin-top:8px;">Saved items load ho rahe hain...</p>
           </div>
 
-          <!-- Empty State -->
           <div *ngIf="!isLoadingSaved && savedItems.length === 0"
             style="text-align:center; padding:60px 20px;">
             <ion-icon name="bookmark-outline" style="font-size:48px; color:#1D9E75; opacity:0.4;"></ion-icon>
@@ -424,49 +392,31 @@
             </ion-button>
           </div>
 
-          <!-- Saved Items Grid -->
-          <div *ngIf="!isLoadingSaved && savedItems.length > 0"
-            style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; padding:2px; margin-top:8px;">
-
+          <div *ngIf="!isLoadingSaved && savedItems.length > 0" class="posts-grid" style="margin-top:8px;">
             <div *ngFor="let item of savedItems"
               (click)="openSavedItem(item)"
-              style="position:relative; aspect-ratio:1/1; overflow:hidden;
-                     background:#085041; cursor:pointer; border-radius:4px;">
+              class="post-grid-item">
 
-              <!-- Video thumbnail -->
               <video *ngIf="item.mediaType === 'video' && item.mediaUrl"
                 [src]="item.mediaUrl"
                 style="width:100%; height:100%; object-fit:cover;"
                 muted playsinline preload="metadata">
               </video>
 
-              <!-- Image -->
               <img *ngIf="item.mediaType === 'image' && item.mediaUrl"
                 [src]="item.mediaUrl"
                 style="width:100%; height:100%; object-fit:cover;" />
 
-              <!-- No media placeholder -->
-              <div *ngIf="!item.mediaUrl"
-                style="width:100%; height:100%; display:flex; flex-direction:column;
-                       align-items:center; justify-content:center; background:#04342C;">
-                <ion-icon name="image-outline" style="font-size:32px; color:#5DCAA5; opacity:0.4;"></ion-icon>
-                <span style="color:#5DCAA5; font-size:10px; margin-top:4px;">No preview</span>
+              <div *ngIf="!item.mediaUrl" class="post-no-media">
+                <ion-icon name="image-outline"></ion-icon>
+                <span>No preview</span>
               </div>
 
-              <!-- Video badge -->
-              <div *ngIf="item.mediaType === 'video'"
-                style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.6);
-                       border-radius:4px; padding:2px 4px;">
-                <ion-icon name="play-circle-outline" style="font-size:16px; color:white;"></ion-icon>
+              <div *ngIf="item.mediaType === 'video'" class="post-video-badge">
+                <ion-icon name="play-circle-outline"></ion-icon>
               </div>
 
-              <!-- Username badge -->
-              <div style="position:absolute; bottom:0; left:0; right:0;
-                          background:linear-gradient(transparent, rgba(4,52,44,0.85));
-                          padding:12px 6px 4px; color:white; font-size:10px;">
-                {{ item.username }}
-              </div>
-
+              <div class="saved-username-badge">{{ item.username }}</div>
             </div>
           </div>
 
@@ -549,9 +499,8 @@
   </ng-template>
 </ion-modal>
 
-
+<!-- ========== BOTTOM NAV ========== -->
 <div class="bottom-nav">
-  <!-- Home -->
   <div class="nav-item" (click)="router.navigate(['/homefeed'])">
     <div class="nav-icon-wrap">
       <ion-icon name="home-outline"></ion-icon>
@@ -559,7 +508,6 @@
     <span>Home</span>
   </div>
 
-  <!-- Explore -->
   <div class="nav-item" (click)="router.navigate(['/explore'])">
     <div class="nav-icon-wrap">
       <ion-icon name="compass-outline"></ion-icon>
@@ -567,7 +515,6 @@
     <span>Explore</span>
   </div>
 
-  <!-- Upload (center raised) -->
   <div class="nav-item upload-btn-wrap" (click)="goToUpload()">
     <div class="upload-plus-btn">
       <ion-icon name="add"></ion-icon>
@@ -575,7 +522,6 @@
     <span>Upload</span>
   </div>
 
-  <!-- AI Assistant -->
   <div class="nav-item" (click)="router.navigate(['/ai-assistant'])">
     <div class="nav-icon-wrap">
       <ion-icon name="sparkles-outline"></ion-icon>
@@ -583,7 +529,6 @@
     <span>AI</span>
   </div>
 
-  <!-- Profile (active + glow) -->
   <div class="nav-item active">
     <div class="profile-glow-wrap">
       <ion-icon name="person-circle-outline"></ion-icon>

@@ -23,6 +23,7 @@ import {
   chatbubbleOutline, arrowBackOutline, musicalNotesOutline, openOutline,
   pauseOutline, sparklesOutline, personRemoveOutline, peopleOutline, playCircleOutline,
   imageOutline, addOutline, textOutline,
+  compassOutline,
 } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -137,7 +138,7 @@ export class UserprofilePage implements OnInit, OnDestroy, AfterViewInit {
       linkOutline, shareOutline, rocket, trendingUpOutline, personOutline,
       chatbubbleOutline, arrowBackOutline, musicalNotesOutline, openOutline,
       pauseOutline, sparklesOutline, personRemoveOutline, peopleOutline, playCircleOutline,
-      imageOutline, addOutline, textOutline,
+      imageOutline, addOutline, textOutline,compassOutline
     });
   }
 

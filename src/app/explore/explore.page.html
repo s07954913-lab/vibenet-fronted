@@ -1,4 +1,5 @@
-<!-- explore.page.html -->
+<!-- explore.page.html — UPDATED (secure version) -->
+<!-- Message button sirf following users ke liye active hoga -->
 
 <ion-header>
   <ion-toolbar style="color: #00828a;">
@@ -58,31 +59,21 @@
     </div>
 
     <!-- NO RESULTS -->
-    <div class="empty-state"
-         *ngIf="!isLoading && searchResults.length === 0">
+    <div class="empty-state" *ngIf="!isLoading && searchResults.length === 0">
       <ion-icon name="people-outline" class="empty-icon"></ion-icon>
       <p class="empty-title">Connect with People</p>
       <p class="empty-sub">No matching users found</p>
     </div>
 
     <!-- USER RESULTS -->
-    <div class="users-list"
-         *ngIf="!isLoading && searchResults.length > 0">
+    <div class="users-list" *ngIf="!isLoading && searchResults.length > 0">
 
-      <div class="user-card"
-           *ngFor="let user of searchResults"
-           (click)="onUserClick(user)">
+      <div class="user-card" *ngFor="let user of searchResults" (click)="onUserClick(user)">
 
         <!-- Avatar -->
         <div class="user-avatar">
-          <img
-            *ngIf="user.avatar"
-            [src]="user.avatar"
-            [alt]="user.name"
-            class="avatar-img" />
-          <div *ngIf="!user.avatar" class="avatar-initials">
-            {{ getInitials(user) }}
-          </div>
+          <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name" class="avatar-img" />
+          <div *ngIf="!user.avatar" class="avatar-initials">{{ getInitials(user) }}</div>
         </div>
 
         <!-- Info -->
@@ -92,17 +83,24 @@
           <p class="user-bio" *ngIf="user.bio">{{ user.bio }}</p>
         </div>
 
-        <!-- ✅ BUTTONS: Message + Follow side by side -->
+        <!-- Buttons -->
         <div style="display:flex; flex-direction:column; gap:6px; flex-shrink:0;">
 
-          <!-- MESSAGE BUTTON -->
+          <!-- ✅ MESSAGE BUTTON — sirf following ho to active -->
           <ion-button
             fill="solid"
             size="small"
             (click)="openChat(user, $event)"
-            style="--background:#00828a; --color:white; --border-radius:20px; font-size:12px; font-weight:600;">
-            <ion-icon name="chatbubble-outline" slot="start" style="font-size:13px;"></ion-icon>
-            Message
+            [disabled]="!canMessage(user)"
+            [style.--background]="canMessage(user) ? '#00828a' : '#ccc'"
+            [style.--color]="canMessage(user) ? 'white' : '#888'"
+            style="--border-radius:20px; font-size:12px; font-weight:600;">
+            <ion-icon
+              [name]="canMessage(user) ? 'chatbubble-outline' : 'lock-closed-outline'"
+              slot="start"
+              style="font-size:13px;">
+            </ion-icon>
+            {{ canMessage(user) ? 'Message' : 'Follow First' }}
           </ion-button>
 
           <!-- FOLLOW BUTTON -->
@@ -121,7 +119,6 @@
           </ion-button>
 
         </div>
-
       </div>
     </div>
 
@@ -141,51 +138,39 @@
 
   </div>
 
-  <!-- ════ INITIAL STATE (search se pehle) ════ -->
+  <!-- ════ INITIAL STATE ════ -->
   <div *ngIf="!isSearchActive"
     style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 30px; text-align:center;">
-    <ion-icon name="search-outline" style="font-size:48px; color:    #00828a, ; margin-bottom:16px;"></ion-icon>
+    <ion-icon name="search-outline" style="font-size:48px; color:#00828a; margin-bottom:16px;"></ion-icon>
     <p style="font-size:17px; font-weight:600; color:#333; margin:0 0 8px;">Find Someone</p>
     <p style="font-size:13px; color:#aaa; margin:0; line-height:1.6;">
-    Type a username or name,<br> then send a message or follow.
+      Type a username or name,<br>
+      pehle follow karein, phir message karein.
     </p>
   </div>
 
 </ion-content>
-<div class="bottom-nav">
 
-  <!-- Home -->
+<!-- Bottom Nav -->
+<div class="bottom-nav">
   <div class="nav-item" [class.active]="activeTab === 'home'" (click)="navigateTo('home', '/homefeed')">
     <div class="nav-icon-wrap"><ion-icon name="home-outline"></ion-icon></div>
     <span>Home</span>
   </div>
-
-  <!-- Explore (active + glow) -->
   <div class="nav-item explore-active" [class.active]="activeTab === 'explore'" (click)="navigateTo('explore', '/explore')">
-    <div class="nav-icon-wrap glow-wrap">
-      <ion-icon name="compass-outline"></ion-icon>
-    </div>
+    <div class="nav-icon-wrap glow-wrap"><ion-icon name="compass-outline"></ion-icon></div>
     <span>Explore</span>
   </div>
-
-  <!-- Upload (center raised button) -->
   <div class="nav-upload" (click)="navigateTo('upload', '/upload')">
-    <div class="upload-circle">
-      <ion-icon name="add-outline"></ion-icon>
-    </div>
+    <div class="upload-circle"><ion-icon name="add-outline"></ion-icon></div>
     <span>Upload</span>
   </div>
-
-  <!-- AI Assistant -->
   <div class="nav-item" [class.active]="activeTab === 'ai'" (click)="navigateTo('ai', '/ai-assistant')">
     <div class="nav-icon-wrap"><ion-icon name="sparkles-outline"></ion-icon></div>
     <span>AI</span>
   </div>
-
-  <!-- Profile -->
   <div class="nav-item" [class.active]="activeTab === 'profile'" (click)="navigateTo('profile', '/userprofile')">
     <div class="nav-icon-wrap"><ion-icon name="person-circle-outline"></ion-icon></div>
     <span>Profile</span>
   </div>
-
 </div>

@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
+  apiUrl: 'https://vibenet-backend-production.up.railway.app',
+  wsUrl: 'wss://vibenet-backend-production.up.railway.app',
   apiKey: 'IzaSyAd6AoCr9NgkRM5wKSeJ-1LGCYBKnsd3MU',
   openRouterKey: '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',
 

@@ -115,7 +115,8 @@ export class ChatDetailPage implements OnInit, OnDestroy {
   constructor(
     private global: Globall,
     private http:   HttpClient,
-    private route:  ActivatedRoute
+    private route:  ActivatedRoute,
+    
   ) {
     addIcons({
       sendOutline, cameraOutline, micOutline, callOutline,

@@ -1,11 +1,11 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar style="--background: #f4511e; --color: white;">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" style="color: white;"></ion-icon>
+        <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-weight: 800; letter-spacing: 1px;">My Account</ion-title>
+    <ion-title>My Account</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -30,7 +30,7 @@
       </div>
       <ion-label>
         <h2>Balance</h2>
-        <p>View your wallet & earnings</p>
+        <p>View your wallet &amp; earnings</p>
       </ion-label>
     </ion-item>
 
@@ -40,7 +40,7 @@
       </div>
       <ion-label>
         <h2>Activity Center</h2>
-        <p>Recent activity & notifications</p>
+        <p>Recent activity &amp; notifications</p>
       </ion-label>
     </ion-item>
 
@@ -60,7 +60,7 @@
       </div>
       <ion-label>
         <h2>Settings</h2>
-        <p>App preferences & privacy</p>
+        <p>App preferences &amp; privacy</p>
       </ion-label>
     </ion-item>
 
@@ -68,8 +68,7 @@
 
   <!-- Logout Button -->
   <div class="account-logout-wrapper">
-    <ion-button expand="block" fill="outline" color="danger" (click)="logout()"
-      class="logout-btn">
+    <ion-button expand="block" fill="outline" (click)="logout()" class="logout-btn">
       <ion-icon name="log-out-outline" slot="start"></ion-icon>
       Logout
     </ion-button>
