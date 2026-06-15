@@ -1,7 +1,6 @@
 [build] 
-  command = "npm install -g @ionic/cli && npm install && ionic build" 
+  command = "npm install -g @ionic/cli && npm install --legacy-peer-deps && ionic build" 
   publish = "www" 
  
 [build.environment] 
-  NODE_VERSION = "18" 
-  NPM_VERSION = "9" 
+  NODE_VERSION = "18"
